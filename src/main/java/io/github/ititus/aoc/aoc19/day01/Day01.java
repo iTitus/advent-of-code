@@ -1,4 +1,4 @@
-package io.github.ititus.aoc19.day01;
+package io.github.ititus.aoc.aoc19.day01;
 
 public class Day01 {
 
