@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.ititus'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_13
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    implementation group: 'io.github.ititus', name: 'ititus-commons', version: '1.0.0+'
+}
