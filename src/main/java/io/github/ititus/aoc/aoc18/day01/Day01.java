@@ -2,27 +2,15 @@ package io.github.ititus.aoc.aoc18.day01;
 
 import io.github.ititus.aoc.InputProvider;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class Day01 {
 
     public static void main(String[] args) {
-        Path p = InputProvider.getInput(2018, 1);
-
-        List<Integer> freqChanges = new ArrayList<>();
-        try (Stream<String> stream = Files.lines(p)) {
-            stream
-                    .filter(s -> !s.isBlank())
-                    .mapToInt(Integer::parseInt)
-                    .forEachOrdered(freqChanges::add);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        List<Integer> freqChanges = InputProvider.readAllLinesAsInt(2018, 1);
 
         // First part
         int freq = freqChanges.stream().mapToInt(Integer::intValue).sum();
