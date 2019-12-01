@@ -13,8 +13,62 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InputProvider {
+
+    public static String readString(int year, int day) {
+        try {
+            return Files.readString(getInput(year, day));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static List<String> readAllLines(int year, int day) {
+        try {
+            return Files.readAllLines(getInput(year, day));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static Stream<String> lines(int year, int day) {
+        try {
+            return Files.lines(getInput(year, day));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static List<Integer> readAllLinesAsInt(int year, int day) {
+        try (Stream<String> stream = lines(year, day)) {
+            return stream
+                    .mapToInt(Integer::parseInt)
+                    .boxed()
+                    .collect(Collectors.toList());
+        }
+    }
+
+    public static List<Long> readAllLinesAsLong(int year, int day) {
+        try (Stream<String> stream = lines(year, day)) {
+            return stream
+                    .mapToLong(Long::parseLong)
+                    .boxed()
+                    .collect(Collectors.toList());
+        }
+    }
+
+    public static List<Double> readAllLinesAsDouble(int year, int day) {
+        try (Stream<String> stream = lines(year, day)) {
+            return stream
+                    .mapToDouble(Double::parseDouble)
+                    .boxed()
+                    .collect(Collectors.toList());
+        }
+    }
 
     public static Path getInput(int year, int day) {
         if (year < 2015 || year > 2019 || day < 1 || day > 25) {
