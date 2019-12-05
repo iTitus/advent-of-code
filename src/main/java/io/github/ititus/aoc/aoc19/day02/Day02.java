@@ -1,6 +1,7 @@
 package io.github.ititus.aoc.aoc19.day02;
 
 import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.aoc19.IntComputer;
 
 import java.util.Arrays;
 
@@ -30,25 +31,6 @@ public class Day02 {
         memory = Arrays.copyOf(memory, memory.length);
         memory[1] = noun;
         memory[2] = verb;
-
-        int insnPointer = 0;
-        while (true) {
-            int opcode = memory[insnPointer];
-
-            if (opcode == 1) {
-                memory[memory[insnPointer + 3]] = memory[memory[insnPointer + 1]] + memory[memory[insnPointer + 2]];
-                insnPointer += 4;
-            } else if (opcode == 2) {
-                memory[memory[insnPointer + 3]] = memory[memory[insnPointer + 1]] * memory[memory[insnPointer + 2]];
-                insnPointer += 4;
-            } else if (opcode == 99) {
-                insnPointer++;
-                break;
-            } else {
-                throw new IllegalStateException();
-            }
-        }
-
-        return memory[0];
+        return new IntComputer(memory).run();
     }
 }
