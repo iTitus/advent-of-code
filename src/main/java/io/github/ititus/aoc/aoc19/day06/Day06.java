@@ -58,13 +58,13 @@ public class Day06 {
     }
 
     private static Optional<Vertex<String>> getOrbiting(Graph<String> g, Vertex<String> v) {
-        Set<Edge<String>> outgoingSet = g.getAdjacentEdges(v).stream().filter(e -> e.getStart().equals(v)).collect(Collectors.toSet());
-        if (outgoingSet.size() > 1) {
+        Set<Edge<String>> outgoingEdges = g.getAdjacentEdges(v).stream().filter(e -> e.getStart().equals(v)).collect(Collectors.toSet());
+        if (outgoingEdges.size() > 1) {
             throw new RuntimeException();
-        } else if (outgoingSet.isEmpty()) {
+        } else if (outgoingEdges.isEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(outgoingSet.iterator().next().getEnd());
+        return Optional.of(outgoingEdges.iterator().next().getEnd());
     }
 }
