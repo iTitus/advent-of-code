@@ -1,4 +1,4 @@
-package io.github.ititus.aoc.day06;
+package io.github.ititus.aoc.aoc19.day06;
 
 import io.github.ititus.aoc.InputProvider;
 import io.github.ititus.math.graph.Edge;
@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Day06 {
+
+    private static Map<Vertex<String>, Integer> orbitingCount = new HashMap<>();
 
     public static void main(String[] args) {
         Graph<String> g = new Graph<>();
@@ -36,8 +38,6 @@ public class Day06 {
         Dijkstra<String>.Result r = new Dijkstra<>(g, youOrbiting, false).findShortestPaths();
         System.out.println(r.getShortestPathLength(santaOrbiting));
     }
-
-    private static Map<Vertex<String>, Integer> orbitingCount = new HashMap<>();
 
     private static int computeOrbitCount(Graph<String> g, Vertex<String> v) {
         Integer cached = orbitingCount.get(v);
