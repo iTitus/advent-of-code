@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Day06 {
 
@@ -35,7 +36,7 @@ public class Day06 {
         // 2
         Vertex<String> youOrbiting = getOrbiting(g, g.getVertex("YOU").orElseThrow()).orElseThrow();
         Vertex<String> santaOrbiting = getOrbiting(g, g.getVertex("SAN").orElseThrow()).orElseThrow();
-        Dijkstra<String>.Result r = new Dijkstra<>(g, youOrbiting, false).findShortestPaths();
+        Dijkstra<String>.Result r = new Dijkstra<>(g, youOrbiting).findShortestPaths();
         System.out.println(r.getShortestPathLength(santaOrbiting));
     }
 
@@ -57,7 +58,7 @@ public class Day06 {
     }
 
     private static Optional<Vertex<String>> getOrbiting(Graph<String> g, Vertex<String> v) {
-        Set<Edge<String>> outgoingSet = g.getOutgoingEdges(v);
+        Set<Edge<String>> outgoingSet = g.getAdjacentEdges(v).stream().filter(e -> e.getStart().equals(v)).collect(Collectors.toSet());
         if (outgoingSet.size() > 1) {
             throw new RuntimeException();
         } else if (outgoingSet.isEmpty()) {
