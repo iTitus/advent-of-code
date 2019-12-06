@@ -13,7 +13,10 @@ public class IntComputer {
     private int insnPtr;
 
     public IntComputer(int[] memory) {
-        this(() -> new Scanner(System.in).nextInt(), System.out::println, memory);
+        this(() -> {
+            System.out.print("Input: ");
+            return new Scanner(System.in).nextInt();
+        }, System.out::println, memory);
     }
 
     public IntComputer(IntSupplier input, IntConsumer output, int[] memory) {
