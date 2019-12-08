@@ -43,77 +43,97 @@ public class IntComputer {
     }
 
     public int run() {
+        runLoop:
         while (true) {
             int insn = memory[insnPtr];
             int opcode = insn % 100;
 
-            if (opcode == 1) { // add
-                ParameterReadAccessor in1 = getParameterRead(insn, 1);
-                ParameterReadAccessor in2 = getParameterRead(insn, 2);
-                ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                out.write(in1.read() + in2.read());
+            switch (opcode) {
+                case 1: { // add
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+                    ParameterReadAccessor in2 = getParameterRead(insn, 2);
+                    ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                insnPtr += 4;
-            } else if (opcode == 2) { // mul
-                ParameterReadAccessor in1 = getParameterRead(insn, 1);
-                ParameterReadAccessor in2 = getParameterRead(insn, 2);
-                ParameterWriteAccessor out = getParameterWrite(insn, 3);
+                    out.write(in1.read() + in2.read());
 
-                out.write(in1.read() * in2.read());
-
-                insnPtr += 4;
-            } else if (opcode == 3) { // store
-                ParameterWriteAccessor out = getParameterWrite(insn, 1);
-
-                out.write(input.getAsInt());
-
-                insnPtr += 2;
-            } else if (opcode == 4) { // print
-                ParameterReadAccessor in = getParameterRead(insn, 1);
-
-                output.accept(in.read());
-
-                insnPtr += 2;
-            } else if (opcode == 5) { // jump-if-true
-                ParameterReadAccessor in1 = getParameterRead(insn, 1);
-                ParameterReadAccessor in2 = getParameterRead(insn, 2);
-
-                if (in1.read() != 0) {
-                    insnPtr = in2.read();
-                } else {
-                    insnPtr += 3;
+                    insnPtr += 4;
+                    break;
                 }
-            } else if (opcode == 6) { // jump-if-false
-                ParameterReadAccessor in1 = getParameterRead(insn, 1);
-                ParameterReadAccessor in2 = getParameterRead(insn, 2);
+                case 2: { // mul
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+                    ParameterReadAccessor in2 = getParameterRead(insn, 2);
+                    ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                if (in1.read() == 0) {
-                    insnPtr = in2.read();
-                } else {
-                    insnPtr += 3;
+                    out.write(in1.read() * in2.read());
+
+                    insnPtr += 4;
+                    break;
                 }
-            } else if (opcode == 7) { // less-than
-                ParameterReadAccessor in1 = getParameterRead(insn, 1);
-                ParameterReadAccessor in2 = getParameterRead(insn, 2);
-                ParameterWriteAccessor out = getParameterWrite(insn, 3);
+                case 3: { // store
+                    ParameterWriteAccessor out = getParameterWrite(insn, 1);
 
-                out.write(in1.read() < in2.read() ? 1 : 0);
+                    out.write(input.getAsInt());
 
-                insnPtr += 4;
-            } else if (opcode == 8) { // equals
-                ParameterReadAccessor in1 = getParameterRead(insn, 1);
-                ParameterReadAccessor in2 = getParameterRead(insn, 2);
-                ParameterWriteAccessor out = getParameterWrite(insn, 3);
+                    insnPtr += 2;
+                    break;
+                }
+                case 4:  // print
+                    ParameterReadAccessor in = getParameterRead(insn, 1);
 
-                out.write(in1.read() == in2.read() ? 1 : 0);
+                    output.accept(in.read());
 
-                insnPtr += 4;
-            } else if (opcode == 99) {
-                insnPtr++;
-                break;
-            } else {
-                throw new IllegalStateException();
+                    insnPtr += 2;
+                    break;
+                case 5: { // jump-if-true
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+                    ParameterReadAccessor in2 = getParameterRead(insn, 2);
+
+                    if (in1.read() != 0) {
+                        insnPtr = in2.read();
+                    } else {
+                        insnPtr += 3;
+                    }
+                    break;
+                }
+                case 6: { // jump-if-false
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+                    ParameterReadAccessor in2 = getParameterRead(insn, 2);
+
+                    if (in1.read() == 0) {
+                        insnPtr = in2.read();
+                    } else {
+                        insnPtr += 3;
+                    }
+                    break;
+                }
+                case 7: { // less-than
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+                    ParameterReadAccessor in2 = getParameterRead(insn, 2);
+                    ParameterWriteAccessor out = getParameterWrite(insn, 3);
+
+                    out.write(in1.read() < in2.read() ? 1 : 0);
+
+                    insnPtr += 4;
+                    break;
+                }
+                case 8: { // equals
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+                    ParameterReadAccessor in2 = getParameterRead(insn, 2);
+                    ParameterWriteAccessor out = getParameterWrite(insn, 3);
+
+                    out.write(in1.read() == in2.read() ? 1 : 0);
+
+                    insnPtr += 4;
+                    break;
+                }
+                case 99: {
+                    insnPtr++;
+                    break runLoop;
+                }
+                default: {
+                    throw new IllegalStateException();
+                }
             }
         }
 
