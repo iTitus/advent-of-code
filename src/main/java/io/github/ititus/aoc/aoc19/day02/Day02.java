@@ -31,6 +31,6 @@ public class Day02 {
         memory = Arrays.copyOf(memory, memory.length);
         memory[1] = noun;
         memory[2] = verb;
-        return new IntComputer(memory).run();
+        return new IntComputer(memory).run().intValueExact();
     }
 }
