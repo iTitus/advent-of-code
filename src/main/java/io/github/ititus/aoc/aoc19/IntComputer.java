@@ -1,18 +1,30 @@
 package io.github.ititus.aoc.aoc19;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import io.github.ititus.math.number.BigIntegerMath;
+
+import java.math.BigInteger;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class IntComputer {
 
-    private final IntSupplier input;
-    private final IntConsumer output;
-    private final int[] memory;
-    private int insnPtr;
+    private static final BigInteger ONE_HUNDRED = BigIntegerMath.of(100);
+
+    private final Supplier<BigInteger> input;
+    private final Consumer<BigInteger> output;
+    private final List<BigInteger> memory;
+    private int insnPtr, relativeBase;
 
     public IntComputer(int[] memory) {
+        this(Arrays.stream(memory).mapToObj(BigIntegerMath::of).toArray(BigInteger[]::new));
+    }
+
+    public IntComputer(BigInteger[] memory) {
         this(() -> {
             System.out.print("Input: ");
             return new Scanner(System.in).nextInt();
@@ -20,42 +32,40 @@ public class IntComputer {
     }
 
     public IntComputer(IntSupplier input, IntConsumer output, int[] memory) {
+        this(input, output, Arrays.stream(memory).mapToObj(BigIntegerMath::of).toArray(BigInteger[]::new));
+    }
+
+    public IntComputer(IntSupplier input, IntConsumer output, BigInteger[] memory) {
+        this(() -> BigIntegerMath.of(input.getAsInt()), n -> output.accept(n.intValueExact()), memory);
+    }
+
+    public IntComputer(Supplier<BigInteger> input, Consumer<BigInteger> output, int[] memory) {
+        this(input, output, Arrays.stream(memory).mapToObj(BigIntegerMath::of).toArray(BigInteger[]::new));
+    }
+
+    public IntComputer(Supplier<BigInteger> input, Consumer<BigInteger> output, BigInteger[] memory) {
+        if (Arrays.stream(memory).anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException();
+        }
+
         this.input = input;
         this.output = output;
-        this.memory = Arrays.copyOf(memory, memory.length);
+        this.memory = new ArrayList<>(Arrays.asList(memory));
     }
 
-    private static int powBase10(int e) {
-        if (e < 0) {
-            throw new IllegalArgumentException();
-        } else if (e == 0) {
-            return 1;
-        } else if (e == 1) {
-            return 10;
-        }
-
-        int n = 10;
-        for (int i = 1; i < e; i++) {
-            n *= 10;
-        }
-
-        return n;
-    }
-
-    public int run() {
+    public BigInteger run() {
         runLoop:
         while (true) {
-            int insn = memory[insnPtr];
-            int opcode = insn % 100;
+            BigInteger insn = memory.get(insnPtr);
+            BigInteger opcode = insn.mod(ONE_HUNDRED);
 
-
-            switch (opcode) {
+            switch (opcode.intValueExact()) {
                 case 1: { // add
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                    out.write(in1.read() + in2.read());
+                    out.write(in1.read().add(in2.read()));
 
                     insnPtr += 4;
                     break;
@@ -65,7 +75,7 @@ public class IntComputer {
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                    out.write(in1.read() * in2.read());
+                    out.write(in1.read().multiply(in2.read()));
 
                     insnPtr += 4;
                     break;
@@ -73,7 +83,7 @@ public class IntComputer {
                 case 3: { // store
                     ParameterWriteAccessor out = getParameterWrite(insn, 1);
 
-                    out.write(input.getAsInt());
+                    out.write(input.get());
 
                     insnPtr += 2;
                     break;
@@ -89,8 +99,8 @@ public class IntComputer {
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
 
-                    if (in1.read() != 0) {
-                        insnPtr = in2.read();
+                    if (in1.read().signum() != 0) {
+                        insnPtr = in2.read().intValueExact();
                     } else {
                         insnPtr += 3;
                     }
@@ -100,8 +110,8 @@ public class IntComputer {
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
 
-                    if (in1.read() == 0) {
-                        insnPtr = in2.read();
+                    if (in1.read().signum() == 0) {
+                        insnPtr = in2.read().intValueExact();
                     } else {
                         insnPtr += 3;
                     }
@@ -112,7 +122,7 @@ public class IntComputer {
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                    out.write(in1.read() < in2.read() ? 1 : 0);
+                    out.write(in1.read().compareTo(in2.read()) < 0 ? BigInteger.ONE : BigInteger.ZERO);
 
                     insnPtr += 4;
                     break;
@@ -122,9 +132,17 @@ public class IntComputer {
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
 
-                    out.write(in1.read() == in2.read() ? 1 : 0);
+                    out.write(in1.read().compareTo(in2.read()) == 0 ? BigInteger.ONE : BigInteger.ZERO);
 
                     insnPtr += 4;
+                    break;
+                }
+                case 9: { // reltative-base-offset
+                    ParameterReadAccessor in1 = getParameterRead(insn, 1);
+
+                    relativeBase += in1.read().intValueExact();
+
+                    insnPtr += 2;
                     break;
                 }
                 case 99: {
@@ -137,24 +155,38 @@ public class IntComputer {
             }
         }
 
-        return memory[0];
+        return memory.get(0);
     }
 
-    private ParameterReadAccessor getParameterRead(int insn, int parameter) {
-        int parameterMode = (insn / powBase10(parameter + 1)) % 10;
-        if (parameterMode == 0) {
-            return () -> memory[memory[insnPtr + parameter]];
-        } else if (parameterMode == 1) {
-            return () -> memory[insnPtr + parameter];
+    private int ensureCapacity(int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException();
+        } else if (index >= memory.size()) {
+            List<BigInteger> newMemory = IntStream.rangeClosed(memory.size(), index).mapToObj(i -> BigInteger.ZERO).collect(Collectors.toList());
+            memory.addAll(newMemory);
+        }
+        return index;
+    }
+
+    private ParameterReadAccessor getParameterRead(BigInteger insn, int parameter) {
+        int parameterMode = insn.divide(BigInteger.TEN.pow(parameter + 1)).mod(BigInteger.TEN).intValueExact();
+        if (parameterMode == 0) { // position
+            return () -> memory.get(ensureCapacity(memory.get(insnPtr + parameter).intValueExact()));
+        } else if (parameterMode == 1) { // immediate
+            return () -> memory.get(insnPtr + parameter);
+        } else if (parameterMode == 2) { // relative
+            return () -> memory.get(ensureCapacity(relativeBase + memory.get(insnPtr + parameter).intValueExact()));
         }
 
         throw new IllegalArgumentException();
     }
 
-    private ParameterWriteAccessor getParameterWrite(int insn, int parameter) {
-        int parameterMode = (insn / powBase10(parameter + 1)) % 10;
-        if (parameterMode == 0) {
-            return n -> memory[memory[insnPtr + parameter]] = n;
+    private ParameterWriteAccessor getParameterWrite(BigInteger insn, int parameter) {
+        int parameterMode = insn.divide(BigInteger.TEN.pow(parameter + 1)).mod(BigInteger.TEN).intValueExact();
+        if (parameterMode == 0) { // position
+            return n -> memory.set(ensureCapacity(memory.get(insnPtr + parameter).intValueExact()), n);
+        } else if (parameterMode == 2) { // relative
+            return n -> memory.set(ensureCapacity(relativeBase + memory.get(insnPtr + parameter).intValueExact()), n);
         }
 
         throw new IllegalArgumentException();
@@ -162,11 +194,11 @@ public class IntComputer {
 
     @FunctionalInterface
     interface ParameterReadAccessor {
-        int read();
+        BigInteger read();
     }
 
     @FunctionalInterface
     interface ParameterWriteAccessor {
-        void write(int n);
+        void write(BigInteger n);
     }
 }
