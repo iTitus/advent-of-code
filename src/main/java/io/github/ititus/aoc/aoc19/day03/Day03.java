@@ -1,6 +1,7 @@
 package io.github.ititus.aoc.aoc19.day03;
 
 import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.aoc19.Vec2i;
 
 import java.util.*;
 
@@ -24,27 +25,27 @@ public class Day03 {
     }
 
     private static void calculate(String[] wire1Commands, String[] wire2Commands) {
-        Map<Pos, Integer> wire1Path = getWirePath(wire1Commands);
-        Map<Pos, Integer> wire2Path = getWirePath(wire2Commands);
+        Map<Vec2i, Integer> wire1Path = getWirePath(wire1Commands);
+        Map<Vec2i, Integer> wire2Path = getWirePath(wire2Commands);
 
         // 1
-        Set<Pos> intersect1 = getIntersection(wire1Path, wire2Path).keySet();
-        Pos closestIntersection1 = Collections.min(intersect1, Comparator.comparingInt(Pos::manhattanDistance));
+        Set<Vec2i> intersect1 = getIntersection(wire1Path, wire2Path).keySet();
+        Vec2i closestIntersection1 = Collections.min(intersect1, Comparator.comparingInt(Vec2i::manhattanDistance));
         System.out.println(closestIntersection1 + " with distance " + closestIntersection1.manhattanDistance());
 
         // 2
-        Map<Pos, Integer> intersect2 = getIntersection(wire1Path, wire2Path);
-        Map.Entry<Pos, Integer> closestIntersection2 = Collections.min(intersect2.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+        Map<Vec2i, Integer> intersect2 = getIntersection(wire1Path, wire2Path);
+        Map.Entry<Vec2i, Integer> closestIntersection2 = Collections.min(intersect2.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
         System.out.println(closestIntersection2.getKey() + " with combined steps " + closestIntersection2.getValue());
     }
 
-    private static Map<Pos, Integer> getWirePath(String[] commands) {
-        Map<Pos, Integer> wire2Pos = new HashMap<>();
-        Pos pos = new Pos();
+    private static Map<Vec2i, Integer> getWirePath(String[] commands) {
+        Map<Vec2i, Integer> wire2Pos = new HashMap<>();
+        Vec2i pos = new Vec2i();
         int steps = 0;
         for (String cmd : commands) {
-            List<Pos> newPos = pos.move(cmd);
-            for (Pos p : newPos) {
+            List<Vec2i> newPos = pos.move(cmd);
+            for (Vec2i p : newPos) {
                 wire2Pos.putIfAbsent(p, ++steps);
             }
             pos = newPos.get(newPos.size() - 1);
@@ -52,8 +53,8 @@ public class Day03 {
         return wire2Pos;
     }
 
-    private static Map<Pos, Integer> getIntersection(Map<Pos, Integer> a, Map<Pos, Integer> b) {
-        Map<Pos, Integer> intersect = new HashMap<>(a);
+    private static Map<Vec2i, Integer> getIntersection(Map<Vec2i, Integer> a, Map<Vec2i, Integer> b) {
+        Map<Vec2i, Integer> intersect = new HashMap<>(a);
         intersect.keySet().retainAll(b.keySet());
         b.forEach((posB, stepsB) -> intersect.computeIfPresent(posB, (posA, stepsA) -> stepsA + stepsB));
         return intersect;
