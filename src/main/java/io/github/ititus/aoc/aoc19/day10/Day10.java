@@ -30,15 +30,15 @@ public class Day10 {
         System.out.println("### 1 ###");
 
         Map<Vec2i, Map<Vec2i, List<Vec2i>>> rays = new HashMap<>();
-        for (Vec2i asteroid : asteroids) {
-            Map<Vec2i, List<Vec2i>> rayTraces = rays.computeIfAbsent(asteroid, k -> new HashMap<>());
-            for (Vec2i other : asteroids) {
-                if (other == asteroid) {
+        for (Vec2i asteroidPos : asteroids) {
+            Map<Vec2i, List<Vec2i>> rayTraces = rays.computeIfAbsent(asteroidPos, k -> new HashMap<>());
+            for (Vec2i otherAsteroidPos : asteroids) {
+                if (otherAsteroidPos == asteroidPos) {
                     continue;
                 }
 
-                int dx = other.getX() - asteroid.getX();
-                int dy = other.getY() - asteroid.getY();
+                int dx = otherAsteroidPos.getX() - asteroidPos.getX();
+                int dy = otherAsteroidPos.getY() - asteroidPos.getY();
                 int gcd = JavaMath.gcd(dx, dy);
                 Vec2i rayDir = new Vec2i(dx / gcd, dy / gcd);
 
@@ -51,7 +51,7 @@ public class Day10 {
 
                 IntStream.iterate(1, i -> i + 1)
                         .mapToObj(rayDir::multiply)
-                        .map(asteroid::add)
+                        .map(asteroidPos::add)
                         .takeWhile(p -> p.getX() >= 0 && p.getX() < sizeX)
                         .takeWhile(p -> p.getY() >= 0 && p.getY() < sizeY)
                         .filter(asteroids::contains)
@@ -61,25 +61,21 @@ public class Day10 {
 
         Map.Entry<Vec2i, Map<Vec2i, List<Vec2i>>> max = Collections.max(
                 rays.entrySet(),
-                Comparator.comparingLong(
-                        e -> e.getValue().values().stream()
-                                .flatMap(l -> l.stream().limit(1))
-                                .count()
-                )
+                Comparator.comparingInt(e -> e.getValue().values().size())
         );
         System.out.println(max.getKey());
         System.out.println(max.getValue().size());
 
         // 2
         System.out.println("### 2 ###");
-
+        Vec2i initialLaserPos = new Vec2i(0, -1);
         Vec2i laser = max.getKey();
 
         Map<Vec2i, List<Vec2i>> laserRayTraces = new HashMap<>();
         rays.get(laser).forEach((laserDir, laserHits) -> laserRayTraces.put(laserDir, new ArrayList<>(laserHits)));
 
         List<Map.Entry<Vec2i, List<Vec2i>>> laserRayDirs = laserRayTraces.entrySet().stream()
-                .sorted(Comparator.comparingDouble(e -> getAngleToLaserInitial(e.getKey())))
+                .sorted(Comparator.comparingDouble(e -> initialLaserPos.getAngleTo(e.getKey())))
                 .collect(Collectors.toList());
 
         List<Vec2i> vaporized = new ArrayList<>();
@@ -102,10 +98,5 @@ public class Day10 {
 
         Vec2i p200 = vaporized.get(199);
         System.out.println(p200.getX() * 100 + p200.getY());
-    }
-
-    private static double getAngleToLaserInitial(Vec2i pos) {
-        Vec2i initial = new Vec2i(0, -1);
-        return initial.getAngleTo(pos);
     }
 }
