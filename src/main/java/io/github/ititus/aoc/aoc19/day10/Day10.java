@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day10;
 
 import io.github.ititus.aoc.InputProvider;
-import io.github.ititus.aoc.aoc19.Vec2i;
+import io.github.ititus.math.vector.Vec2i;
 
 import java.util.*;
 import java.util.stream.Collectors;
