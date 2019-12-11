@@ -1,5 +1,7 @@
 package io.github.ititus.aoc.aoc19;
 
+import io.github.ititus.math.number.JavaMath;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +28,15 @@ public final class Vec2i {
     }
 
     public Vec2i multiply(int n) {
-        return new Vec2i(n * x, n * y);
+        return new Vec2i(x * n, y * n);
+    }
+
+    public Vec2i divide(int n) {
+        return new Vec2i(x / n, y / n);
+    }
+
+    public Vec2i reduce() {
+        return divide(JavaMath.gcd(x, y));
     }
 
     /**
@@ -64,23 +74,27 @@ public final class Vec2i {
         return Math.abs(x) + Math.abs(y);
     }
 
+    public int manhattanDistanceTo(Vec2i o) {
+        return Math.abs(x - o.x) + Math.abs(y - o.y);
+    }
+
     public double distance() {
         return Math.hypot(x, y);
     }
 
-    public double distanceTo(Vec2i other) {
-        return Math.hypot(x - other.x, y - other.y);
+    public double distanceTo(Vec2i o) {
+        return Math.hypot(x - o.x, y - o.y);
     }
 
-    public int innerProduct(Vec2i other) {
-        return x * other.x + y * other.y;
+    public int innerProduct(Vec2i o) {
+        return x * o.x + y * o.y;
     }
 
     /**
      * In clockwise rotation, always returns positive angle in [0, 2pi).
      */
-    public double getAngleTo(Vec2i other) {
-        double angle = Math.atan2(other.y, other.x) - Math.atan2(y, x);
+    public double getAngleTo(Vec2i o) {
+        double angle = Math.atan2(o.y, o.x) - Math.atan2(y, x);
         if (angle < 0) {
             angle += 2 * Math.PI;
         }
