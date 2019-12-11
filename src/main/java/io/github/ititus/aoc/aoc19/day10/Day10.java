@@ -4,7 +4,6 @@ import io.github.ititus.aoc.InputProvider;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Day10 {
 
@@ -24,13 +23,13 @@ public class Day10 {
             }
         }
 
-        // 1
-        System.out.println("### 1 ###");
+        Vec2i initialLaserPos = new Vec2i(0, -1);
+        Comparator<Vec2i> angleComparator = Comparator.comparingDouble(initialLaserPos::getAngleTo);
 
-        Map<Vec2i, Map<Vec2i, SortedSet<Vec2i>>> rays = new HashMap<>();
+        Map<Vec2i, SortedMap<Vec2i, SortedSet<Vec2i>>> rays = new HashMap<>();
         for (Vec2i asteroidPos : asteroids) {
             Comparator<Vec2i> distanceComparator = Comparator.comparingInt(asteroidPos::manhattanDistanceTo);
-            Map<Vec2i, SortedSet<Vec2i>> rayTraces = rays.computeIfAbsent(asteroidPos, k -> new HashMap<>());
+            SortedMap<Vec2i, SortedSet<Vec2i>> rayTraces = rays.computeIfAbsent(asteroidPos, k -> new TreeMap<>(angleComparator));
             for (Vec2i otherAsteroidPos : asteroids) {
                 if (otherAsteroidPos == asteroidPos) {
                     continue;
@@ -41,30 +40,30 @@ public class Day10 {
             }
         }
 
-        Map.Entry<Vec2i, Map<Vec2i, SortedSet<Vec2i>>> max = Collections.max(
+        // 1
+        System.out.println("### 1 ###");
+
+        Map.Entry<Vec2i, SortedMap<Vec2i, SortedSet<Vec2i>>> max = Collections.max(
                 rays.entrySet(),
-                Comparator.comparingInt(e -> e.getValue().values().size())
+                Comparator.comparingInt(e -> e.getValue().size())
         );
         System.out.println(max.getKey());
         System.out.println(max.getValue().size());
 
         // 2
         System.out.println("### 2 ###");
-        Vec2i initialLaserPos = new Vec2i(0, -1);
+
         Vec2i laser = max.getKey();
 
-        Map<Vec2i, SortedSet<Vec2i>> laserRayTraces = new HashMap<>();
-        rays.get(laser).forEach((laserDir, laserHits) -> laserRayTraces.put(laserDir, new TreeSet<>(laserHits)));
-
-        List<Map.Entry<Vec2i, SortedSet<Vec2i>>> laserRayDirs = laserRayTraces.entrySet().stream()
-                .sorted(Comparator.comparingDouble(e -> initialLaserPos.getAngleTo(e.getKey())))
-                .collect(Collectors.toList());
+        SortedMap<Vec2i, SortedSet<Vec2i>> originalRayTraces = rays.get(laser);
+        SortedMap<Vec2i, SortedSet<Vec2i>> laserRayTraces = new TreeMap<>(originalRayTraces.comparator());
+        originalRayTraces.forEach((laserDir, laserHits) -> laserRayTraces.put(laserDir, new TreeSet<>(laserHits)));
 
         List<Vec2i> vaporized = new ArrayList<>();
 
         while (true) {
             boolean allEmpty = true;
-            for (Map.Entry<Vec2i, SortedSet<Vec2i>> rayTraces : laserRayDirs) {
+            for (Map.Entry<Vec2i, SortedSet<Vec2i>> rayTraces : laserRayTraces.entrySet()) {
                 SortedSet<Vec2i> laserHits = rayTraces.getValue();
 
                 if (!laserHits.isEmpty()) {
