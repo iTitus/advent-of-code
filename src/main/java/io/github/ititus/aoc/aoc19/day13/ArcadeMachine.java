@@ -60,7 +60,7 @@ public class ArcadeMachine {
                         } else {
                             ArcadeTile tile = ArcadeTile.get(i);
                             screen[x][y] = tile;
-                            if (tile == ArcadeTile.HORZONTAL_PADDLE) {
+                            if (tile == ArcadeTile.HORIZONTAL_PADDLE) {
                                 paddlePos.set(new Vec2i(x, y));
                             } else if (tile == ArcadeTile.BALL) {
                                 ballPos.set(new Vec2i(x, y));

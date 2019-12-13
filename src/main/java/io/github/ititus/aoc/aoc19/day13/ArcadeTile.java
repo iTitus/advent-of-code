@@ -7,7 +7,7 @@ public enum ArcadeTile {
     EMPTY(0, ' '),
     WALL(1, '█'),
     BLOCK(2, '#'),
-    HORZONTAL_PADDLE(3, '-'),
+    HORIZONTAL_PADDLE(3, '-'),
     BALL(4, 'o');
 
     private static final ArcadeTile[] VALUES;
