@@ -137,7 +137,7 @@ public class IntComputer {
                     insnPtr += 4;
                     break;
                 }
-                case 9: { // reltative-base-offset
+                case 9: { // change relative base
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
 
                     relativeBase += in1.read().intValueExact();
