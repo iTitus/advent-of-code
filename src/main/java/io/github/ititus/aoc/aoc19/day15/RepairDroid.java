@@ -5,7 +5,6 @@ import io.github.ititus.aoc.aoc19.IntComputer;
 import io.github.ititus.math.graph.Graph;
 import io.github.ititus.math.graph.Vertex;
 import io.github.ititus.math.graph.algorithm.Dijkstra;
-import io.github.ititus.math.number.BigRational;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.math.BigInteger;
@@ -51,16 +50,8 @@ public class RepairDroid {
         this.map = new Graph<>();
     }
 
-    public int getShortestPathToOxygen() {
-        Dijkstra<Vec2i> d = new Dijkstra<>(map, map.getVertex(startingPos).orElseThrow());
-        Dijkstra<Vec2i>.Result paths = d.findShortestPaths();
-        return paths.getShortestPathLength(map.getVertex(oxygenPos).orElseThrow()).intValueExact();
-    }
-
-    public int getLongestPathFromOxygen() {
-        Dijkstra<Vec2i> d = new Dijkstra<>(map, map.getVertex(oxygenPos).orElseThrow());
-        Dijkstra<Vec2i>.Result paths = d.findShortestPaths();
-        return map.getVertices().stream().map(paths::getShortestPathLength).mapToInt(BigRational::intValueExact).max().orElse(0);
+    public Dijkstra<Vec2i>.Result getOxygenPaths() {
+        return new Dijkstra<>(map, map.getVertex(oxygenPos).orElseThrow()).findShortestPaths();
     }
 
     public void render() {
@@ -96,15 +87,15 @@ public class RepairDroid {
         t.start();
 
         map.addVertex(startingPos);
-        exploreAllDirs(EnumSet.noneOf(Direction.class));
+        exploreAllDirs();
     }
 
-    private void exploreAllDirs(Set<Direction> exclude) {
+    private void exploreAllDirs() {
         Set<Direction> valid = EnumSet.noneOf(Direction.class);
 
         Vec2i center = currentPos;
         for (Direction dir : DIRECTIONS) {
-            if (exclude.contains(dir)) {
+            if (map.getVertex(currentPos.add(dir.getDirectionVector())).isPresent()) {
                 continue;
             }
 
@@ -128,7 +119,7 @@ public class RepairDroid {
 
         for (Direction dir : valid) {
             move(dir);
-            exploreAllDirs(EnumSet.of(dir.getOpposite()));
+            exploreAllDirs();
             move(dir.getOpposite());
         }
     }
@@ -153,5 +144,9 @@ public class RepairDroid {
 
     public Graph<Vec2i> getMap() {
         return map;
+    }
+
+    public Vec2i getStartingPos() {
+        return startingPos;
     }
 }

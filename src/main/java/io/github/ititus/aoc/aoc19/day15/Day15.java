@@ -1,7 +1,10 @@
 package io.github.ititus.aoc.aoc19.day15;
 
 import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.math.graph.algorithm.Dijkstra;
 import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.math.number.BigRational;
+import io.github.ititus.math.vector.Vec2i;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -15,13 +18,16 @@ public class Day15 {
         RepairDroid droid = new RepairDroid(memory);
         droid.buildMap();
         droid.render();
+        Dijkstra<Vec2i>.Result paths = droid.getOxygenPaths();
 
         // 1
         System.out.println("### 1 ###");
-        System.out.println(droid.getShortestPathToOxygen());
+        int l1 = paths.getShortestPathLength(droid.getMap().getVertex(droid.getStartingPos()).orElseThrow()).intValueExact();
+        System.out.println(l1);
 
         // 2
         System.out.println("### 2 ###");
-        System.out.println(droid.getLongestPathFromOxygen());
+        int l2 = droid.getMap().getVertices().stream().map(paths::getShortestPathLength).mapToInt(BigRational::intValueExact).max().orElseThrow();
+        System.out.println(l2);
     }
 }
