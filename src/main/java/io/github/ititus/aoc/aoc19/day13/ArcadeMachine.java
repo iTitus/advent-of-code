@@ -14,6 +14,8 @@ public class ArcadeMachine {
     private static final int SIZE_Y = 23;
 
     private final IntComputer computer;
+    private final Bag<Integer> bx = new Bag<>();
+    private final Bag<Integer> by = new Bag<>();
     private final ArcadeTile[][] screen;
     private final Bag<Vec2i> paddlePos;
     private final Bag<Vec2i> ballPos;
@@ -35,44 +37,9 @@ public class ArcadeMachine {
             memory[0] = BigInteger.TWO;
         }
 
-        Bag<Integer> bx = new Bag<>();
-        Bag<Integer> by = new Bag<>();
-
         this.computer = new IntComputer(
-                () -> {
-                    int input = getNextPaddleMovement();
-                    // System.out.println("Reading input: x=" + bx.get() + " y=" + by.get() + " input=" + input + " score=" + score.get());
-                    return input;
-                },
-                i -> {
-                    if (bx.get() == null) {
-                        bx.set(i);
-                        // System.out.println("Setting x: x=" + bx.get() + " y=" + by.get() + " score=" + score.get());
-                    } else if (by.get() == null) {
-                        by.set(i);
-                        // System.out.println("Setting y: x=" + bx.get() + " y=" + by.get() + " score=" + score.get());
-                    } else {
-                        int x = bx.get();
-                        int y = by.get();
-                        if (x == -1 && y == 0) {
-                            score.set(i);
-                            // System.out.println("Setting score: x=" + bx.get() + " y=" + by.get() + " score=" + score.get());
-                        } else {
-                            ArcadeTile tile = ArcadeTile.get(i);
-                            screen[x][y] = tile;
-                            if (tile == ArcadeTile.HORIZONTAL_PADDLE) {
-                                paddlePos.set(new Vec2i(x, y));
-                            } else if (tile == ArcadeTile.BALL) {
-                                ballPos.set(new Vec2i(x, y));
-                            }
-                            //System.out.println("Setting tile: x=" + bx.get() + " y=" + by.get() + " tile=" + tile + " score=" + score.get());
-                        }
-                        bx.set(null);
-                        by.set(null);
-
-                        render();
-                    }
-                },
+                this::getNextPaddleMovement,
+                this::update,
                 memory
         );
     }
@@ -83,6 +50,32 @@ public class ArcadeMachine {
 
     private int getNextPaddleMovement() {
         return JavaMath.signum(ballPos.get().subtract(paddlePos.get()).getX());
+    }
+
+    private void update(int output) {
+        if (bx.get() == null) {
+            bx.set(output);
+        } else if (by.get() == null) {
+            by.set(output);
+        } else {
+            int x = bx.get();
+            int y = by.get();
+            if (x == -1 && y == 0) {
+                score.set(output);
+            } else {
+                ArcadeTile tile = ArcadeTile.get(output);
+                screen[x][y] = tile;
+                if (tile == ArcadeTile.HORIZONTAL_PADDLE) {
+                    paddlePos.set(new Vec2i(x, y));
+                } else if (tile == ArcadeTile.BALL) {
+                    ballPos.set(new Vec2i(x, y));
+                }
+            }
+            bx.set(null);
+            by.set(null);
+
+            render();
+        }
     }
 
     public void run() {
