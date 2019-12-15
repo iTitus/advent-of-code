@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 public enum ArcadeTile {
 
-    EMPTY(0, ' '),
-    WALL(1, '█'),
-    BLOCK(2, '#'),
-    HORIZONTAL_PADDLE(3, '-'),
-    BALL(4, 'o');
+    EMPTY(' '),
+    WALL('█'),
+    BLOCK('#'),
+    HORIZONTAL_PADDLE('-'),
+    BALL('o');
 
     private static final ArcadeTile[] VALUES;
 
@@ -17,20 +17,14 @@ public enum ArcadeTile {
         VALUES = Arrays.copyOf(values, values.length);
     }
 
-    private final int index;
     private final char renderChar;
 
-    ArcadeTile(int index, char renderChar) {
-        this.index = index;
+    ArcadeTile(char renderChar) {
         this.renderChar = renderChar;
     }
 
     public static ArcadeTile get(int index) {
         return VALUES[index];
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public char getRenderChar() {
