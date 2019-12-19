@@ -9,6 +9,7 @@ public enum Direction {
     SOUTH(2, 0, 1),
     WEST(3, -1, 0);
 
+    public static final Direction[] VALUES = values();
     private final int index;
     private final Vec2i directionVector;
 
