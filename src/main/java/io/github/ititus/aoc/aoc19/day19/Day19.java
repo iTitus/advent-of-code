@@ -14,9 +14,15 @@ public class Day19 {
         BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
         TractorBeamScanner s = new TractorBeamScanner(memory);
+
+        // 1
+        System.out.println("### 1 ###");
         int no = s.getNumberOfAffectedTiles(50);
         System.out.println(no);
 
+
+        // 2
+        System.out.println("### 2 ###");
         Vec2i pos = s.getClosestPosForShip(100);
         int out = pos.getX() * 10_000 + pos.getY();
         System.out.println(out);
