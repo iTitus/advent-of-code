@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Ascii {
+public class AsciiRobot {
 
     private final BlockingQueue<Integer> input;
     private final BlockingDeque<Integer> output;
@@ -25,7 +25,7 @@ public class Ascii {
     private int sizeX = -1;
     private ExteriorType[][] map;
 
-    public Ascii(BigInteger[] memory) {
+    public AsciiRobot(BigInteger[] memory) {
         this.input = new LinkedBlockingQueue<>();
         this.output = new LinkedBlockingDeque<>();
         memory = Arrays.copyOf(memory, memory.length);

@@ -12,9 +12,15 @@ public class Day17 {
         String input = InputProvider.readString(2019, 17);
         BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
-        Ascii ascii = new Ascii(memory);
-        ascii.run();
-        System.out.println(ascii.sumAlignmentParameters());
-        System.out.println(ascii.getDustCleaned());
+        AsciiRobot ar = new AsciiRobot(memory);
+        ar.run();
+
+        // 1
+        System.out.println("### 1 ###");
+        System.out.println(ar.sumAlignmentParameters());
+
+        // 2
+        System.out.println("### 2 ###");
+        System.out.println(ar.getDustCleaned());
     }
 }
