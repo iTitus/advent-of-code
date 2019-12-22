@@ -80,7 +80,7 @@ public class Day16 {
         int actual = part1(inputString);
         Duration d = s.stop();
         if (actual != expected) {
-            throw new IllegalArgumentException("Part 1: expected=" + expected + " actual=" + actual);
+            throw new RuntimeException("Part 1: expected=" + expected + " actual=" + actual);
         } else {
             System.out.println("Successfully passed test in " + DurationFormatter.formatMillis(d) + " for Part 1: output=" + actual);
         }
@@ -91,7 +91,7 @@ public class Day16 {
         int actual = part2(inputString);
         Duration d = s.stop();
         if (actual != expected) {
-            throw new IllegalArgumentException("Part 2: expected=" + expected + " actual=" + actual);
+            throw new RuntimeException("Part 2: expected=" + expected + " actual=" + actual);
         } else {
             System.out.println("Successfully passed test in " + DurationFormatter.formatMillis(d) + " for Part 2: output=" + actual);
         }
