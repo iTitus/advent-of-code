@@ -20,7 +20,6 @@ public class Day19 {
         int no = s.getNumberOfAffectedTiles(50);
         System.out.println(no);
 
-
         // 2
         System.out.println("### 2 ###");
         Vec2i pos = s.getClosestPosForShip(100);

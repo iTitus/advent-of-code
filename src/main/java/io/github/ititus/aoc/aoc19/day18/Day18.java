@@ -15,7 +15,7 @@ public class Day18 {
 
         test();
 
-        /*// 1
+        // 1
         System.out.println("### 1 ###");
         StopWatch sw = StopWatch.createRunning();
         int ret1 = execute(false, lines);
@@ -27,7 +27,7 @@ public class Day18 {
         sw.start();
         int ret2 = execute(true, lines);
         d = sw.stop();
-        System.out.println(DurationFormatter.format(d) + " : " + ret2);*/
+        System.out.println(DurationFormatter.format(d) + " : " + ret2);
     }
 
     private static int execute(boolean changeMap, List<String> input) {
@@ -65,7 +65,7 @@ public class Day18 {
                 "###g#h#i################",
                 "########################"
         );
-        /*test1(136,
+        test1(136,
                 "#################",
                 "#i.G..c...e..H.p#",
                 "########.########",
@@ -118,7 +118,7 @@ public class Day18 {
                 "#M###N#H###.#",
                 "#o#m..#i#jk.#",
                 "#############"
-        );*/
+        );
     }
 
     private static void test1(int expected, String... input) {
