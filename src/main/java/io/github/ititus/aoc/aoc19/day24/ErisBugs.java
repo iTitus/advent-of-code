@@ -42,7 +42,7 @@ public class ErisBugs {
     }
 
     private static int setAlive(int state, int x, int y) {
-        return state | (1 << y * SIZE + x);
+        return state | (1 << (y * SIZE + x));
     }
 
     private void parse(List<String> lines) {
@@ -57,7 +57,7 @@ public class ErisBugs {
             for (int x = 0; x < SIZE; x++) {
                 char c = line.charAt(x);
                 if (c == '#') {
-                    state |= (1 << y * SIZE + x);
+                    state = setAlive(state, x, y);
                 } else if (c != '.') {
                     throw new RuntimeException();
                 }
@@ -77,7 +77,7 @@ public class ErisBugs {
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {
             return false;
         }
-        return (state & (1 << y * SIZE + x)) != 0;
+        return (state & (1 << (y * SIZE + x))) != 0;
     }
 
     private int countAliveNeighbors(int x, int y) {
@@ -153,6 +153,7 @@ public class ErisBugs {
     }
 
     public int stepUntilRepeat() {
+        // noinspection StatementWithEmptyBody
         while (update(null)) {
             // NO-OP
         }
@@ -184,35 +185,41 @@ public class ErisBugs {
 
         if (recursive) {
             if (outer == null) {
+                boolean createOuter = false;
+
                 for (int x = 0; x < SIZE - 1; x++) {
                     if (get(x, 0)) {
-                        outer = new ErisBugs(true, level - 1, this, null);
+                        createOuter = true;
                         break;
                     }
                 }
-            }
-            if (outer == null) {
-                for (int x = 1; x < SIZE; x++) {
-                    if (get(x, SIZE - 1)) {
-                        outer = new ErisBugs(true, level - 1, this, null);
-                        break;
+                if (!createOuter) {
+                    for (int x = 1; x < SIZE; x++) {
+                        if (get(x, SIZE - 1)) {
+                            createOuter = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (outer == null) {
-                for (int y = 1; y < SIZE; y++) {
-                    if (get(0, y)) {
-                        outer = new ErisBugs(true, level - 1, this, null);
-                        break;
+                if (!createOuter) {
+                    for (int y = 1; y < SIZE; y++) {
+                        if (get(0, y)) {
+                            createOuter = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (outer == null) {
-                for (int y = 0; y < SIZE - 1; y++) {
-                    if (get(SIZE - 1, y)) {
-                        outer = new ErisBugs(true, level - 1, this, null);
-                        break;
+                if (!createOuter) {
+                    for (int y = 0; y < SIZE - 1; y++) {
+                        if (get(SIZE - 1, y)) {
+                            createOuter = true;
+                            break;
+                        }
                     }
+                }
+
+                if (createOuter) {
+                    outer = new ErisBugs(true, level - 1, this, null);
                 }
             }
 
@@ -254,26 +261,7 @@ public class ErisBugs {
         if (!recursive) {
             return previousStates.add(newState);
         }
+
         return true;
-    }
-
-    private String getBoard() {
-        StringBuilder b = new StringBuilder();
-        for (int y = 0; y < SIZE; y++) {
-            for (int x = 0; x < SIZE; x++) {
-                if (recursive && x == SIZE / 2 && y == SIZE / 2) {
-                    b.append('?');
-                } else {
-                    b.append(get(x, y) ? '#' : '.');
-                }
-            }
-            b.append('\n');
-        }
-        return b.toString();
-    }
-
-    @Override
-    public String toString() {
-        return level + "\n" + getBoard();
     }
 }
