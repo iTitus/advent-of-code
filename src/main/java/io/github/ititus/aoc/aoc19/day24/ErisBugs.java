@@ -35,7 +35,7 @@ public class ErisBugs {
     private ErisBugs(boolean recursive, int level, List<String> lines, ErisBugs inner, ErisBugs outer) {
         this.recursive = recursive;
         this.level = level;
-        this.previousStates = new HashSet<>();
+        this.previousStates = recursive ? Set.of() : new HashSet<>();
         this.inner = inner;
         this.outer = outer;
         parse(lines);
