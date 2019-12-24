@@ -44,7 +44,7 @@ public class Packet {
             return false;
         }
         Packet packet = (Packet) o;
-        //noinspection SuspiciousNameCombination
+        // noinspection SuspiciousNameCombination
         return from == packet.from && to == packet.to && x.equals(packet.x) && y.equals(packet.y);
     }
 
