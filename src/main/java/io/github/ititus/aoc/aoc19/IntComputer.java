@@ -4,6 +4,7 @@ import io.github.ititus.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
@@ -19,6 +20,7 @@ public class IntComputer {
     private final Consumer<BigInteger> output;
     private final List<BigInteger> memory;
     private int insnPtr, relativeBase;
+    private AtomicBoolean waitingForInput;
 
     public IntComputer(int[] memory) {
         this(Arrays.stream(memory).mapToObj(BigIntegerMath::of).toArray(BigInteger[]::new));
@@ -51,6 +53,7 @@ public class IntComputer {
         this.input = input;
         this.output = output;
         this.memory = new ArrayList<>(Arrays.asList(memory));
+        this.waitingForInput = new AtomicBoolean(false);
     }
 
     public BigInteger run() {
@@ -83,7 +86,9 @@ public class IntComputer {
                 case 3: { // store
                     ParameterWriteAccessor out = getParameterWrite(insn, 1);
 
+                    waitingForInput.set(true);
                     out.write(input.get());
+                    waitingForInput.set(false);
 
                     insnPtr += 2;
                     break;
@@ -161,8 +166,11 @@ public class IntComputer {
     private int ensureCapacity(int index) {
         if (index < 0) {
             throw new IllegalArgumentException();
-        } else if (index >= memory.size()) {
-            List<BigInteger> newMemory = IntStream.rangeClosed(memory.size(), index).mapToObj(i -> BigInteger.ZERO).collect(Collectors.toList());
+        }
+
+        int oldSize = memory.size();
+        if (index >= oldSize) {
+            List<BigInteger> newMemory = IntStream.rangeClosed(oldSize, index).mapToObj(i -> BigInteger.ZERO).collect(Collectors.toList());
             memory.addAll(newMemory);
         }
         return index;
@@ -190,6 +198,10 @@ public class IntComputer {
         }
 
         throw new IllegalArgumentException();
+    }
+
+    public boolean isWaitingForInput() {
+        return waitingForInput.get();
     }
 
     @FunctionalInterface

@@ -1,0 +1,150 @@
+Hull Breach
+Doors:
+    N=Gift Wrapping Center
+    S=Engineering
+    W=Arcade
+
+
+Gift Wrapping Center
+Items:
+    molten lava (BAD!)
+Doors:
+    N=Corridor
+    E=Observatory
+    S=Hull Breach
+
+
+Corridor
+Items:
+    Mutex
+Doors:
+    E=Science Lab
+    S=Gift Wrapping Center
+    W=Stables
+
+
+Science Lab
+Items:
+    infinite loop (BAD!)
+Doors:
+    W=Corridor
+
+Stables
+Items:
+    astrolabe
+Doors:
+    E=Corridor
+    S=Hallway
+    W=Hot Chocolate Fountain
+
+
+Hot Chocolate Fountain
+Items:
+    dehydrated water
+Doors:
+    E=Stables
+    S=Holodeck
+    W=Crew Quarters
+
+
+Crew Quarters
+Items:
+    wreath
+Doors:
+    E=Hot Chocolate Fountain
+
+
+Holodeck
+Items:
+    escape pod (BAD!)
+Doors:
+    N=Hot Chocolate Fountain
+    E=Passages
+
+
+Passages:
+Doors:
+    N=Security Checkpoint
+    W=Holodeck
+
+
+Security Checkpoint
+Doors:
+    N=Pressure-Sensitive Floor
+    S=Passages
+
+
+Pressure-Sensitive Floor
+Doors:
+    S=Security Checkpoint
+
+
+Hallway
+Doors:
+    N=Stables
+
+
+Observatory
+Doors:
+    W=Gift Wrapping Center
+
+
+Arcade
+Item:
+    coin
+Doors:
+    N=Navigation
+    E=Hull Breach
+    S=Warp Drive Maintenance
+
+
+Navigation
+Items:
+    giant electromagnet (BAD!)
+Doors:
+    E=Sick Bay
+    S=Arcade
+
+
+Sick Bay
+Items:
+    astronaut ice cream
+Doors:
+    W=Navigation
+
+
+Warp Drive Maintenance
+Doors:
+    N=Arcade
+
+
+Engineering
+Doors:
+    N=Hull Breach
+    E=Kitchen
+Item:
+    monolith
+
+
+Kitchen
+Doors:
+    N=Storage
+    W=Engineering
+Items:
+    asterisk
+
+
+Storage
+Doors:
+    S=Kitchen
+Items:
+    photons (BAD!)
+
+
+### ITEMS ###
+- astronaut ice cream
+- wreath
+- coin
+- dehydrated water
+- astrolabe
+- mutex
