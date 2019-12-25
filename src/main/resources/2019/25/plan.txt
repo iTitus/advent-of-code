@@ -29,6 +29,7 @@ Items:
 Doors:
     W=Corridor
 
+
 Stables
 Items:
     astrolabe
@@ -146,5 +147,7 @@ Items:
 - wreath
 - coin
 - dehydrated water
+- asterisk
+- monolith
 - astrolabe
 - mutex

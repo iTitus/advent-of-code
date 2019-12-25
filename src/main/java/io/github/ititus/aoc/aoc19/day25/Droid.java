@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 public class Droid {
 
-    private final BlockingQueue<Integer> input, output;
+    private final BlockingQueue<Integer> input;
     private final StringBuilder currentLine;
     private final List<String> printedLines;
     private final IntComputer c;
@@ -19,7 +19,6 @@ public class Droid {
 
     public Droid(BigInteger[] memory) {
         this.input = new LinkedBlockingQueue<>();
-        this.output = new LinkedBlockingQueue<>();
         this.currentLine = new StringBuilder();
         this.printedLines = Collections.synchronizedList(new ArrayList<>());
         this.c = new IntComputer(() -> {
@@ -29,42 +28,28 @@ public class Droid {
                 throw new RuntimeException(e);
             }
         }, i -> {
-            try {
-                output.put(i);
-                if (i == '\n') {
+            char c = (char) i;
+            if (c == '\n') {
+                if (currentLine.length() > 0) {
                     printedLines.add(currentLine.toString());
                     currentLine.setLength(0);
-                } else {
-                    currentLine.append((char) i);
                 }
-                System.out.print((char) i);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            } else {
+                currentLine.append(c);
             }
+            System.out.print(c);
         }, memory);
         this.t = new Thread(c::run, "IntComputer");
     }
 
     public void run() {
+        t.setDaemon(true);
         t.start();
+
         Scanner sc = new Scanner(System.in);
-
         while (true) {
-            /*while (!output.isEmpty()) {
-                int i;
-                try {
-                    i = output.take();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                System.out.print((char) i);
-            }
-
-            System.out.print("> ");*/
-
             if (sc.hasNextLine()) {
-                String command = sc.nextLine();
-                handleCommand(command);
+                handleCommand(sc.nextLine());
             } else {
                 System.out.println("Stopping...");
                 break;
@@ -110,16 +95,20 @@ public class Droid {
             sendCommand("east");
             sendCommand("north");
             sendCommand("north"); // pressure-sensitive floor
+
             sendCommand("inv"); // security checkpoint
         } else if (command.equals("try")) {
             Set<String> items = Set.of("astronaut ice cream", "wreath", "coin", "dehydrated water", "asterisk", "monolith", "astrolabe", "mutex");
             Set<Set<String>> permutations = Permutations.permuteWithoutDuplicates(items);
+
             outer:
             for (Set<String> permutation : permutations) {
                 items.stream().map(i -> "drop " + i).forEach(this::sendCommand);
                 permutation.stream().map(i -> "take " + i).forEach(this::sendCommand);
                 sendCommand("inv");
+
                 sendCommand("north");
+
                 while (!input.isEmpty() || !c.isWaitingForInput()) {
                     try {
                         Thread.sleep(1);
@@ -127,6 +116,7 @@ public class Droid {
                         throw new RuntimeException(e);
                     }
                 }
+
                 for (int i = printedLines.size() - 1; i >= 0; i--) {
                     String line = printedLines.get(i);
                     if (line.startsWith("==")) {
@@ -141,7 +131,6 @@ public class Droid {
         } else {
             sendCommand(command);
         }
-
     }
 
     private void sendCommand(String command) {
