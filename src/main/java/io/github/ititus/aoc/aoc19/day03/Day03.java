@@ -29,11 +29,13 @@ public class Day03 {
         Map<Vec2i, Integer> wire2Path = getWirePath(wire2Commands);
 
         // 1
+        System.out.println("### 1 ###");
         Set<Vec2i> intersect1 = getIntersection(wire1Path, wire2Path).keySet();
         Vec2i closestIntersection1 = Collections.min(intersect1, Comparator.comparingInt(Vec2i::manhattanDistance));
         System.out.println(closestIntersection1 + " with distance " + closestIntersection1.manhattanDistance());
 
         // 2
+        System.out.println("### 2 ###");
         Map<Vec2i, Integer> intersect2 = getIntersection(wire1Path, wire2Path);
         Map.Entry<Vec2i, Integer> closestIntersection2 = Collections.min(intersect2.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
         System.out.println(closestIntersection2.getKey() + " with combined steps " + closestIntersection2.getValue());

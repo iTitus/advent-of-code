@@ -16,7 +16,7 @@ public class Day08 {
         System.out.println("### 1 ###");
         System.out.println(image.getChecksum());
 
-        // 1
+        // 2
         System.out.println("### 2 ###");
         image.render(new PrintWriter(System.out, true));
     }

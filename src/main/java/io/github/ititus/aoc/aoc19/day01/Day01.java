@@ -10,6 +10,7 @@ public class Day01 {
         List<Integer> moduleMasses = InputProvider.readAllLinesAsInt(2019, 1);
 
         // 1
+        System.out.println("### 1 ###");
         int result1 = moduleMasses.stream()
                 .mapToInt(Integer::intValue)
                 .map(m -> m / 3)
@@ -18,6 +19,7 @@ public class Day01 {
         System.out.println(result1);
 
         // 2
+        System.out.println("### 2 ###");
         int result2 = moduleMasses.stream()
                 .mapToInt(Integer::intValue)
                 .map(m -> {
