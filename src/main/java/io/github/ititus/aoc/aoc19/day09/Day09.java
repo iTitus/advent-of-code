@@ -13,10 +13,12 @@ public class Day09 {
         String input = InputProvider.readString(2019, 9);
         BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
-        // 01
+        // 1
+        System.out.println("### 1 ###");
         new IntComputer(() -> BigInteger.ONE, System.out::println, memory).run();
 
-        // 01
+        // 2
+        System.out.println("### 2 ###");
         new IntComputer(() -> BigInteger.TWO, System.out::println, memory).run();
     }
 }

@@ -12,9 +12,13 @@ public class Day23 {
         String input = InputProvider.readString(2019, 23);
         BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
-        /*Network n1 = new Network(50, false, memory);
+        // 1
+        /*System.out.println("### 1 ###");
+        Network n1 = new Network(50, false, memory);
         n1.start();*/
 
+        // 2
+        System.out.println("### 2 ###");
         Network n2 = new Network(50, true, memory);
         n2.start();
     }

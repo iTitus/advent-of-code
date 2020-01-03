@@ -27,6 +27,7 @@ public class Day06 {
                 });
 
         // 1
+        System.out.println("### 1 ###");
         System.out.println(
                 g.getVertices().stream()
                         .mapToInt(v -> computeOrbitCount(g, v))
@@ -34,6 +35,7 @@ public class Day06 {
         );
 
         // 2
+        System.out.println("### 2 ###");
         Vertex<String> youOrbiting = getOrbiting(g, g.getVertex("YOU").orElseThrow()).orElseThrow();
         Vertex<String> santaOrbiting = getOrbiting(g, g.getVertex("SAN").orElseThrow()).orElseThrow();
         Dijkstra<String>.Result r = new Dijkstra<>(g, youOrbiting).findShortestPaths();

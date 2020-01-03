@@ -12,9 +12,11 @@ public class Day02 {
         int[] memory = Arrays.stream(input.split(",")).map(String::strip).mapToInt(Integer::parseInt).toArray();
 
         // 1
+        System.out.println("### 1 ###");
         System.out.println(run(memory, 12, 2));
 
         // 2
+        System.out.println("### 2 ###");
         int result = 19690720;
         outer:
         for (int noun = 0; noun < 100; noun++) {

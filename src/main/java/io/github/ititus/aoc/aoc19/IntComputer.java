@@ -19,8 +19,8 @@ public class IntComputer {
     private final Supplier<BigInteger> input;
     private final Consumer<BigInteger> output;
     private final List<BigInteger> memory;
+    private final AtomicBoolean waitingForInput, waitingForOutput;
     private int insnPtr, relativeBase;
-    private AtomicBoolean waitingForInput;
 
     public IntComputer(int[] memory) {
         this(Arrays.stream(memory).mapToObj(BigIntegerMath::of).toArray(BigInteger[]::new));
@@ -54,6 +54,7 @@ public class IntComputer {
         this.output = output;
         this.memory = new ArrayList<>(Arrays.asList(memory));
         this.waitingForInput = new AtomicBoolean(false);
+        this.waitingForOutput = new AtomicBoolean(false);
     }
 
     public BigInteger run() {
@@ -87,7 +88,7 @@ public class IntComputer {
                     ParameterWriteAccessor out = getParameterWrite(insn, 1);
 
                     waitingForInput.set(true);
-                    out.write(input.get());
+                    out.write(Objects.requireNonNull(input.get()));
                     waitingForInput.set(false);
 
                     insnPtr += 2;
@@ -96,7 +97,9 @@ public class IntComputer {
                 case 4:  // print
                     ParameterReadAccessor in = getParameterRead(insn, 1);
 
+                    waitingForOutput.set(true);
                     output.accept(in.read());
+                    waitingForOutput.set(false);
 
                     insnPtr += 2;
                     break;
@@ -202,6 +205,10 @@ public class IntComputer {
 
     public boolean isWaitingForInput() {
         return waitingForInput.get();
+    }
+
+    public boolean isWaitingForOutput() {
+        return waitingForOutput.get();
     }
 
     @FunctionalInterface
