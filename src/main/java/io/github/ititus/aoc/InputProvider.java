@@ -1,9 +1,18 @@
 package io.github.ititus.aoc;
 
 import io.github.ititus.io.IO;
+import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.math.number.BigRational;
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleList;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongList;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -17,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class InputProvider {
+public final class InputProvider {
 
     public static String readString(int year, int day) {
         try {
@@ -43,45 +52,58 @@ public class InputProvider {
         }
     }
 
-    public static List<Integer> readAllLinesAsInt(int year, int day) {
+    public static IntList readAllLinesAsInt(int year, int day) {
         try (Stream<String> stream = lines(year, day)) {
             return stream
                     .mapToInt(Integer::parseInt)
-                    .boxed()
-                    .collect(Collectors.toList());
+                    .collect(IntArrayList::new, IntList::add, IntList::addAll);
         }
     }
 
-    public static List<Long> readAllLinesAsLong(int year, int day) {
+    public static LongList readAllLinesAsLong(int year, int day) {
         try (Stream<String> stream = lines(year, day)) {
             return stream
                     .mapToLong(Long::parseLong)
-                    .boxed()
+                    .collect(LongArrayList::new, LongList::add, LongList::addAll);
+        }
+    }
+
+    public static List<BigInteger> readAllLinesAsBigInteger(int year, int day) {
+        try (Stream<String> stream = lines(year, day)) {
+            return stream
+                    .map(BigIntegerMath::of)
                     .collect(Collectors.toList());
         }
     }
 
-    public static List<Double> readAllLinesAsDouble(int year, int day) {
+    public static DoubleList readAllLinesAsDouble(int year, int day) {
         try (Stream<String> stream = lines(year, day)) {
             return stream
                     .mapToDouble(Double::parseDouble)
-                    .boxed()
+                    .collect(DoubleArrayList::new, DoubleList::add, DoubleList::addAll);
+        }
+    }
+
+    public static List<BigRational> readAllLinesAsBigRational(int year, int day) {
+        try (Stream<String> stream = lines(year, day)) {
+            return stream
+                    .map(BigRational::of)
                     .collect(Collectors.toList());
         }
     }
 
     public static Path getInput(int year, int day) {
-        if (year < 2015 || year > 2019 || day < 1 || day > 25) {
+        if (year < 2015 || day < 1 || day > 25) {
             throw new IllegalArgumentException();
         }
 
         String resourcePath = "/" + year + "/" + (day < 10 ? "0" + day : day) + "/input.txt";
         URL url = InputProvider.class.getResource(resourcePath);
         if (url == null) {
-            downloadInput(year, day);
-            System.out.println("Downloaded input.");
-            System.exit(0);
+            System.out.println("Downloading input.");
+            return downloadInput(year, day);
         }
+
         try {
             return Path.of(url.toURI()).toAbsolutePath().normalize();
         } catch (URISyntaxException e) {
@@ -89,7 +111,7 @@ public class InputProvider {
         }
     }
 
-    private static void downloadInput(int year, int day) {
+    private static Path downloadInput(int year, int day) {
         URL url;
         try {
             url = new URL("https://adventofcode.com/" + year + "/day/" + day + "/input");
@@ -97,7 +119,10 @@ public class InputProvider {
             throw new UncheckedIOException(e);
         }
 
-        Path p = Path.of("src/main/resources/" + year + "/" + (day < 10 ? "0" + day : day) + "/input.txt").toAbsolutePath().normalize();
+        Path p = Path
+                .of("src/main/resources/" + year + "/" + (day < 10 ? "0" + day : day) + "/input.txt")
+                .toAbsolutePath()
+                .normalize();
 
         try {
             Files.createDirectories(p.getParent());
@@ -112,11 +137,11 @@ public class InputProvider {
             ) {
                 IO.copy(in, out);
             }
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
+        return p;
     }
 
     private static String getToken() {
@@ -125,5 +150,8 @@ public class InputProvider {
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private InputProvider() {
     }
 }

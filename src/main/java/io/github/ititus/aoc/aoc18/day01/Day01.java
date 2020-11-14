@@ -1,24 +1,24 @@
 package io.github.ititus.aoc.aoc18.day01;
 
+import io.github.ititus.aoc.FastUtilStreams;
 import io.github.ititus.aoc.InputProvider;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntListIterator;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 public class Day01 {
 
     public static void main(String[] args) {
-        List<Integer> freqChanges = InputProvider.readAllLinesAsInt(2018, 1);
+        IntList freqChanges = InputProvider.readAllLinesAsInt(2018, 1);
 
         // First part
-        int freq = freqChanges.stream().mapToInt(Integer::intValue).sum();
+        int freq = FastUtilStreams.stream(freqChanges).sum();
         System.out.println(freq);
 
         // Second part
-        Set<Integer> visited = new HashSet<>();
-        Iterator<Integer> freqIt = freqChanges.iterator();
+        IntSet visited = new IntOpenHashSet();
+        IntListIterator freqIt = freqChanges.iterator();
         int curFreq = 0;
 
         while (true) {
@@ -31,7 +31,7 @@ public class Day01 {
             if (!freqIt.hasNext()) {
                 freqIt = freqChanges.iterator();
             }
-            curFreq += freqIt.next();
+            curFreq += freqIt.nextInt();
         }
     }
 }
