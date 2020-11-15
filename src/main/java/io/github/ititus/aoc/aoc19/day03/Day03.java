@@ -37,7 +37,8 @@ public class Day03 {
         // 2
         System.out.println("### 2 ###");
         Map<Vec2i, Integer> intersect2 = getIntersection(wire1Path, wire2Path);
-        Map.Entry<Vec2i, Integer> closestIntersection2 = Collections.min(intersect2.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+        Map.Entry<Vec2i, Integer> closestIntersection2 = Collections.min(intersect2.entrySet(),
+                Comparator.comparingInt(Map.Entry::getValue));
         System.out.println(closestIntersection2.getKey() + " with combined steps " + closestIntersection2.getValue());
     }
 

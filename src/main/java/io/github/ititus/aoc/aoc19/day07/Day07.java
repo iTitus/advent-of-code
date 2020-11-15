@@ -65,7 +65,8 @@ public class Day07 {
         System.out.println(Collections.max(outputs));
     }
 
-    private static Thread runInNewThread(BlockingQueue<Integer> in, BlockingQueue<Integer> out, int[] memory, String name) {
+    private static Thread runInNewThread(BlockingQueue<Integer> in, BlockingQueue<Integer> out, int[] memory,
+                                         String name) {
         IntComputer c = new IntComputer(() -> {
             try {
                 return in.take();

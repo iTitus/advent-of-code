@@ -67,7 +67,8 @@ public class SpaceEncodedImage {
     }
 
     public int getChecksum() {
-        int[] layer = Collections.min(layers, Comparator.comparingLong(l -> Math.toIntExact(Arrays.stream(l).filter(i -> i == 0).count())));
+        int[] layer = Collections.min(layers,
+                Comparator.comparingLong(l -> Math.toIntExact(Arrays.stream(l).filter(i -> i == 0).count())));
 
         int ones = Math.toIntExact(Arrays.stream(layer).filter(i -> i == 1).count());
         int twos = Math.toIntExact(Arrays.stream(layer).filter(i -> i == 2).count());

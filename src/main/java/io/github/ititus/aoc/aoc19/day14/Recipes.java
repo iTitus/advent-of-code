@@ -23,7 +23,8 @@ public class Recipes {
     }
 
     public Recipe getRecipe(String material) {
-        List<Recipe> valid = recipes.stream().filter(r -> r.getOutput().getMaterial().equals(material)).collect(Collectors.toList());
+        List<Recipe> valid =
+                recipes.stream().filter(r -> r.getOutput().getMaterial().equals(material)).collect(Collectors.toList());
         if (valid.size() != 1) {
             throw new RuntimeException(valid.size() + " recipes found for " + material + ", expected 1");
         }
@@ -40,7 +41,8 @@ public class Recipes {
         consumedIngredients.add(stack);
 
         while (!consumedIngredients.isEmpty()) {
-            MaterialStack s = consumedIngredients.stream().filter(s_ -> !isBasic(s_.getMaterial())).findFirst().orElseGet(
+            MaterialStack s =
+                    consumedIngredients.stream().filter(s_ -> !isBasic(s_.getMaterial())).findFirst().orElseGet(
                     () -> consumedIngredients.stream().filter(s_ -> !ORE.equals(s_.getMaterial())).findFirst().orElseGet(
                             () -> consumedIngredients.get(0)
                     )
@@ -55,7 +57,8 @@ public class Recipes {
             MaterialStack out = r.getOutput();
             BigInteger producedAmount = out.getAmount();
 
-            BigInteger requiredProcesses = BigRational.of(s.getAmount()).divide(BigRational.of(producedAmount)).roundToBigInt(RoundingMode.CEILING);
+            BigInteger requiredProcesses =
+                    BigRational.of(s.getAmount()).divide(BigRational.of(producedAmount)).roundToBigInt(RoundingMode.CEILING);
             BigInteger wasted = producedAmount.multiply(requiredProcesses).subtract(s.getAmount());
             if (wasted.signum() > 0) {
                 excessIngredients.add(new MaterialStack(s.getMaterial(), wasted));
@@ -178,7 +181,8 @@ public class Recipes {
 
             String inputs = recipeParts[0];
             String[] inputParts = inputs.split(",");
-            Set<MaterialStack> in = Arrays.stream(inputParts).map(MaterialStack::parse).collect(Collectors.toUnmodifiableSet());
+            Set<MaterialStack> in =
+                    Arrays.stream(inputParts).map(MaterialStack::parse).collect(Collectors.toUnmodifiableSet());
 
             addRecipe(out, in);
             return this;

@@ -82,7 +82,8 @@ public class Day16 {
         if (actual != expected) {
             throw new RuntimeException("Part 1: expected=" + expected + " actual=" + actual);
         } else {
-            System.out.println("Successfully passed test in " + DurationFormatter.formatMillis(d) + " for Part 1: output=" + actual);
+            System.out.println("Successfully passed test in " + DurationFormatter.formatMillis(d) + " for Part 1: " +
+                    "output=" + actual);
         }
     }
 
@@ -93,7 +94,8 @@ public class Day16 {
         if (actual != expected) {
             throw new RuntimeException("Part 2: expected=" + expected + " actual=" + actual);
         } else {
-            System.out.println("Successfully passed test in " + DurationFormatter.formatMillis(d) + " for Part 2: output=" + actual);
+            System.out.println("Successfully passed test in " + DurationFormatter.formatMillis(d) + " for Part 2: " +
+                    "output=" + actual);
         }
     }
 }

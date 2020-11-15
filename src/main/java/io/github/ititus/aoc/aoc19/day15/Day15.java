@@ -13,7 +13,8 @@ public class Day15 {
 
     public static void main(String[] args) {
         String input = InputProvider.readString(2019, 15);
-        BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+        BigInteger[] memory =
+                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
         RepairDroid droid = new RepairDroid(memory);
         droid.buildMap();
@@ -22,12 +23,14 @@ public class Day15 {
 
         // 1
         System.out.println("### 1 ###");
-        int l1 = paths.getShortestPathLength(droid.getMap().getVertex(droid.getStartingPos()).orElseThrow()).intValueExact();
+        int l1 =
+                paths.getShortestPathLength(droid.getMap().getVertex(droid.getStartingPos()).orElseThrow()).intValueExact();
         System.out.println(l1);
 
         // 2
         System.out.println("### 2 ###");
-        int l2 = droid.getMap().getVertices().stream().map(paths::getShortestPathLength).mapToInt(BigRational::intValueExact).max().orElseThrow();
+        int l2 =
+                droid.getMap().getVertices().stream().map(paths::getShortestPathLength).mapToInt(BigRational::intValueExact).max().orElseThrow();
         System.out.println(l2);
     }
 }

@@ -45,6 +45,7 @@ public class Visibility {
     @Override
     public String toString() {
         // TODO: ???
-        return "Visibility{" + "pos=" + Arrays.toString(pos) + /*", minDistance=" + minDistance +*/ ", keyDistances=" + Arrays.toString(keyDistances) + '}';
+        return "Visibility{" + "pos=" + Arrays.toString(pos) + /*", minDistance=" + minDistance
+        +*/ ", keyDistances=" + Arrays.toString(keyDistances) + '}';
     }
 }

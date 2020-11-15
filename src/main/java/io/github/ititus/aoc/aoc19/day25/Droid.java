@@ -98,7 +98,8 @@ public class Droid {
 
             sendCommand("inv"); // security checkpoint
         } else if (command.equals("try")) {
-            Set<String> items = Set.of("astronaut ice cream", "wreath", "coin", "dehydrated water", "asterisk", "monolith", "astrolabe", "mutex");
+            Set<String> items = Set.of("astronaut ice cream", "wreath", "coin", "dehydrated water", "asterisk",
+                    "monolith", "astrolabe", "mutex");
             Set<Set<String>> permutations = Permutations.permuteWithoutDuplicates(items);
 
             outer:

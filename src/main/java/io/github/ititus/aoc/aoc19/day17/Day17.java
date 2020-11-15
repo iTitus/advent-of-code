@@ -10,7 +10,8 @@ public class Day17 {
 
     public static void main(String[] args) {
         String input = InputProvider.readString(2019, 17);
-        BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+        BigInteger[] memory =
+                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
         AsciiRobot ar = new AsciiRobot(memory);
         ar.run();

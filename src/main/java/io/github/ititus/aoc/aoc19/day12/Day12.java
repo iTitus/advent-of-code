@@ -10,7 +10,8 @@ import java.util.stream.Stream;
 
 public class Day12 {
 
-    private static final Pattern INPUT_FORMAT = Pattern.compile("\\s*<\\s*x\\s*=\\s*(-?[0-9]+)\\s*,\\s*y\\s*=\\s*(-?[0-9]+)\\s*,\\s*z\\s*=\\s*(-?[0-9]+)\\s*>\\s*");
+    private static final Pattern INPUT_FORMAT = Pattern.compile("\\s*<\\s*x\\s*=\\s*(-?[0-9]+)\\s*,\\s*y\\s*=\\s*" +
+            "(-?[0-9]+)\\s*,\\s*z\\s*=\\s*(-?[0-9]+)\\s*>\\s*");
 
     public static void main(String[] args) {
         List<Moon> moons;

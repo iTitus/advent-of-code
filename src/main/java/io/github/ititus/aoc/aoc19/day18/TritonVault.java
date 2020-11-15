@@ -46,7 +46,8 @@ public class TritonVault {
                     int distance = keyDistance.getValue();
 
                     if (distance <= maxLength && distance < minDistance) {
-                        int subPathMinLength = findBestPathLengthRecursive(state.collectKey(i, key), Math.min(maxLength - distance, minDistance - distance - 1));
+                        int subPathMinLength = findBestPathLengthRecursive(state.collectKey(i, key),
+                                Math.min(maxLength - distance, minDistance - distance - 1));
                         if (subPathMinLength < Integer.MAX_VALUE) {
                             distance += subPathMinLength;
 

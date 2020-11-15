@@ -18,6 +18,7 @@ public class Portal {
         Vec2i p2 = new Vec2i(p.getX(), p.getY());
         return in.equals(p2) ?
                 new Vec3i(out.getX(), out.getY(), recursive ? currentLevel - 1 : 0) :
-                recursive && currentLevel == 0 ? null : new Vec3i(in.getX(), in.getY(), recursive ? currentLevel + 1 : 0);
+                recursive && currentLevel == 0 ? null : new Vec3i(in.getX(), in.getY(), recursive ? currentLevel + 1
+                        : 0);
     }
 }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class Day06 {
 
-    private static Map<Vertex<String>, Integer> orbitingCount = new HashMap<>();
+    private static final Map<Vertex<String>, Integer> orbitingCount = new HashMap<>();
 
     public static void main(String[] args) {
         Graph<String> g = new Graph<>();
@@ -60,7 +60,8 @@ public class Day06 {
     }
 
     private static Optional<Vertex<String>> getOrbiting(Graph<String> g, Vertex<String> v) {
-        Set<Edge<String>> outgoingEdges = g.getAdjacentEdges(v).stream().filter(e -> e.getStart().equals(v)).collect(Collectors.toSet());
+        Set<Edge<String>> outgoingEdges =
+                g.getAdjacentEdges(v).stream().filter(e -> e.getStart().equals(v)).collect(Collectors.toSet());
         if (outgoingEdges.size() > 1) {
             throw new RuntimeException();
         } else if (outgoingEdges.isEmpty()) {

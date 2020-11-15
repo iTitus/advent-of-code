@@ -173,7 +173,8 @@ public class IntComputer {
 
         int oldSize = memory.size();
         if (index >= oldSize) {
-            List<BigInteger> newMemory = IntStream.rangeClosed(oldSize, index).mapToObj(i -> BigInteger.ZERO).collect(Collectors.toList());
+            List<BigInteger> newMemory =
+                    IntStream.rangeClosed(oldSize, index).mapToObj(i -> BigInteger.ZERO).collect(Collectors.toList());
             memory.addAll(newMemory);
         }
         return index;
