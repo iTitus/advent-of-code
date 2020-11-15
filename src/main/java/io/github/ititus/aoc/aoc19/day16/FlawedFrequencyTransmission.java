@@ -11,7 +11,7 @@ public class FlawedFrequencyTransmission {
     private static final int BASE_PATTERN_LENGTH = BASE_PATTERN.length;
 
     private final int offset;
-    private int[] numbers;
+    private final int[] numbers;
 
     public FlawedFrequencyTransmission(int repeat, boolean useOffset, int[] numbers) {
         this.offset = useOffset ? extractNumber(MESSAGE_OFFSET_LENGTH, numbers) : 0;

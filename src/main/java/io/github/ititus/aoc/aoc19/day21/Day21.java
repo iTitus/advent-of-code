@@ -10,7 +10,8 @@ public class Day21 {
 
     public static void main(String[] args) {
         String input = InputProvider.readString(2019, 21);
-        BigInteger[] memory = Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+        BigInteger[] memory =
+                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
 
         SpringDroid sd = new SpringDroid(memory);
 

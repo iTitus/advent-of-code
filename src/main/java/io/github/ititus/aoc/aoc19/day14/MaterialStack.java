@@ -11,7 +11,8 @@ import java.util.regex.Pattern;
 public final class MaterialStack implements Comparable<MaterialStack> {
 
     private static final Pattern MATERIAL_STACK_PATTERN = Pattern.compile("\\s*([0-9]+)\\s*([A-Z]+)\\s*");
-    private static final Comparator<MaterialStack> COMPARATOR = Comparator.comparing(MaterialStack::getMaterial).thenComparing(MaterialStack::getAmount);
+    private static final Comparator<MaterialStack> COMPARATOR =
+            Comparator.comparing(MaterialStack::getMaterial).thenComparing(MaterialStack::getAmount);
 
     private final String material;
     private final BigInteger amount;

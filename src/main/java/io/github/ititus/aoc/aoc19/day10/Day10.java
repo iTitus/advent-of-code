@@ -29,7 +29,8 @@ public class Day10 {
         Map<Vec2i, SortedMap<Vec2i, SortedSet<Vec2i>>> rays = new HashMap<>();
         for (Vec2i asteroidPos : asteroids) {
             Comparator<Vec2i> distanceComparator = Comparator.comparingInt(asteroidPos::manhattanDistanceTo);
-            SortedMap<Vec2i, SortedSet<Vec2i>> rayTraces = rays.computeIfAbsent(asteroidPos, k -> new TreeMap<>(angleComparator));
+            SortedMap<Vec2i, SortedSet<Vec2i>> rayTraces = rays.computeIfAbsent(asteroidPos,
+                    k -> new TreeMap<>(angleComparator));
             for (Vec2i otherAsteroidPos : asteroids) {
                 if (otherAsteroidPos == asteroidPos) {
                     continue;

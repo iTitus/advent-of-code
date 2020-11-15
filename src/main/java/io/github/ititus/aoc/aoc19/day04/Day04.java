@@ -7,7 +7,8 @@ import java.util.Arrays;
 public class Day04 {
 
     public static void main(String[] args) {
-        int[] range = Arrays.stream(InputProvider.readString(2019, 4).split("-")).map(String::strip).mapToInt(Integer::parseInt).toArray();
+        int[] range =
+                Arrays.stream(InputProvider.readString(2019, 4).split("-")).map(String::strip).mapToInt(Integer::parseInt).toArray();
         int lower = range[0];
         int higher = range[1];
 

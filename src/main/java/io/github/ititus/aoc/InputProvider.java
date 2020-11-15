@@ -28,6 +28,9 @@ import java.util.stream.Stream;
 
 public final class InputProvider {
 
+    private InputProvider() {
+    }
+
     public static String readString(int year, int day) {
         try {
             return Files.readString(getInput(year, day));
@@ -150,8 +153,5 @@ public final class InputProvider {
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private InputProvider() {
     }
 }
