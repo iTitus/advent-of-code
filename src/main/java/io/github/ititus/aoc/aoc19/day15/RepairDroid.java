@@ -8,6 +8,7 @@ import io.github.ititus.math.graph.algorithm.Dijkstra;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -29,6 +30,7 @@ public class RepairDroid {
     private Vec2i oxygenPos;
 
     public RepairDroid(BigInteger[] memory) {
+        memory = Arrays.copyOf(memory, memory.length);
         this.input = new ArrayBlockingQueue<>(1, true);
         this.output = new ArrayBlockingQueue<>(1, true);
 
@@ -128,17 +130,20 @@ public class RepairDroid {
         try {
             input.put(dir);
         } catch (InterruptedException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
+
         MovementStatus status;
         try {
             status = output.take();
         } catch (InterruptedException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
+
         if (status != MovementStatus.BLOCKED) {
             currentPos = currentPos.add(dir.getDirectionVector());
         }
+
         return status;
     }
 

@@ -1,25 +1,33 @@
 package io.github.ititus.aoc.aoc19.day09;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
-public class Day09 {
+@Aoc(year = 2019, day = 9)
+public final class Day09 implements AocSolution {
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 9);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    private BigInteger[] memory;
 
-        // 1
-        System.out.println("### 1 ###");
-        new IntComputer(() -> BigInteger.ONE, System.out::println, memory).run();
+    @Override
+    public void executeTests() {
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        new IntComputer(() -> BigInteger.TWO, System.out::println, memory).run();
+    @Override
+    public void readInput(AocInput input) {
+        memory = input.readAsIntCodeMemory();
+    }
+
+    @Override
+    public Object part1() {
+        return IntComputer.runGetOutput(BigInteger.ONE, memory);
+    }
+
+    @Override
+    public Object part2() {
+        return IntComputer.runGetOutput(BigInteger.TWO, memory);
     }
 }

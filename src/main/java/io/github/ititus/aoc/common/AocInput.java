@@ -22,89 +22,105 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class InputProvider {
+public final class AocInput {
 
-    private InputProvider() {
+    private final AocDay day;
+
+    public AocInput(AocDay day) {
+        this.day = day;
     }
 
-    public static String readString(int year, int day) {
+    private static String getToken() {
         try {
-            return Files.readString(getInput(year, day));
+            return Files.readString(Path.of(AocInput.class.getResource("/token.txt").toURI()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String readString() {
+        try {
+            return Files.readString(getInput());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public static List<String> readAllLines(int year, int day) {
+    public BigInteger[] readAsIntCodeMemory() {
+        return Arrays.stream(readString().split(","))
+                .map(String::strip)
+                .map(BigIntegerMath::of)
+                .toArray(BigInteger[]::new);
+    }
+
+    public List<String> readAllLines() {
         try {
-            return Files.readAllLines(getInput(year, day));
+            return Files.readAllLines(getInput());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public static Stream<String> lines(int year, int day) {
+    public Stream<String> lines() {
         try {
-            return Files.lines(getInput(year, day));
+            return Files.lines(getInput());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public static IntList readAllLinesAsInt(int year, int day) {
-        try (Stream<String> stream = lines(year, day)) {
+    public IntList readAllLinesAsInt() {
+        try (Stream<String> stream = lines()) {
             return stream
                     .mapToInt(Integer::parseInt)
                     .collect(IntArrayList::new, IntList::add, IntList::addAll);
         }
     }
 
-    public static LongList readAllLinesAsLong(int year, int day) {
-        try (Stream<String> stream = lines(year, day)) {
+    public LongList readAllLinesAsLong() {
+        try (Stream<String> stream = lines()) {
             return stream
                     .mapToLong(Long::parseLong)
                     .collect(LongArrayList::new, LongList::add, LongList::addAll);
         }
     }
 
-    public static List<BigInteger> readAllLinesAsBigInteger(int year, int day) {
-        try (Stream<String> stream = lines(year, day)) {
+    public List<BigInteger> readAllLinesAsBigInteger() {
+        try (Stream<String> stream = lines()) {
             return stream
                     .map(BigIntegerMath::of)
                     .collect(Collectors.toList());
         }
     }
 
-    public static DoubleList readAllLinesAsDouble(int year, int day) {
-        try (Stream<String> stream = lines(year, day)) {
+    public DoubleList readAllLinesAsDouble() {
+        try (Stream<String> stream = lines()) {
             return stream
                     .mapToDouble(Double::parseDouble)
                     .collect(DoubleArrayList::new, DoubleList::add, DoubleList::addAll);
         }
     }
 
-    public static List<BigRational> readAllLinesAsBigRational(int year, int day) {
-        try (Stream<String> stream = lines(year, day)) {
+    public List<BigRational> readAllLinesAsBigRational() {
+        try (Stream<String> stream = lines()) {
             return stream
                     .map(BigRational::of)
                     .collect(Collectors.toList());
         }
     }
 
-    public static Path getInput(int year, int day) {
-        if (year < 2015 || day < 1 || day > 25) {
-            throw new IllegalArgumentException();
-        }
-
-        String resourcePath = "/" + year + "/" + (day < 10 ? "0" + day : day) + "/input.txt";
-        URL url = InputProvider.class.getResource(resourcePath);
+    private Path getInput() {
+        String resourcePath = String.format(Locale.ROOT, "/%d/%02d/input.txt", day.getYear(), day.getDay());
+        URL url = AocInput.class.getResource(resourcePath);
         if (url == null) {
             System.out.println("Downloading input.");
-            return downloadInput(year, day);
+            return downloadInput();
         }
 
         try {
@@ -114,16 +130,17 @@ public final class InputProvider {
         }
     }
 
-    private static Path downloadInput(int year, int day) {
+    private Path downloadInput() {
         URL url;
         try {
-            url = new URL("https://adventofcode.com/" + year + "/day/" + day + "/input");
+            url = new URL(String.format(Locale.ROOT, "https://adventofcode.com/%d/day/%d/input", day.getYear(),
+                    day.getDay()));
         } catch (MalformedURLException e) {
             throw new UncheckedIOException(e);
         }
 
         Path p = Path
-                .of("src/main/resources/" + year + "/" + (day < 10 ? "0" + day : day) + "/input.txt")
+                .of(String.format(Locale.ROOT, "src/main/resources/%d/%02d/input.txt", day.getYear(), day.getDay()))
                 .toAbsolutePath()
                 .normalize();
 
@@ -145,13 +162,5 @@ public final class InputProvider {
         }
 
         return p;
-    }
-
-    private static String getToken() {
-        try {
-            return Files.readString(Path.of(InputProvider.class.getResource("/token.txt").toURI()));
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

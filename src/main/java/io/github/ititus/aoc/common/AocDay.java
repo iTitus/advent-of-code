@@ -54,4 +54,12 @@ public final class AocDay implements Comparable<AocDay> {
 
         return Integer.compare(day, o.day);
     }
+
+    @Override
+    public String toString() {
+        return "AocDay{" +
+                "year=" + year +
+                ", day=" + day +
+                '}';
+    }
 }

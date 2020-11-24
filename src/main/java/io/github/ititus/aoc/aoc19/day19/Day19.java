@@ -1,30 +1,32 @@
 package io.github.ititus.aoc.aoc19.day19;
 
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.vector.Vec2i;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+@Aoc(year = 2019, day = 19)
+public final class Day19 implements AocSolution {
 
-public class Day19 {
+    private TractorBeamScanner scanner;
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 19);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    @Override
+    public void executeTests() {
+    }
 
-        TractorBeamScanner s = new TractorBeamScanner(memory);
+    @Override
+    public void readInput(AocInput input) {
+        scanner = new TractorBeamScanner(input.readAsIntCodeMemory());
+    }
 
-        // 1
-        System.out.println("### 1 ###");
-        int no = s.getNumberOfAffectedTiles(50);
-        System.out.println(no);
+    @Override
+    public Object part1() {
+        return scanner.getNumberOfAffectedTiles(50);
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        Vec2i pos = s.getClosestPosForShip(100);
-        int out = pos.getX() * 10_000 + pos.getY();
-        System.out.println(out);
+    @Override
+    public Object part2() {
+        Vec2i pos = scanner.getClosestPosForShip(100);
+        return pos.getX() * 10_000 + pos.getY();
     }
 }

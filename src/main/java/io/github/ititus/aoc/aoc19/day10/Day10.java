@@ -1,14 +1,25 @@
 package io.github.ititus.aoc.aoc19.day10;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.util.*;
 
-public class Day10 {
+@Aoc(year = 2019, day = 10)
+public final class Day10 implements AocSolution {
 
-    public static void main(String[] args) {
-        List<String> lines = InputProvider.readAllLines(2019, 10);
+    private Map<Vec2i, SortedMap<Vec2i, SortedSet<Vec2i>>> rays;
+    private Vec2i maxLaser;
+
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        List<String> lines = input.readAllLines();
         Set<Vec2i> asteroids = new HashSet<>();
 
         int sizeY = lines.size();
@@ -26,7 +37,7 @@ public class Day10 {
         Vec2i initialLaserPos = new Vec2i(0, -1);
         Comparator<Vec2i> angleComparator = Comparator.comparingDouble(initialLaserPos::getAngleTo);
 
-        Map<Vec2i, SortedMap<Vec2i, SortedSet<Vec2i>>> rays = new HashMap<>();
+        rays = new HashMap<>();
         for (Vec2i asteroidPos : asteroids) {
             Comparator<Vec2i> distanceComparator = Comparator.comparingInt(asteroidPos::manhattanDistanceTo);
             SortedMap<Vec2i, SortedSet<Vec2i>> rayTraces = rays.computeIfAbsent(asteroidPos,
@@ -40,23 +51,23 @@ public class Day10 {
                 rayTraces.computeIfAbsent(rayDir, k -> new TreeSet<>(distanceComparator)).add(otherAsteroidPos);
             }
         }
+    }
 
-        // 1
-        System.out.println("### 1 ###");
-
+    @Override
+    public Object part1() {
         Map.Entry<Vec2i, SortedMap<Vec2i, SortedSet<Vec2i>>> max = Collections.max(
                 rays.entrySet(),
                 Comparator.comparingInt(e -> e.getValue().size())
         );
-        System.out.println(max.getKey());
-        System.out.println(max.getValue().size());
 
-        // 2
-        System.out.println("### 2 ###");
+        maxLaser = max.getKey();
+        int size = max.getValue().size();
+        return "maxLaser=" + maxLaser + ", size=" + size;
+    }
 
-        Vec2i laser = max.getKey();
-
-        SortedMap<Vec2i, SortedSet<Vec2i>> originalRayTraces = rays.get(laser);
+    @Override
+    public Object part2() {
+        SortedMap<Vec2i, SortedSet<Vec2i>> originalRayTraces = rays.get(maxLaser);
         SortedMap<Vec2i, SortedSet<Vec2i>> laserRayTraces = new TreeMap<>(originalRayTraces.comparator());
         originalRayTraces.forEach((laserDir, laserHits) -> laserRayTraces.put(laserDir, new TreeSet<>(laserHits)));
 
@@ -81,7 +92,6 @@ public class Day10 {
         }
 
         Vec2i p200 = vaporized.get(199);
-        System.out.println(p200);
-        System.out.println(p200.getX() * 100 + p200.getY());
+        return "200th vaporized asteroid is " + p200 + " with result " + p200.getX() * 100 + p200.getY();
     }
 }

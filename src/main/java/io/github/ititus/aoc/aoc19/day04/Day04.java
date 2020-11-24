@@ -1,37 +1,15 @@
 package io.github.ititus.aoc.aoc19.day04;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.util.Arrays;
 
-public class Day04 {
+@Aoc(year = 2019, day = 4)
+public final class Day04 implements AocSolution {
 
-    public static void main(String[] args) {
-        int[] range =
-                Arrays.stream(InputProvider.readString(2019, 4).split("-")).map(String::strip).mapToInt(Integer::parseInt).toArray();
-        int lower = range[0];
-        int higher = range[1];
-
-
-        int count1 = 0, count2 = 0;
-        for (int i = lower; i <= higher; i++) {
-            int minRepeatingCount = getMinRepeatingCount(i);
-            if (minRepeatingCount >= 2) {
-                count1++;
-                if (minRepeatingCount == 2) {
-                    count2++;
-                }
-            }
-        }
-
-        // 1
-        System.out.println("### 1 ###");
-        System.out.println(count1);
-
-        // 2
-        System.out.println("### 2 ###");
-        System.out.println(count2);
-    }
+    private int count1, count2;
 
     private static int getMinRepeatingCount(int password) {
         char[] chars = String.valueOf(password).toCharArray();
@@ -62,5 +40,43 @@ public class Day04 {
         }
 
         return minRepeatingCount;
+    }
+
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        int[] range = Arrays.stream(input.readString().split("-"))
+                .map(String::strip)
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        if (range.length != 2) {
+            throw new IllegalArgumentException();
+        }
+
+        int lower = range[0];
+        int higher = range[1];
+
+        for (int i = lower; i <= higher; i++) {
+            int minRepeatingCount = getMinRepeatingCount(i);
+            if (minRepeatingCount >= 2) {
+                count1++;
+                if (minRepeatingCount == 2) {
+                    count2++;
+                }
+            }
+        }
+    }
+
+    @Override
+    public Object part1() {
+        return count1;
+    }
+
+    @Override
+    public Object part2() {
+        return count2;
     }
 }

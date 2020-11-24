@@ -25,7 +25,7 @@ public class TractorBeamScanner {
         return Math.toIntExact(
                 IntStream.range(0, size)
                         .parallel()
-                        .mapToObj(y -> IntStream.range(0, size).parallel().mapToObj(x -> new Vec2i(x, y)))
+                        .mapToObj(y -> IntStream.range(0, size).mapToObj(x -> new Vec2i(x, y)))
                         .flatMap(Function.identity())
                         .filter(this::isTractorBeamAffected)
                         .count()

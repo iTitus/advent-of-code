@@ -1,4 +1,7 @@
-package io.github.ititus.aoc.common;
+package io.github.ititus.aoc;
+
+import io.github.ititus.aoc.common.AocDay;
+import io.github.ititus.aoc.common.AocInput;
 
 public final class Downloader {
 
@@ -8,10 +11,11 @@ public final class Downloader {
     public static void main(String[] args) {
         for (int year = 2015; year <= 2020; year++) {
             for (int day = 1; day <= 25; day++) {
+                AocDay aocDay = new AocDay(year, day);
                 try {
-                    InputProvider.getInput(year, day);
+                    new AocInput(aocDay).readString();
                 } catch (Exception e) {
-                    System.out.println("Could not load year " + year + " day " + day);
+                    System.out.println("Could not load " + aocDay);
                 }
             }
         }

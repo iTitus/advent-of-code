@@ -1,8 +1,8 @@
 package io.github.ititus.aoc.aoc18.day02;
 
 import io.github.ititus.aoc.common.Aoc;
-import io.github.ititus.aoc.common.AocDayInput;
-import io.github.ititus.aoc.common.AocDaySolution;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
 @Aoc(year = 2018, day = 2)
-public final class Day02 implements AocDaySolution {
+public final class Day02 implements AocSolution {
 
     private List<String> ids;
 
@@ -37,12 +37,12 @@ public final class Day02 implements AocDaySolution {
     }
 
     @Override
-    public void readInput(AocDayInput input) {
+    public void readInput(AocInput input) {
         ids = input.readAllLines();
     }
 
     @Override
-    public String part1() {
+    public Object part1() {
         List<RepStats> repStats = ids.stream()
                 .map(RepStats::of)
                 .collect(Collectors.toList());
@@ -50,11 +50,11 @@ public final class Day02 implements AocDaySolution {
         long thriceRepeat = repStats.stream().filter(RepStats::isThrice).count();
         long checksum = twiceRepeat * thriceRepeat;
 
-        return String.valueOf(checksum);
+        return checksum;
     }
 
     @Override
-    public String part2() {
+    public Object part2() {
         for (int i = 0; i < ids.size(); i++) {
             for (int j = i + 1; j < ids.size(); j++) {
                 String s1 = ids.get(i);

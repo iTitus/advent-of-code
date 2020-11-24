@@ -20,7 +20,6 @@ public class Nat implements Runnable {
         t.start();
     }
 
-
     public void receivePacket(Packet p) {
         lastPacket.set(p);
     }

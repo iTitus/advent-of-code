@@ -1,25 +1,36 @@
 package io.github.ititus.aoc.aoc19.day01;
 
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.FastUtilStreams;
-import io.github.ititus.aoc.common.InputProvider;
 import it.unimi.dsi.fastutil.ints.IntList;
 
-public class Day01 {
+@Aoc(year = 2019, day = 1)
+public final class Day01 implements AocSolution {
 
-    public static void main(String[] args) {
-        IntList moduleMasses = InputProvider.readAllLinesAsInt(2019, 1);
+    private IntList moduleMasses;
 
-        // 1
-        System.out.println("### 1 ###");
-        int result1 = FastUtilStreams.stream(moduleMasses)
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        moduleMasses = input.readAllLinesAsInt();
+    }
+
+    @Override
+    public Object part1() {
+        return FastUtilStreams.stream(moduleMasses)
                 .map(m -> m / 3)
                 .map(m -> m - 2)
                 .sum();
-        System.out.println(result1);
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        int result2 = FastUtilStreams.stream(moduleMasses)
+    @Override
+    public Object part2() {
+        return FastUtilStreams.stream(moduleMasses)
                 .map(m -> {
                     int fuel = 0;
                     int massToBeFueled = m;
@@ -30,6 +41,5 @@ public class Day01 {
                     return fuel;
                 })
                 .sum();
-        System.out.println(result2);
     }
 }

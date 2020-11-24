@@ -26,9 +26,9 @@ public class AsciiRobot {
     private ExteriorType[][] map;
 
     public AsciiRobot(BigInteger[] memory) {
+        memory = Arrays.copyOf(memory, memory.length);
         this.input = new LinkedBlockingQueue<>();
         this.output = new LinkedBlockingDeque<>();
-        memory = Arrays.copyOf(memory, memory.length);
         memory[0] = BigInteger.TWO;
 
         this.c = new IntComputer(
@@ -152,7 +152,7 @@ public class AsciiRobot {
             try {
                 input.put(c);
             } catch (InterruptedException e) {
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         });
     }
@@ -167,8 +167,12 @@ public class AsciiRobot {
             throw new RuntimeException(e);
         }
 
-        String out = output.stream().map(i -> String.valueOf((char) i.intValue())).collect(Collectors.joining());
-        String[] lines = Arrays.stream(out.split("\n")).takeWhile(s -> !s.isEmpty()).toArray(String[]::new);
+        String out = output.stream()
+                .map(i -> String.valueOf((char) i.intValue()))
+                .collect(Collectors.joining());
+        String[] lines = Arrays.stream(out.split("\n"))
+                .takeWhile(s -> !s.isEmpty())
+                .toArray(String[]::new);
 
         for (String l : lines) {
             System.out.println(l);
@@ -199,7 +203,7 @@ public class AsciiRobot {
         try {
             return output.takeLast();
         } catch (InterruptedException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 

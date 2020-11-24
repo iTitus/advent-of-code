@@ -1,8 +1,8 @@
 package io.github.ititus.aoc.aoc18.day01;
 
 import io.github.ititus.aoc.common.Aoc;
-import io.github.ititus.aoc.common.AocDayInput;
-import io.github.ititus.aoc.common.AocDaySolution;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.FastUtilStreams;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntListIterator;
@@ -10,7 +10,7 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
 @Aoc(year = 2018, day = 1)
-public final class Day01 implements AocDaySolution {
+public final class Day01 implements AocSolution {
 
     private IntList freqChanges;
 
@@ -19,24 +19,24 @@ public final class Day01 implements AocDaySolution {
     }
 
     @Override
-    public void readInput(AocDayInput input) {
+    public void readInput(AocInput input) {
         freqChanges = input.readAllLinesAsInt();
     }
 
     @Override
-    public String part1() {
-        return String.valueOf(FastUtilStreams.stream(freqChanges).sum());
+    public Object part1() {
+        return FastUtilStreams.stream(freqChanges).sum();
     }
 
     @Override
-    public String part2() {
+    public Object part2() {
         IntSet visited = new IntOpenHashSet();
         IntListIterator freqIt = freqChanges.iterator();
         int curFreq = 0;
 
         while (true) {
             if (visited.contains(curFreq)) {
-                return String.valueOf(curFreq);
+                return curFreq;
             }
 
             visited.add(curFreq);

@@ -3,7 +3,10 @@ package io.github.ititus.aoc.aoc19;
 import io.github.ititus.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
@@ -27,10 +30,15 @@ public class IntComputer {
     }
 
     public IntComputer(BigInteger[] memory) {
-        this(() -> {
-            System.out.print("Input: ");
-            return new Scanner(System.in).nextInt();
-        }, System.out::println, memory);
+        this(
+                () -> {
+                    throw new UnsupportedOperationException();
+                },
+                (BigInteger n) -> {
+                    throw new UnsupportedOperationException();
+                },
+                memory
+        );
     }
 
     public IntComputer(IntSupplier input, IntConsumer output, int[] memory) {
@@ -57,6 +65,92 @@ public class IntComputer {
         this.waitingForOutput = new AtomicBoolean(false);
     }
 
+    public static int runGetFirst(int[] memory) {
+        return new IntComputer(memory).run().intValueExact();
+    }
+
+    public static BigInteger runGetFirst(BigInteger[] memory) {
+        return new IntComputer(memory).run();
+    }
+
+    public static int runGetOutput(int input, int[] memory) {
+        int[] outputs = new int[1];
+        of(input, outputs, memory).run();
+        return outputs[0];
+    }
+
+    public static BigInteger runGetOutput(BigInteger input, BigInteger[] memory) {
+        BigInteger[] outputs = new BigInteger[1];
+        of(input, outputs, memory).run();
+        return outputs[0];
+    }
+
+    public static BigInteger runGetLastOutput(BigInteger input, BigInteger[] memory) {
+        List<BigInteger> outputs = new ArrayList<>();
+        of(input, outputs, memory).run();
+        if (outputs.isEmpty()) {
+            throw new RuntimeException();
+        }
+        return outputs.get(outputs.size() - 1);
+    }
+
+    public static IntComputer of(int input, int[] outputs, int[] memory) {
+        boolean[] inputUsed = { false };
+        int[] outputsUsed = { 0 };
+        return new IntComputer(
+                () -> {
+                    if (inputUsed[0]) {
+                        throw new IllegalStateException();
+                    }
+                    inputUsed[0] = true;
+                    return input;
+                },
+                n -> {
+                    if (outputsUsed[0] >= outputs.length) {
+                        throw new IllegalStateException();
+                    }
+                    outputs[outputsUsed[0]++] = n;
+                },
+                memory
+        );
+    }
+
+    public static IntComputer of(BigInteger input, BigInteger[] outputs, BigInteger[] memory) {
+        boolean[] inputUsed = { false };
+        int[] outputsUsed = { 0 };
+        return new IntComputer(
+                () -> {
+                    if (inputUsed[0]) {
+                        throw new IllegalStateException();
+                    }
+                    inputUsed[0] = true;
+                    return input;
+                },
+                n -> {
+                    if (outputsUsed[0] >= outputs.length) {
+                        throw new IllegalStateException();
+                    }
+                    outputs[outputsUsed[0]++] = n;
+                },
+                memory
+        );
+    }
+
+    public static IntComputer of(BigInteger input, List<BigInteger> outputs, BigInteger[] memory) {
+        boolean[] inputUsed = { false };
+        return new IntComputer(
+                () -> {
+                    if (inputUsed[0]) {
+                        throw new IllegalStateException();
+                    }
+                    inputUsed[0] = true;
+                    return input;
+                },
+                outputs::add,
+                memory
+        );
+    }
+
     public BigInteger run() {
         runLoop:
         while (true) {
@@ -64,7 +158,7 @@ public class IntComputer {
             BigInteger opcode = insn.mod(ONE_HUNDRED);
 
             switch (opcode.intValueExact()) {
-                case 1: { // add
+                case 1 -> { // add
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
@@ -72,9 +166,8 @@ public class IntComputer {
                     out.write(in1.read().add(in2.read()));
 
                     insnPtr += 4;
-                    break;
                 }
-                case 2: { // mul
+                case 2 -> { // mul
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
@@ -82,9 +175,8 @@ public class IntComputer {
                     out.write(in1.read().multiply(in2.read()));
 
                     insnPtr += 4;
-                    break;
                 }
-                case 3: { // store
+                case 3 -> { // store
                     ParameterWriteAccessor out = getParameterWrite(insn, 1);
 
                     waitingForInput.set(true);
@@ -92,18 +184,16 @@ public class IntComputer {
                     waitingForInput.set(false);
 
                     insnPtr += 2;
-                    break;
                 }
-                case 4:  // print
+                // print
+                case 4 -> {
                     ParameterReadAccessor in = getParameterRead(insn, 1);
-
                     waitingForOutput.set(true);
                     output.accept(in.read());
                     waitingForOutput.set(false);
-
                     insnPtr += 2;
-                    break;
-                case 5: { // jump-if-true
+                }
+                case 5 -> { // jump-if-true
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
 
@@ -112,9 +202,8 @@ public class IntComputer {
                     } else {
                         insnPtr += 3;
                     }
-                    break;
                 }
-                case 6: { // jump-if-false
+                case 6 -> { // jump-if-false
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
 
@@ -123,9 +212,8 @@ public class IntComputer {
                     } else {
                         insnPtr += 3;
                     }
-                    break;
                 }
-                case 7: { // less-than
+                case 7 -> { // less-than
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
@@ -133,9 +221,8 @@ public class IntComputer {
                     out.write(in1.read().compareTo(in2.read()) < 0 ? BigInteger.ONE : BigInteger.ZERO);
 
                     insnPtr += 4;
-                    break;
                 }
-                case 8: { // equals
+                case 8 -> { // equals
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
                     ParameterReadAccessor in2 = getParameterRead(insn, 2);
                     ParameterWriteAccessor out = getParameterWrite(insn, 3);
@@ -143,23 +230,19 @@ public class IntComputer {
                     out.write(in1.read().compareTo(in2.read()) == 0 ? BigInteger.ONE : BigInteger.ZERO);
 
                     insnPtr += 4;
-                    break;
                 }
-                case 9: { // change relative base
+                case 9 -> { // change relative base
                     ParameterReadAccessor in1 = getParameterRead(insn, 1);
 
                     relativeBase += in1.read().intValueExact();
 
                     insnPtr += 2;
-                    break;
                 }
-                case 99: {
+                case 99 -> {
                     insnPtr++;
                     break runLoop;
                 }
-                default: {
-                    throw new IllegalStateException();
-                }
+                default -> throw new IllegalStateException();
             }
         }
 
