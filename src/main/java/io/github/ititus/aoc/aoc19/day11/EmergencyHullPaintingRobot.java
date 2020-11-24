@@ -6,10 +6,7 @@ import io.github.ititus.data.Bag;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EmergencyHullPaintingRobot {
 
@@ -20,12 +17,13 @@ public class EmergencyHullPaintingRobot {
     private final IntComputer computer;
 
     public EmergencyHullPaintingRobot(BigInteger[] memory, boolean startOnWhite) {
+        memory = Arrays.copyOf(memory, memory.length);
         this.painted = new HashSet<>();
         this.hull = new HashMap<>();
         this.pos = new Bag<>(new Vec2i());
         this.facing = new Bag<>(Direction.NORTH);
 
-        this.hull.put(pos.get(), startOnWhite ? HullColor.WHITE : HullColor.BLACK);
+        hull.put(pos.get(), startOnWhite ? HullColor.WHITE : HullColor.BLACK);
 
         Bag<Boolean> state = new Bag<>(true);
         this.computer = new IntComputer(

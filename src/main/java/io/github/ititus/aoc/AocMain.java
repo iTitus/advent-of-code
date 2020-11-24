@@ -1,12 +1,16 @@
 package io.github.ititus.aoc;
 
+import com.google.common.reflect.ClassPath;
+import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocDay;
-import io.github.ititus.aoc.common.AocDayInput;
-import io.github.ititus.aoc.common.AocDaySolution;
-import io.github.ititus.aoc.common.ReflectionUtil;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class AocMain {
 
@@ -56,22 +60,17 @@ public final class AocMain {
 
         Integer finalYear = year;
         Integer finalDay = day;
-        var solutions = ReflectionUtil.findSolutions(AocMain.class.getPackage());
+        var solutions = findSolutions(AocMain.class.getPackage(), finalYear, finalDay);
         solutions.entrySet().stream()
-                .filter(e -> {
-                    boolean yearMatches = finalYear == null || finalYear == e.getKey().getYear();
-                    boolean dayMatches = finalDay == null || finalDay == e.getKey().getDay();
-                    return yearMatches && dayMatches;
-                })
                 .sorted(Map.Entry.comparingByKey())
                 .forEachOrdered(AocMain::execute);
     }
 
-    private static void execute(Map.Entry<AocDay, AocDaySolution> entry) {
+    private static void execute(Map.Entry<AocDay, AocSolution> entry) {
         AocDay day = entry.getKey();
 
-        AocDayInput input = AocDayInput.of(day);
-        AocDaySolution aoc = entry.getValue();
+        AocInput input = new AocInput(day);
+        AocSolution aoc = entry.getValue();
 
         System.out.println("\n" + "#".repeat(80));
         System.out.printf("Executing year=%04d, day=%02d%n%n", day.getYear(), day.getDay());
@@ -105,5 +104,46 @@ public final class AocMain {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    @SuppressWarnings("UnstableApiUsage")
+    private static Map<AocDay, AocSolution> findSolutions(Package root, Integer finalYear, Integer finalDay) {
+        String prefix = root.getName() + ".";
+        ClassLoader cl = AocMain.class.getClassLoader();
+
+        ClassPath cp;
+        try {
+            cp = ClassPath.from(cl);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        return cp.getAllClasses().stream()
+                .filter(ci -> ci.getName().startsWith(prefix))
+                .map(ClassPath.ClassInfo::load)
+                .filter(AocSolution.class::isAssignableFrom)
+                .filter(c -> {
+                    Aoc aoc = c.getDeclaredAnnotation(Aoc.class);
+                    if (aoc == null) {
+                        return false;
+                    }
+
+                    if ((finalYear == null || finalDay == null) && aoc.skip()) {
+                        return false;
+                    }
+
+                    return (finalYear == null || finalYear == aoc.year())
+                            && (finalDay == null || finalDay == aoc.day());
+                })
+                .collect(Collectors.<Class<?>, AocDay, AocSolution>toMap(
+                        c -> new AocDay(c.getDeclaredAnnotation(Aoc.class)),
+                        c -> {
+                            try {
+                                return (AocSolution) c.getConstructor().newInstance();
+                            } catch (ReflectiveOperationException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                ));
     }
 }

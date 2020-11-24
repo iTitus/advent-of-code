@@ -1,22 +1,34 @@
 package io.github.ititus.aoc.aoc19.day20;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.util.List;
 
-public class Day20 {
+@Aoc(year = 2019, day = 20)
+public final class Day20 implements AocSolution {
 
-    public static void main(String[] args) {
-        List<String> lines = InputProvider.readAllLines(2019, 20);
+    private List<String> lines;
 
-        // 1
-        System.out.println("### 1 ###");
-        PlutoMaze pm1 = new PlutoMaze(false, lines);
-        System.out.println(pm1.findShortestPath("AA", "ZZ"));
+    @Override
+    public void executeTests() {
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        PlutoMaze pm2 = new PlutoMaze(true, lines);
-        System.out.println(pm2.findShortestPath("AA", "ZZ"));
+    @Override
+    public void readInput(AocInput input) {
+        lines = input.readAllLines();
+    }
+
+    @Override
+    public Object part1() {
+        PlutoMaze pm = new PlutoMaze(false, lines);
+        return pm.findShortestPath("AA", "ZZ");
+    }
+
+    @Override
+    public Object part2() {
+        PlutoMaze pm = new PlutoMaze(true, lines);
+        return pm.findShortestPath("AA", "ZZ");
     }
 }

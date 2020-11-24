@@ -1,23 +1,26 @@
 package io.github.ititus.aoc.aoc19.day21;
 
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+@Aoc(year = 2019, day = 21)
+public final class Day21 implements AocSolution {
 
-public class Day21 {
+    private SpringDroid springDroid;
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 21);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    @Override
+    public void executeTests() {
+    }
 
-        SpringDroid sd = new SpringDroid(memory);
+    @Override
+    public void readInput(AocInput input) {
+        springDroid = new SpringDroid(input.readAsIntCodeMemory());
+    }
 
-        // 1
-        System.out.println("### 1 ###");
-        int r1 = sd.runSpringScript(
+    @Override
+    public Object part1() {
+        return springDroid.runSpringScript(
                 "NOT J J",
                 "AND A J",
                 "AND B J",
@@ -26,11 +29,11 @@ public class Day21 {
                 "AND D J",
                 "WALK"
         );
-        System.out.println(r1);
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        int r2 = sd.runSpringScript(
+    @Override
+    public Object part2() {
+        return springDroid.runSpringScript(
                 "NOT J J",
                 "AND A J",
                 "AND B J",
@@ -42,6 +45,5 @@ public class Day21 {
                 "AND T J",
                 "RUN"
         );
-        System.out.println(r2);
     }
 }

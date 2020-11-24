@@ -1,32 +1,24 @@
 package io.github.ititus.aoc.aoc19.day07;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.permutation.Permutations;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class Day07 {
+@Aoc(year = 2019, day = 7)
+public final class Day07 implements AocSolution {
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 7);
-        int[] memory = Arrays.stream(input.split(",")).map(String::strip).mapToInt(Integer::parseInt).toArray();
+    private BigInteger[] memory;
 
-        // 1
-        System.out.println("### 1 ###");
-        run(memory, List.of(0, 1, 2, 3, 4));
-
-        // 2
-        System.out.println("### 2 ###");
-        run(memory, List.of(5, 6, 7, 8, 9));
-    }
-
-    private static void run(int[] memory, List<Integer> phases) {
+    private static int run(BigInteger[] memory, List<Integer> phases) {
         List<int[]> permutations = Permutations.permute(phases);
         List<Integer> outputs = new ArrayList<>();
         for (int[] p : permutations) {
@@ -57,15 +49,15 @@ public class Day07 {
                 td.join();
                 te.join();
                 outputs.add(qa.take());
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
-        System.out.println(Collections.max(outputs));
+        return Collections.max(outputs);
     }
 
-    private static Thread runInNewThread(BlockingQueue<Integer> in, BlockingQueue<Integer> out, int[] memory,
+    private static Thread runInNewThread(BlockingQueue<Integer> in, BlockingQueue<Integer> out, BigInteger[] memory,
                                          String name) {
         IntComputer c = new IntComputer(() -> {
             try {
@@ -83,5 +75,24 @@ public class Day07 {
         Thread t = new Thread(c::run, "IntComputer Thread: " + name);
         t.start();
         return t;
+    }
+
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        memory = input.readAsIntCodeMemory();
+    }
+
+    @Override
+    public Object part1() {
+        return run(memory, List.of(0, 1, 2, 3, 4));
+    }
+
+    @Override
+    public Object part2() {
+        return run(memory, List.of(5, 6, 7, 8, 9));
     }
 }

@@ -1,32 +1,40 @@
 package io.github.ititus.aoc.aoc19.day11;
 
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Map;
 
-public class Day11 {
+@Aoc(year = 2019, day = 11)
+public final class Day11 implements AocSolution {
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 11);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    private BigInteger[] memory;
 
-        // 1
-        System.out.println("### 1 ###");
-        EmergencyHullPaintingRobot robot1 = new EmergencyHullPaintingRobot(memory, false);
-        robot1.run();
-        System.out.println(robot1.getPainted().size());
+    @Override
+    public void executeTests() {
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        EmergencyHullPaintingRobot robot2 = new EmergencyHullPaintingRobot(memory, true);
-        robot2.run();
+    @Override
+    public void readInput(AocInput input) {
+        memory = input.readAsIntCodeMemory();
+    }
 
-        Map<Vec2i, HullColor> hull = robot2.getHull();
+    @Override
+    public Object part1() {
+        EmergencyHullPaintingRobot robot = new EmergencyHullPaintingRobot(memory, false);
+        robot.run();
+        return robot.getPainted().size();
+    }
+
+    @Override
+    public Object part2() {
+        EmergencyHullPaintingRobot robot = new EmergencyHullPaintingRobot(memory, true);
+        robot.run();
+
+        Map<Vec2i, HullColor> hull = robot.getHull();
 
         int minX = hull.keySet().stream().mapToInt(Vec2i::getX).min().orElseThrow();
         int minY = hull.keySet().stream().mapToInt(Vec2i::getY).min().orElseThrow();
@@ -40,11 +48,13 @@ public class Day11 {
         int sizeX = maxX + 1;
         int sizeY = maxY + 1;
 
+        StringBuilder b = new StringBuilder();
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                System.out.print(hull.getOrDefault(new Vec2i(x, y), HullColor.BLACK).getRenderChar());
+                b.append(hull.getOrDefault(new Vec2i(x, y), HullColor.BLACK).getRenderChar());
             }
-            System.out.println();
+            b.append('\n');
         }
+        return b.toString();
     }
 }

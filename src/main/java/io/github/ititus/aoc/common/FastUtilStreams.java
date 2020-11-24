@@ -1,5 +1,6 @@
 package io.github.ititus.aoc.common;
 
+import io.github.ititus.function.BiIntObjConsumer;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -88,19 +89,5 @@ public final class FastUtilStreams {
         Objects.requireNonNull(map);
         Objects.requireNonNull(action);
         map.int2ObjectEntrySet().forEach(e -> action.accept(e.getIntKey(), e.getValue()));
-    }
-
-    @FunctionalInterface
-    public interface BiIntObjConsumer<T> {
-
-        void accept(int i, T t);
-
-        default BiIntObjConsumer<T> andThen(BiIntObjConsumer<? super T> after) {
-            Objects.requireNonNull(after);
-            return (i, t) -> {
-                accept(i, t);
-                after.accept(i, t);
-            };
-        }
     }
 }

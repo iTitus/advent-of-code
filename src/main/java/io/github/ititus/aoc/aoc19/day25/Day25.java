@@ -1,21 +1,34 @@
 package io.github.ititus.aoc.aoc19.day25;
 
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
-public class Day25 {
+@Aoc(year = 2019, day = 25, skip = true)
+public final class Day25 implements AocSolution {
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 25);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    private BigInteger[] memory;
 
-        // 1
-        System.out.println("### 1 ###");
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        memory = input.readAsIntCodeMemory();
+    }
+
+    @Override
+    public Object part1() {
         Droid d = new Droid(memory);
         d.run();
+        return null;
+    }
+
+    @Override
+    public Object part2() {
+        return "Free!";
     }
 }

@@ -1,36 +1,43 @@
 package io.github.ititus.aoc.aoc19.day14;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public class Day14 {
+@Aoc(year = 2019, day = 14)
+public final class Day14 implements AocSolution {
 
-    public static void main(String[] args) {
-        test();
+    private Recipes recipes;
 
+    private static void testWithInputPart1(String name, BigInteger expected, String... lines) {
         Recipes.Builder b = Recipes.builder();
-        try (Stream<String> stream = InputProvider.lines(2019, 14)) {
-            stream.forEach(b::parseAddRecipe);
-        }
-
+        Arrays.stream(lines).forEach(b::parseAddRecipe);
         Recipes recipes = b.build();
 
-        // 1
-        System.out.println("### 1 ###");
-        System.out.println(recipes.calculateRequiredOre(new MaterialStack(Recipes.FUEL, 1)));
-
-        // 2
-        System.out.println("### 2 ###");
-        System.out.println(recipes.calculateMaxProduced(BigIntegerMath.of(1000000000000L), Recipes.FUEL));
+        BigInteger actual = recipes.calculateRequiredOre(new MaterialStack(Recipes.FUEL, 1));
+        if (!expected.equals(actual)) {
+            System.out.println("Error in Part 1 Test " + name + ": expected=" + expected + " actual=" + actual);
+        }
     }
 
-    private static void test() {
-        System.out.println("### Test ###");
+    private static void testWithInputPart2(String name, BigInteger expected, String... lines) {
+        Recipes.Builder b = Recipes.builder();
+        Arrays.stream(lines).forEach(b::parseAddRecipe);
+        Recipes recipes = b.build();
 
+        BigInteger actual = recipes.calculateMaxProduced(BigIntegerMath.of(1000000000000L), Recipes.FUEL);
+        if (!expected.equals(actual)) {
+            System.out.println("Error in Part 2 Test " + name + ": expected=" + expected + " actual=" + actual);
+        }
+    }
+
+    @Override
+    public void executeTests() {
         testWithInputPart1("1", BigIntegerMath.of(165),
                 "9 ORE => 2 A",
                 "8 ORE => 3 B",
@@ -131,25 +138,23 @@ public class Day14 {
         );
     }
 
-    private static void testWithInputPart1(String name, BigInteger expected, String... lines) {
+    @Override
+    public void readInput(AocInput input) {
         Recipes.Builder b = Recipes.builder();
-        Arrays.stream(lines).forEach(b::parseAddRecipe);
-        Recipes recipes = b.build();
-
-        BigInteger actual = recipes.calculateRequiredOre(new MaterialStack(Recipes.FUEL, 1));
-        if (!expected.equals(actual)) {
-            System.out.println("Error in Part 1 Test " + name + ": expected=" + expected + " actual=" + actual);
+        try (Stream<String> stream = input.lines()) {
+            stream.forEach(b::parseAddRecipe);
         }
+
+        recipes = b.build();
     }
 
-    private static void testWithInputPart2(String name, BigInteger expected, String... lines) {
-        Recipes.Builder b = Recipes.builder();
-        Arrays.stream(lines).forEach(b::parseAddRecipe);
-        Recipes recipes = b.build();
+    @Override
+    public Object part1() {
+        return recipes.calculateRequiredOre(new MaterialStack(Recipes.FUEL, 1));
+    }
 
-        BigInteger actual = recipes.calculateMaxProduced(BigIntegerMath.of(1000000000000L), Recipes.FUEL);
-        if (!expected.equals(actual)) {
-            System.out.println("Error in Part 2 Test " + name + ": expected=" + expected + " actual=" + actual);
-        }
+    @Override
+    public Object part2() {
+        return recipes.calculateMaxProduced(BigIntegerMath.of(1000000000000L), Recipes.FUEL);
     }
 }

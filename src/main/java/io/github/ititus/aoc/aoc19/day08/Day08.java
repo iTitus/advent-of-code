@@ -1,23 +1,37 @@
 package io.github.ititus.aoc.aoc19.day08;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
-public class Day08 {
+@Aoc(year = 2019, day = 8)
+public final class Day08 implements AocSolution {
 
-    public static void main(String[] args) {
-        String encodedImage = InputProvider.readString(2019, 8).strip();
+    private SpaceEncodedImage image;
 
-        SpaceEncodedImage image = new SpaceEncodedImage(25, 6);
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        String encodedImage = input.readString().strip();
+        image = new SpaceEncodedImage(25, 6);
         image.decode(encodedImage);
+    }
 
-        // 1
-        System.out.println("### 1 ###");
-        System.out.println(image.getChecksum());
+    @Override
+    public Object part1() {
+        return image.getChecksum();
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        image.render(new PrintWriter(System.out, true));
+    @Override
+    public Object part2() {
+        StringWriter w = new StringWriter();
+        image.render(new PrintWriter(w));
+        return w.toString();
     }
 }

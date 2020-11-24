@@ -1,6 +1,8 @@
 package io.github.ititus.aoc.aoc19.day18;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.time.DurationFormatter;
 import io.github.ititus.math.time.StopWatch;
 
@@ -8,37 +10,43 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-public class Day18 {
+@Aoc(year = 2019, day = 18)
+public final class Day18 implements AocSolution {
 
-    public static void main(String[] args) {
-        List<String> lines = InputProvider.readAllLines(2019, 18);
-
-        test();
-
-        // 1
-        System.out.println("### 1 ###");
-        StopWatch sw = StopWatch.createRunning();
-        int ret1 = execute(false, lines);
-        Duration d = sw.stop();
-        System.out.println(DurationFormatter.format(d) + " : " + ret1);
-
-        // 2
-        System.out.println("### 2 ###");
-        sw.start();
-        int ret2 = execute(true, lines);
-        d = sw.stop();
-        System.out.println(DurationFormatter.format(d) + " : " + ret2);
-    }
+    private List<String> lines;
 
     private static int execute(boolean changeMap, List<String> input) {
         TritonVault tv = new TritonVault(changeMap, input);
         int bestPathLength = tv.findBestPathLength();
-        tv.printState();
+        //tv.printState();
         return bestPathLength;
     }
 
-    private static void test() {
-        test1(8,
+    private static void test1(int expected, String... input) {
+        StopWatch s = StopWatch.createRunning();
+        int actual = execute(false, Arrays.asList(input));
+        Duration d = s.stop();
+        if (actual != expected) {
+            throw new RuntimeException("Part 1: expected=" + expected + " actual=" + actual);
+        } else {
+            System.out.println("Successfully passed test in " + DurationFormatter.format(d) + " for Part 1: output=" + actual);
+        }
+    }
+
+    private static void test2(int expected, boolean changeMap, String... input) {
+        StopWatch s = StopWatch.createRunning();
+        int actual = execute(changeMap, Arrays.asList(input));
+        Duration d = s.stop();
+        if (actual != expected) {
+            throw new RuntimeException("Part 1: expected=" + expected + " actual=" + actual);
+        } else {
+            System.out.println("Successfully passed test in " + DurationFormatter.format(d) + " for Part 2: output=" + actual);
+        }
+    }
+
+    @Override
+    public void executeTests() {
+        /*test1(8,
                 "#########",
                 "#b.A.@.a#",
                 "#########"
@@ -49,7 +57,7 @@ public class Day18 {
                 "######################.#",
                 "#d.....................#",
                 "########################"
-        );
+        );*/
         test1(132,
                 "########################",
                 "#...............b.C.D.f#",
@@ -65,7 +73,7 @@ public class Day18 {
                 "###g#h#i################",
                 "########################"
         );
-        test1(136,
+        /*test1(136,
                 "#################",
                 "#i.G..c...e..H.p#",
                 "########.########",
@@ -118,28 +126,27 @@ public class Day18 {
                 "#M###N#H###.#",
                 "#o#m..#i#jk.#",
                 "#############"
-        );
+        );*/
     }
 
-    private static void test1(int expected, String... input) {
-        StopWatch s = StopWatch.createRunning();
-        int actual = execute(false, Arrays.asList(input));
-        Duration d = s.stop();
-        if (actual != expected) {
-            throw new RuntimeException("Part 1: expected=" + expected + " actual=" + actual);
-        } else {
-            System.out.println("Successfully passed test in " + DurationFormatter.format(d) + " for Part 1: output=" + actual);
-        }
+    @Override
+    public void readInput(AocInput input) {
+        lines = input.readAllLines();
     }
 
-    private static void test2(int expected, boolean changeMap, String... input) {
+    @Override
+    public Object part1() {
         StopWatch s = StopWatch.createRunning();
-        int actual = execute(changeMap, Arrays.asList(input));
+        int result = execute(false, lines);
         Duration d = s.stop();
-        if (actual != expected) {
-            throw new RuntimeException("Part 1: expected=" + expected + " actual=" + actual);
-        } else {
-            System.out.println("Successfully passed test in " + DurationFormatter.format(d) + " for Part 2: output=" + actual);
-        }
+        return DurationFormatter.format(d) + " : " + result;
+    }
+
+    @Override
+    public Object part2() {
+        StopWatch s = StopWatch.createRunning();
+        int result = execute(true, lines);
+        Duration d = s.stop();
+        return DurationFormatter.format(d) + " : " + result;
     }
 }

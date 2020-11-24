@@ -1,27 +1,31 @@
 package io.github.ititus.aoc.aoc19.day17;
 
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+@Aoc(year = 2019, day = 17, skip = true)
+public final class Day17 implements AocSolution {
 
-public class Day17 {
+    private AsciiRobot robot;
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 17);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    @Override
+    public void executeTests() {
+    }
 
-        AsciiRobot ar = new AsciiRobot(memory);
-        ar.run();
+    @Override
+    public void readInput(AocInput input) {
+        robot = new AsciiRobot(input.readAsIntCodeMemory());
+        robot.run();
+    }
 
-        // 1
-        System.out.println("### 1 ###");
-        System.out.println(ar.sumAlignmentParameters());
+    @Override
+    public Object part1() {
+        return robot.sumAlignmentParameters();
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        System.out.println(ar.getDustCleaned());
+    @Override
+    public Object part2() {
+        return robot.getDustCleaned();
     }
 }

@@ -11,4 +11,6 @@ public @interface Aoc {
 
     int day();
 
+    boolean skip() default false;
+
 }

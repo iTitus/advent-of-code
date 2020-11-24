@@ -1,8 +1,8 @@
 package io.github.ititus.aoc.aoc18.day04;
 
 import io.github.ititus.aoc.common.Aoc;
-import io.github.ititus.aoc.common.AocDayInput;
-import io.github.ititus.aoc.common.AocDaySolution;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.data.ArrayUtil;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
@@ -19,7 +19,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 
 @Aoc(year = 2018, day = 4)
-public final class Day04 implements AocDaySolution {
+public final class Day04 implements AocSolution {
 
     private List<Shift> shifts;
 
@@ -28,33 +28,35 @@ public final class Day04 implements AocDaySolution {
     }
 
     @Override
-    public void readInput(AocDayInput input) {
-        shifts = input.lines()
-                .map(Record::of)
-                .sorted(comparing(Record::getTimestamp))
-                .collect(Collector.<Record, List<Shift>, List<Shift>>of(
-                        ArrayList::new,
-                        (l, r) -> {
-                            switch (r.getType()) {
-                                case SHIFT_BEGIN -> l.add(new Shift(r.getTimestamp(), r.getId()));
-                                case FALL_ASLEEP -> l.get(l.size() - 1).fallAsleep(r.getTimestamp());
-                                case WAKE_UP -> l.get(l.size() - 1).wakeUp(r.getTimestamp());
-                            }
-                        },
-                        (l1, l2) -> {
-                            throw new UnsupportedOperationException();
-                        },
-                        l -> {
-                            if (!l.isEmpty() && l.get(l.size() - 1).isUnfinished()) {
+    public void readInput(AocInput input) {
+        try (Stream<String> stream = input.lines()) {
+            shifts = stream
+                    .map(Record::of)
+                    .sorted(comparing(Record::getTimestamp))
+                    .collect(Collector.<Record, List<Shift>, List<Shift>>of(
+                            ArrayList::new,
+                            (l, r) -> {
+                                switch (r.getType()) {
+                                    case SHIFT_BEGIN -> l.add(new Shift(r.getTimestamp(), r.getId()));
+                                    case FALL_ASLEEP -> l.get(l.size() - 1).fallAsleep(r.getTimestamp());
+                                    case WAKE_UP -> l.get(l.size() - 1).wakeUp(r.getTimestamp());
+                                }
+                            },
+                            (l1, l2) -> {
                                 throw new UnsupportedOperationException();
+                            },
+                            l -> {
+                                if (!l.isEmpty() && l.get(l.size() - 1).isUnfinished()) {
+                                    throw new UnsupportedOperationException();
+                                }
+                                return l;
                             }
-                            return l;
-                        }
-                ));
+                    ));
+        }
     }
 
     @Override
-    public String part1() {
+    public Object part1() {
         var longestSleeper = shifts.stream()
                 .collect(groupingBy(Shift::getId, summingInt(Shift::getTotalMinutesAsleep)))
                 .entrySet().stream()
@@ -85,7 +87,7 @@ public final class Day04 implements AocDaySolution {
     }
 
     @Override
-    public String part2() {
+    public Object part2() {
         var mostSleptMinuteAll = shifts.stream()
                 .flatMap(s -> {
                     Stream<GuardMinute> stream = Stream.empty();

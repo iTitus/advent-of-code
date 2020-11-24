@@ -1,22 +1,34 @@
 package io.github.ititus.aoc.aoc19.day24;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.util.List;
 
-public class Day24 {
+@Aoc(year = 2019, day = 24)
+public final class Day24 implements AocSolution {
 
-    public static void main(String[] args) {
-        List<String> lines = InputProvider.readAllLines(2019, 24);
+    private List<String> lines;
 
-        // 1
-        System.out.println("### 1 ###");
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        lines = input.readAllLines();
+    }
+
+    @Override
+    public Object part1() {
         ErisBugs eb1 = new ErisBugs(false, lines);
-        System.out.println(eb1.stepUntilRepeat());
+        return eb1.stepUntilRepeat();
+    }
 
-        // 2
-        System.out.println("### 2 ###");
+    @Override
+    public Object part2() {
         ErisBugs eb2 = new ErisBugs(true, lines);
-        System.out.println(eb2.step(200));
+        return eb2.step(200);
     }
 }

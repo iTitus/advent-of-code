@@ -1,28 +1,36 @@
 package io.github.ititus.aoc.aoc19.day13;
 
-import io.github.ititus.aoc.common.InputProvider;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
-public class Day13 {
+@Aoc(year = 2019, day = 13)
+public final class Day13 implements AocSolution {
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 13);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    private BigInteger[] memory;
 
-        // 1
-        System.out.println("### 1 ###");
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        memory = input.readAsIntCodeMemory();
+    }
+
+    @Override
+    public Object part1() {
         ArcadeMachine arcade1 = new ArcadeMachine(memory, false);
         arcade1.run();
-        System.out.println(arcade1.getCount(ArcadeTile.BLOCK));
+        return arcade1.getCount(ArcadeTile.BLOCK);
+    }
 
-        // 2
-        System.out.println("### 2 ###");
+    @Override
+    public Object part2() {
         ArcadeMachine arcade2 = new ArcadeMachine(memory, true);
         arcade2.run();
-        System.out.println(arcade2.getScore());
+        return arcade2.getScore();
     }
 }

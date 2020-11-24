@@ -1,36 +1,41 @@
 package io.github.ititus.aoc.aoc19.day15;
 
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.math.graph.algorithm.Dijkstra;
-import io.github.ititus.math.number.BigIntegerMath;
 import io.github.ititus.math.number.BigRational;
 import io.github.ititus.math.vector.Vec2i;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+@Aoc(year = 2019, day = 15, skip = true)
+public final class Day15 implements AocSolution {
 
-public class Day15 {
+    private RepairDroid droid;
+    private Dijkstra<Vec2i>.Result paths;
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 15);
-        BigInteger[] memory =
-                Arrays.stream(input.split(",")).map(String::strip).map(BigIntegerMath::of).toArray(BigInteger[]::new);
+    @Override
+    public void executeTests() {
+    }
 
-        RepairDroid droid = new RepairDroid(memory);
+    @Override
+    public void readInput(AocInput input) {
+        droid = new RepairDroid(input.readAsIntCodeMemory());
         droid.buildMap();
         droid.render();
-        Dijkstra<Vec2i>.Result paths = droid.getOxygenPaths();
+        paths = droid.getOxygenPaths();
+    }
 
-        // 1
-        System.out.println("### 1 ###");
-        int l1 =
-                paths.getShortestPathLength(droid.getMap().getVertex(droid.getStartingPos()).orElseThrow()).intValueExact();
-        System.out.println(l1);
+    @Override
+    public Object part1() {
+        return paths.getShortestPathLength(droid.getMap().getVertex(droid.getStartingPos()).orElseThrow())
+                .intValueExact();
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        int l2 =
-                droid.getMap().getVertices().stream().map(paths::getShortestPathLength).mapToInt(BigRational::intValueExact).max().orElseThrow();
-        System.out.println(l2);
+    @Override
+    public Object part2() {
+        return droid.getMap().getVertices().stream()
+                .map(paths::getShortestPathLength)
+                .mapToInt(BigRational::intValueExact)
+                .max().orElseThrow();
     }
 }

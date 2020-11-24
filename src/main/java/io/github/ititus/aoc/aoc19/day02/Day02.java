@@ -1,38 +1,51 @@
 package io.github.ititus.aoc.aoc19.day02;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.aoc.common.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.math.number.BigIntegerMath;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
-public class Day02 {
+@Aoc(year = 2019, day = 2)
+public final class Day02 implements AocSolution {
 
-    public static void main(String[] args) {
-        String input = InputProvider.readString(2019, 2);
-        int[] memory = Arrays.stream(input.split(",")).map(String::strip).mapToInt(Integer::parseInt).toArray();
+    private BigInteger[] memory;
 
-        // 1
-        System.out.println("### 1 ###");
-        System.out.println(run(memory, 12, 2));
+    private static BigInteger run(BigInteger[] memory, int noun, int verb) {
+        memory = Arrays.copyOf(memory, memory.length);
+        memory[1] = BigIntegerMath.of(noun);
+        memory[2] = BigIntegerMath.of(verb);
+        return IntComputer.runGetFirst(memory);
+    }
 
-        // 2
-        System.out.println("### 2 ###");
-        int result = 19690720;
-        outer:
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocInput input) {
+        memory = input.readAsIntCodeMemory();
+    }
+
+    @Override
+    public Object part1() {
+        return run(memory, 12, 2);
+    }
+
+    @Override
+    public Object part2() {
+        BigInteger result = BigIntegerMath.of(19690720);
         for (int noun = 0; noun < 100; noun++) {
             for (int verb = 0; verb < 100; verb++) {
-                if (result == run(memory, noun, verb)) {
-                    System.out.println(100 * noun + verb);
-                    break outer;
+                if (result.equals(run(memory, noun, verb))) {
+                    return 100 * noun + verb;
                 }
             }
         }
-    }
 
-    private static int run(int[] memory, int noun, int verb) {
-        memory = Arrays.copyOf(memory, memory.length);
-        memory[1] = noun;
-        memory[2] = verb;
-        return new IntComputer(memory).run().intValueExact();
+        return null;
     }
 }
