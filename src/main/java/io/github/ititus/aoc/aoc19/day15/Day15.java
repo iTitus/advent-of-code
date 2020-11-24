@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day15;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.InputProvider;
 import io.github.ititus.math.graph.algorithm.Dijkstra;
 import io.github.ititus.math.number.BigIntegerMath;
 import io.github.ititus.math.number.BigRational;

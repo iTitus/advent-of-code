@@ -72,7 +72,7 @@ public class RepairDroid {
                 } else if (passable.contains(v)) {
                     System.out.print('.');
                 } else if (passable.stream().anyMatch(v::isDirectlyAdjacentTo)) {
-                    System.out.print('█');
+                    System.out.print('\u2588');
                 } else {
                     System.out.print(' ');
                 }

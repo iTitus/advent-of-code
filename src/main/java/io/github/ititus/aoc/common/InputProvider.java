@@ -1,4 +1,4 @@
-package io.github.ititus.aoc;
+package io.github.ititus.aoc.common;
 
 import io.github.ititus.io.IO;
 import io.github.ititus.math.number.BigIntegerMath;

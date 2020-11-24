@@ -1,6 +1,8 @@
 package io.github.ititus.aoc.aoc18.day03;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocDayInput;
+import io.github.ititus.aoc.common.AocDaySolution;
 import io.github.ititus.math.vector.Vec2i;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
@@ -10,23 +12,35 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.github.ititus.aoc.FastUtilStreams.toMap;
+import static io.github.ititus.aoc.common.FastUtilStreams.toMap;
 
-public class Day03 {
+@Aoc(year = 2018, day = 3)
+public final class Day03 implements AocDaySolution {
 
-    public static void main(String[] args) {
-        Int2ObjectMap<Claim> claims = InputProvider.lines(2018, 3)
+    private Fabric fabric;
+
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocDayInput input) {
+        Int2ObjectMap<Claim> claims = input.lines()
                 .map(Claim::of)
                 .collect(toMap(Claim::getId, Function.identity()));
 
-        Fabric fabric = new Fabric(new Vec2i(1000, 1000));
+        fabric = new Fabric(new Vec2i(1000, 1000));
         claims.values().forEach(fabric::addClaim);
+    }
 
-        // 1
-        System.out.println(fabric.getNumberOfDoubleClaims());
+    @Override
+    public String part1() {
+        return String.valueOf(fabric.getNumberOfDoubleClaims());
+    }
 
-        // 2
-        System.out.println(fabric.getUnobstructedClaim());
+    @Override
+    public String part2() {
+        return String.valueOf(fabric.getUnobstructedClaim());
     }
 
     private static final class Fabric {

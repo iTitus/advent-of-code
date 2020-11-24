@@ -1,4 +1,4 @@
-package io.github.ititus.aoc;
+package io.github.ititus.aoc.common;
 
 import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;

@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day13;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.InputProvider;
 import io.github.ititus.math.number.BigIntegerMath;
 
 import java.math.BigInteger;

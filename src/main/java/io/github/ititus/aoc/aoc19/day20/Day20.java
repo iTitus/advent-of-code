@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day20;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.InputProvider;
 
 import java.util.List;
 

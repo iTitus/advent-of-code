@@ -1,6 +1,8 @@
 package io.github.ititus.aoc.aoc18.day04;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocDayInput;
+import io.github.ititus.aoc.common.AocDaySolution;
 import io.github.ititus.data.ArrayUtil;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
@@ -16,10 +18,18 @@ import java.util.stream.Stream;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 
-public class Day04 {
+@Aoc(year = 2018, day = 4)
+public final class Day04 implements AocDaySolution {
 
-    public static void main(String[] args) {
-        List<Shift> shifts = InputProvider.lines(2018, 4)
+    private List<Shift> shifts;
+
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocDayInput input) {
+        shifts = input.lines()
                 .map(Record::of)
                 .sorted(comparing(Record::getTimestamp))
                 .collect(Collector.<Record, List<Shift>, List<Shift>>of(
@@ -41,8 +51,10 @@ public class Day04 {
                             return l;
                         }
                 ));
+    }
 
-        // 1
+    @Override
+    public String part1() {
         var longestSleeper = shifts.stream()
                 .collect(groupingBy(Shift::getId, summingInt(Shift::getTotalMinutesAsleep)))
                 .entrySet().stream()
@@ -67,10 +79,13 @@ public class Day04 {
                 .max(Comparator.comparingInt(Int2IntMap.Entry::getIntValue))
                 .orElseThrow();
         System.out.printf("Slept %d times at minute %d%n", mostSleptMinute.getIntValue(), mostSleptMinute.getIntKey());
-        int answer1 = longestSleeper.getKey() * mostSleptMinute.getIntKey();
-        System.out.println("Answer: " + answer1);
 
-        // 2
+        int answer = longestSleeper.getKey() * mostSleptMinute.getIntKey();
+        return "Answer: " + answer;
+    }
+
+    @Override
+    public String part2() {
         var mostSleptMinuteAll = shifts.stream()
                 .flatMap(s -> {
                     Stream<GuardMinute> stream = Stream.empty();
@@ -89,8 +104,9 @@ public class Day04 {
                 .orElseThrow();
         System.out.printf("Guard #%d slept %d times at minute %d%n", mostSleptMinuteAll.getKey().getId(),
                 mostSleptMinuteAll.getValue(), mostSleptMinuteAll.getKey().getMinute());
-        long answer2 = mostSleptMinuteAll.getKey().getId() * mostSleptMinuteAll.getKey().getMinute();
-        System.out.println("Answer: " + answer2);
+
+        int answer = mostSleptMinuteAll.getKey().getId() * mostSleptMinuteAll.getKey().getMinute();
+        return "Answer: " + answer;
     }
 
     private enum RecordType {

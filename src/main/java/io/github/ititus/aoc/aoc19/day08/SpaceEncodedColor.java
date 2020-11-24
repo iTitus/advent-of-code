@@ -2,8 +2,8 @@ package io.github.ititus.aoc.aoc19.day08;
 
 public enum SpaceEncodedColor {
 
-    BLACK(false, '█'),
-    WHITE(false, '░'),
+    BLACK(false, '\u2588'),
+    WHITE(false, '\u2591'),
     TRANSPARENT(true, '\0');
 
     private final boolean transparent;

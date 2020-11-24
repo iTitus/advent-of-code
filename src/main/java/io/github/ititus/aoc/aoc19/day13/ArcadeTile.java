@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum ArcadeTile {
 
     EMPTY(' '),
-    WALL('█'),
+    WALL('\u2588'),
     BLOCK('#'),
     HORIZONTAL_PADDLE('-'),
     BALL('o');
