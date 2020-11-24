@@ -18,7 +18,8 @@ public final class Day18 implements AocSolution {
     private static int execute(boolean changeMap, List<String> input) {
         TritonVault tv = new TritonVault(changeMap, input);
         int bestPathLength = tv.findBestPathLength();
-        //tv.printState();
+        //FIXME: the 81 test only works when this is enabled
+        tv.printState();
         return bestPathLength;
     }
 
