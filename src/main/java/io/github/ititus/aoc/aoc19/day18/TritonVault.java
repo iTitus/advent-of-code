@@ -241,7 +241,7 @@ public class TritonVault {
     public void printState() {
         //System.out.println("#".repeat(80));
         visibilityCache.forEach((k, v) -> {
-            // System.out.println(k + " -> " + v);
+            //System.out.println(k + " -> " + v);
         });
         //System.out.println("#".repeat(80));
     }
