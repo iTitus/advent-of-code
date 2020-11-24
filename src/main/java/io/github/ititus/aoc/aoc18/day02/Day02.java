@@ -1,6 +1,8 @@
 package io.github.ititus.aoc.aoc18.day02;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocDayInput;
+import io.github.ititus.aoc.common.AocDaySolution;
 
 import java.util.List;
 import java.util.Map;
@@ -10,33 +12,10 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
-public class Day02 {
+@Aoc(year = 2018, day = 2)
+public final class Day02 implements AocDaySolution {
 
-    public static void main(String[] args) {
-        List<String> ids = InputProvider.readAllLines(2018, 2);
-
-        // 1
-        List<RepStats> repStats = ids.stream()
-                .map(RepStats::of)
-                .collect(Collectors.toList());
-        long twiceRepeat = repStats.stream().filter(RepStats::isTwice).count();
-        long thriceRepeat = repStats.stream().filter(RepStats::isThrice).count();
-        long checksum = twiceRepeat * thriceRepeat;
-        System.out.println(checksum);
-
-        // 2
-        System.out.println();
-        for (int i = 0; i < ids.size(); i++) {
-            for (int j = i + 1; j < ids.size(); j++) {
-                String s1 = ids.get(i);
-                String s2 = ids.get(j);
-                if (hammingDistance(s1, s2) == 1) {
-                    System.out.println(s1);
-                    System.out.println(s2);
-                }
-            }
-        }
-    }
+    private List<String> ids;
 
     private static int hammingDistance(String s1, String s2) {
         if (s1 == null || s2 == null || s1.length() != s2.length()) {
@@ -51,6 +30,42 @@ public class Day02 {
         }
 
         return d;
+    }
+
+    @Override
+    public void executeTests() {
+    }
+
+    @Override
+    public void readInput(AocDayInput input) {
+        ids = input.readAllLines();
+    }
+
+    @Override
+    public String part1() {
+        List<RepStats> repStats = ids.stream()
+                .map(RepStats::of)
+                .collect(Collectors.toList());
+        long twiceRepeat = repStats.stream().filter(RepStats::isTwice).count();
+        long thriceRepeat = repStats.stream().filter(RepStats::isThrice).count();
+        long checksum = twiceRepeat * thriceRepeat;
+
+        return String.valueOf(checksum);
+    }
+
+    @Override
+    public String part2() {
+        for (int i = 0; i < ids.size(); i++) {
+            for (int j = i + 1; j < ids.size(); j++) {
+                String s1 = ids.get(i);
+                String s2 = ids.get(j);
+                if (hammingDistance(s1, s2) == 1) {
+                    return s1 + "\n" + s2;
+                }
+            }
+        }
+
+        return null;
     }
 
     private static final class RepStats {

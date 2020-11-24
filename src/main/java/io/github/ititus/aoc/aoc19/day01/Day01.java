@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day01;
 
-import io.github.ititus.aoc.FastUtilStreams;
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.FastUtilStreams;
+import io.github.ititus.aoc.common.InputProvider;
 import it.unimi.dsi.fastutil.ints.IntList;
 
 public class Day01 {

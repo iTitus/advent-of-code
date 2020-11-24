@@ -1,4 +1,4 @@
-package io.github.ititus.aoc;
+package io.github.ititus.aoc.common;
 
 public final class Downloader {
 

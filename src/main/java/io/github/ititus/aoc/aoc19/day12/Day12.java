@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day12;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.InputProvider;
 import io.github.ititus.math.vector.Vec3i;
 
 import java.util.List;

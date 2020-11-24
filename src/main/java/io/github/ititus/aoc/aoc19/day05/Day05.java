@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day05;
 
-import io.github.ititus.aoc.InputProvider;
 import io.github.ititus.aoc.aoc19.IntComputer;
+import io.github.ititus.aoc.common.InputProvider;
 
 import java.util.Arrays;
 

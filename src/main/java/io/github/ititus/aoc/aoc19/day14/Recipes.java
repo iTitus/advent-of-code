@@ -43,10 +43,10 @@ public class Recipes {
         while (!consumedIngredients.isEmpty()) {
             MaterialStack s =
                     consumedIngredients.stream().filter(s_ -> !isBasic(s_.getMaterial())).findFirst().orElseGet(
-                    () -> consumedIngredients.stream().filter(s_ -> !ORE.equals(s_.getMaterial())).findFirst().orElseGet(
-                            () -> consumedIngredients.get(0)
-                    )
-            );
+                            () -> consumedIngredients.stream().filter(s_ -> !ORE.equals(s_.getMaterial())).findFirst().orElseGet(
+                                    () -> consumedIngredients.get(0)
+                            )
+                    );
             if (ORE.equals(s.getMaterial())) {
                 break;
             }

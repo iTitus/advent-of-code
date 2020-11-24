@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day06;
 
-import io.github.ititus.aoc.InputProvider;
+import io.github.ititus.aoc.common.InputProvider;
 import io.github.ititus.math.graph.Edge;
 import io.github.ititus.math.graph.Graph;
 import io.github.ititus.math.graph.Vertex;
