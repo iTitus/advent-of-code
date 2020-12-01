@@ -20,10 +20,10 @@ public class Day01 implements AocSolution {
         numbers.sort(null);
     }
 
-    private int interpolationSearch(int key) {
-        int low = 0;
+    private int interpolationSearch(int key, int start) {
+        int low = start;
         int high = numbers.size() - 1;
-        if (high < 0) {
+        if (low > high) {
             return -1;
         }
 
@@ -60,7 +60,7 @@ public class Day01 implements AocSolution {
             int num1 = numbers.getInt(i);
 
             int num2 = 2020 - num1;
-            int j = interpolationSearch(num2);
+            int j = interpolationSearch(num2, i + 1);
 
             if (j >= 0) {
                 return num1 * num2;
@@ -77,7 +77,7 @@ public class Day01 implements AocSolution {
                 int num2 = numbers.getInt(j);
 
                 int num3 = 2020 - num1 - num2;
-                int k = interpolationSearch(num3);
+                int k = interpolationSearch(num3, j + 1);
 
                 if (k >= 0) {
                     return num1 * num2 * num3;
