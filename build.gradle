@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.github.ititus:ititus-commons:1.2.0'
+    implementation 'io.github.ititus:ititus-commons:1.2.1'
     implementation 'it.unimi.dsi:fastutil:8.4.3'
     implementation 'com.google.guava:guava:30.0-jre'
     implementation 'commons-cli:commons-cli:1.4'
