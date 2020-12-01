@@ -5,10 +5,13 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocDay;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.math.time.DurationFormatter;
+import io.github.ititus.math.time.StopWatch;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.Duration;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -93,14 +96,22 @@ public final class AocMain {
 
         System.out.println("\nPart 1:");
         try {
-            System.out.println(aoc.part1());
+            StopWatch sw = StopWatch.createRunning();
+            Object result1 = aoc.part1();
+            Duration d = sw.stop();
+            System.out.println(result1);
+            System.out.println("Finished in " + DurationFormatter.format(d));
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
 
         System.out.println("\nPart 2:");
         try {
-            System.out.println(aoc.part2());
+            StopWatch sw = StopWatch.createRunning();
+            Object result2 = aoc.part2();
+            Duration d = sw.stop();
+            System.out.println(result2);
+            System.out.println("Finished in " + DurationFormatter.format(d));
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
