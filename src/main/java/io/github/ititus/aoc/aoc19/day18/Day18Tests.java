@@ -13,24 +13,6 @@ public class Day18Tests {
         new Day18Tests().tests();
     }
 
-    private void tests() {
-        test1(132,
-                "########################",
-                "#...............b.C.D.f#",
-                "#.######################",
-                "#.....@.a.B.c.d.A.e.F.g#",
-                "########################"
-        );
-        test1(81,
-                "########################",
-                "#@..............ac.GI.b#",
-                "###d#e#f################",
-                "###A#B#C################",
-                "###g#h#i################",
-                "########################"
-        );
-    }
-
     private static int execute(boolean changeMap, List<String> input) {
         TritonVault tv = new TritonVault(changeMap, input);
         //tv.printState();
@@ -48,5 +30,23 @@ public class Day18Tests {
         } else {
             System.out.println("Successfully passed test in " + DurationFormatter.format(d) + " for Part 1: output=" + actual);
         }
+    }
+
+    private void tests() {
+        test1(132,
+                "########################",
+                "#...............b.C.D.f#",
+                "#.######################",
+                "#.....@.a.B.c.d.A.e.F.g#",
+                "########################"
+        );
+        test1(81,
+                "########################",
+                "#@..............ac.GI.b#",
+                "###d#e#f################",
+                "###A#B#C################",
+                "###g#h#i################",
+                "########################"
+        );
     }
 }
