@@ -80,15 +80,21 @@ public final class AocMain {
 
         System.out.println("Tests:");
         try {
+            StopWatch sw = StopWatch.createRunning();
             aoc.executeTests();
+            Duration d = sw.stop();
+            System.out.println("Finished in " + DurationFormatter.format(d));
         } catch (Exception e) {
             e.printStackTrace(System.out);
             return;
         }
 
-        System.out.println("Input:");
+        System.out.println("\nInput:");
         try {
+            StopWatch sw = StopWatch.createRunning();
             aoc.readInput(input);
+            Duration d = sw.stop();
+            System.out.println("Finished in " + DurationFormatter.format(d));
         } catch (Exception e) {
             e.printStackTrace(System.out);
             return;
