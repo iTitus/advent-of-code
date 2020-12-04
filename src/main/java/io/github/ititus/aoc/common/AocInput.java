@@ -119,7 +119,15 @@ public final class AocInput {
         String resourcePath = String.format(Locale.ROOT, "/%d/%02d/input.txt", day.getYear(), day.getDay());
         URL url = AocInput.class.getResource(resourcePath);
         if (url == null) {
-            System.out.println("Downloading input.");
+            Path p = Path
+                    .of(String.format(Locale.ROOT, "src/main/resources/%d/%02d/input.txt", day.getYear(), day.getDay()))
+                    .toAbsolutePath()
+                    .normalize();
+            if (Files.isRegularFile(p)) {
+                return p;
+            }
+
+            System.out.println("Downloading input...");
             return downloadInput();
         }
 
