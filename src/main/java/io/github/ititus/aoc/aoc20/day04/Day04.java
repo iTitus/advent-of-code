@@ -5,6 +5,7 @@ import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Aoc(year = 2020, day = 4)
 public class Day04 implements AocSolution {
@@ -17,7 +18,9 @@ public class Day04 implements AocSolution {
 
     @Override
     public void readInput(AocInput input) {
-        passports = input.lines().collect(Passport.PassportAccumulator.collector());
+        try (Stream<String> stream = input.lines()) {
+            passports = stream.collect(Passport.PassportAccumulator.collector());
+        }
     }
 
     @Override

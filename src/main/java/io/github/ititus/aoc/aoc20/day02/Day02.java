@@ -5,6 +5,7 @@ import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -19,10 +20,11 @@ public class Day02 implements AocSolution {
 
     @Override
     public void readInput(AocInput input) {
-        entries = input
-                .lines()
-                .map(PasswordEntry::of)
-                .collect(toList());
+        try (Stream<String> stream = input.lines()) {
+            entries = stream
+                    .map(PasswordEntry::of)
+                    .collect(toList());
+        }
     }
 
     @Override
