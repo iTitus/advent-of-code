@@ -39,28 +39,31 @@ public class BagRules {
                 .map(Map.Entry::getKey)
                 .collect(toSet());
 
-        if (!ancestors.isEmpty()) {
-            List<String> indirectAncestors = ancestors.stream()
-                    .flatMap(c -> getAncestors(c).stream())
-                    .collect(toList());
-            ancestors.addAll(indirectAncestors);
+        if (ancestors.isEmpty()) {
+            return Set.of();
         }
+
+        List<String> indirectAncestors = ancestors.stream()
+                .flatMap(c -> getAncestors(c).stream())
+                .collect(toList());
+        ancestors.addAll(indirectAncestors);
 
         return ancestors;
     }
 
     public Object2IntMap<String> getChildren(String color) {
-        Object2IntMap<String> children = new Object2IntOpenHashMap<>(rules.get(color));
-
-        if (!children.isEmpty()) {
-            List<ObjectIntPair<String>> indirectChildren = children.object2IntEntrySet().stream()
-                    .flatMap(
-                            c -> getChildren(c.getKey()).object2IntEntrySet().stream()
-                                    .map(p -> ObjectIntPair.of(p.getKey(), c.getIntValue() * p.getIntValue()))
-                    )
-                    .collect(toList());
-            indirectChildren.forEach(c -> children.mergeInt(c.key(), c.valueInt(), Integer::sum));
+        Object2IntMap<String> childrenDirect = rules.get(color);
+        if (childrenDirect.isEmpty()) {
+            return Object2IntMaps.emptyMap();
         }
+
+        Object2IntMap<String> children = new Object2IntOpenHashMap<>(childrenDirect);
+        childrenDirect.object2IntEntrySet().stream()
+                .flatMap(
+                        c -> getChildren(c.getKey()).object2IntEntrySet().stream()
+                                .map(p -> ObjectIntPair.of(p.getKey(), c.getIntValue() * p.getIntValue()))
+                )
+                .forEach(c -> children.mergeInt(c.key(), c.valueInt(), Integer::sum));
 
         return children;
     }
