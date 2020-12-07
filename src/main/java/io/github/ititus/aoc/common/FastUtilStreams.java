@@ -1,11 +1,11 @@
 package io.github.ititus.aoc.common;
 
 import io.github.ititus.function.BiIntObjConsumer;
-import it.unimi.dsi.fastutil.doubles.DoubleList;
+import it.unimi.dsi.fastutil.doubles.DoubleCollection;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.longs.LongList;
+import it.unimi.dsi.fastutil.ints.IntCollection;
+import it.unimi.dsi.fastutil.longs.LongCollection;
 
 import java.util.Objects;
 import java.util.Spliterator;
@@ -19,40 +19,40 @@ public final class FastUtilStreams {
     private FastUtilStreams() {
     }
 
-    public static IntStream stream(IntList intList) {
-        Spliterator.OfInt intSpliterator = Spliterators.spliterator(intList.iterator(), intList.size(),
+    public static IntStream stream(IntCollection c) {
+        Spliterator.OfInt s = Spliterators.spliterator(c.iterator(), c.size(),
                 Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.intStream(intSpliterator, false);
+        return StreamSupport.intStream(s, false);
     }
 
-    public static IntStream parallelStream(IntList intList) {
-        Spliterator.OfInt intSpliterator = Spliterators.spliterator(intList.iterator(), intList.size(),
+    public static IntStream parallelStream(IntCollection c) {
+        Spliterator.OfInt s = Spliterators.spliterator(c.iterator(), c.size(),
                 Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.intStream(intSpliterator, true);
+        return StreamSupport.intStream(s, true);
     }
 
-    public static LongStream stream(LongList longList) {
-        Spliterator.OfLong intSpliterator = Spliterators.spliterator(longList.iterator(), longList.size(),
+    public static LongStream stream(LongCollection c) {
+        Spliterator.OfLong s = Spliterators.spliterator(c.iterator(), c.size(),
                 Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.longStream(intSpliterator, false);
+        return StreamSupport.longStream(s, false);
     }
 
-    public static LongStream parallelStream(LongList longList) {
-        Spliterator.OfLong intSpliterator = Spliterators.spliterator(longList.iterator(), longList.size(),
+    public static LongStream parallelStream(LongCollection c) {
+        Spliterator.OfLong s = Spliterators.spliterator(c.iterator(), c.size(),
                 Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.longStream(intSpliterator, true);
+        return StreamSupport.longStream(s, true);
     }
 
-    public static DoubleStream stream(DoubleList doubleList) {
-        Spliterator.OfDouble intSpliterator = Spliterators.spliterator(doubleList.iterator(), doubleList.size(),
+    public static DoubleStream stream(DoubleCollection c) {
+        Spliterator.OfDouble s = Spliterators.spliterator(c.iterator(), c.size(),
                 Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.doubleStream(intSpliterator, false);
+        return StreamSupport.doubleStream(s, false);
     }
 
-    public static DoubleStream parallelStream(DoubleList doubleList) {
-        Spliterator.OfDouble intSpliterator = Spliterators.spliterator(doubleList.iterator(), doubleList.size(),
+    public static DoubleStream parallelStream(DoubleCollection c) {
+        Spliterator.OfDouble s = Spliterators.spliterator(c.iterator(), c.size(),
                 Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.doubleStream(intSpliterator, true);
+        return StreamSupport.doubleStream(s, true);
     }
 
     public static <T, V> Collector<T, ?, Int2ObjectMap<V>> toMap(ToIntFunction<? super T> keyMapper,
