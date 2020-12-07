@@ -50,9 +50,7 @@ public class BagRules {
     }
 
     public Object2IntMap<String> getChildren(String color) {
-        Object2IntMap<String> children = new Object2IntOpenHashMap<>();
-        rules.get(color)
-                .forEach((c, n) -> children.mergeInt(c, n, Integer::sum));
+        Object2IntMap<String> children = new Object2IntOpenHashMap<>(rules.get(color));
 
         if (!children.isEmpty()) {
             List<ObjectIntPair<String>> indirectChildren = children.object2IntEntrySet().stream()
