@@ -33,9 +33,9 @@ public class Group {
 
         private final List<Group> groups = new ArrayList<>();
 
+        private final Char2IntMap answers = new Char2IntOpenHashMap();
         private boolean collectingGroup;
         private int size;
-        private final Char2IntMap answers = new Char2IntOpenHashMap();
 
         public static Collector<String, GroupAccumulator, List<Group>> collector() {
             return Collector.of(
