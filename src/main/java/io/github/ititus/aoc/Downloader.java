@@ -1,7 +1,7 @@
 package io.github.ititus.aoc;
 
 import io.github.ititus.aoc.common.AocDay;
-import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocFileInput;
 
 public final class Downloader {
 
@@ -13,7 +13,7 @@ public final class Downloader {
             for (int day = 1; day <= 25; day++) {
                 AocDay aocDay = new AocDay(year, day);
                 try {
-                    new AocInput(aocDay).readString();
+                    new AocFileInput(aocDay).readString();
                 } catch (Exception e) {
                     System.out.println("Could not load " + aocDay);
                 }
