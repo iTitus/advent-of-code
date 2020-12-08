@@ -1,10 +1,7 @@
 package io.github.ititus.aoc;
 
 import com.google.common.reflect.ClassPath;
-import io.github.ititus.aoc.common.Aoc;
-import io.github.ititus.aoc.common.AocDay;
-import io.github.ititus.aoc.common.AocInput;
-import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.aoc.common.*;
 import io.github.ititus.math.time.DurationFormatter;
 import io.github.ititus.math.time.StopWatch;
 import org.apache.commons.cli.*;
@@ -72,7 +69,7 @@ public final class AocMain {
     private static void execute(Map.Entry<AocDay, AocSolution> entry) {
         AocDay day = entry.getKey();
 
-        AocInput input = new AocInput(day);
+        AocInput input = new AocFileInput(day);
         AocSolution aoc = entry.getValue();
 
         System.out.println("\n" + "#".repeat(80));

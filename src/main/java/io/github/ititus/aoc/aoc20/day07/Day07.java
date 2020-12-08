@@ -1,12 +1,8 @@
 package io.github.ititus.aoc.aoc20.day07;
 
-import io.github.ititus.aoc.common.Aoc;
-import io.github.ititus.aoc.common.AocInput;
-import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.aoc.common.FastUtilStreams;
+import io.github.ititus.aoc.common.*;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -19,7 +15,7 @@ public class Day07 implements AocSolution {
 
     @Override
     public void executeTests() {
-        String lines = """
+        AocInput input = new AocStringInput("""
                 light red bags contain 1 bright white bag, 2 muted yellow bags.
                 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
                 bright white bags contain 1 shiny gold bag.
@@ -29,14 +25,12 @@ public class Day07 implements AocSolution {
                 vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
                 faded blue bags contain no other bags.
                 dotted black bags contain no other bags.
-                """;
-        rules = Arrays.stream(lines.split("\n"))
-                .collect(BagRules.collector());
-
+                """);
+        readInput(input);
         System.out.println("part2 (expected 4): " + part1());
         System.out.println("part2 (expected 32): " + part2());
 
-        lines = """
+        input = new AocStringInput("""
                 shiny gold bags contain 2 dark red bags.
                 dark red bags contain 2 dark orange bags.
                 dark orange bags contain 2 dark yellow bags.
@@ -44,10 +38,8 @@ public class Day07 implements AocSolution {
                 dark green bags contain 2 dark blue bags.
                 dark blue bags contain 2 dark violet bags.
                 dark violet bags contain no other bags.
-                """;
-        rules = Arrays.stream(lines.split("\n"))
-                .collect(BagRules.collector());
-
+                """);
+        readInput(input);
         System.out.println("part2 (expected 126): " + part2());
     }
 
