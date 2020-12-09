@@ -5,6 +5,7 @@ public class Instruction {
     protected final int argument;
     private final String operation;
     private final InstructionExecutor executor;
+
     private Instruction(String operation, int argument, InstructionExecutor executor) {
         this.operation = operation;
         this.argument = argument;
