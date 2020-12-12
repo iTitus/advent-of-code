@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day17;
 
-import io.github.ititus.aoc.aoc19.Direction;
+import io.github.ititus.aoc.common.Direction;
 
 public enum ExteriorType {
 

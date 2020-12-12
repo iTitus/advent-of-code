@@ -1,4 +1,4 @@
-package io.github.ititus.aoc.aoc19;
+package io.github.ititus.aoc.common;
 
 import io.github.ititus.math.vector.Vec2i;
 
@@ -61,6 +61,20 @@ public enum Direction {
             default:
                 throw new RuntimeException();
         }
+    }
+
+    public Direction rotateCCW(int degrees) {
+        if (degrees % 90 != 0) {
+            throw new RuntimeException();
+        }
+        degrees /= 90;
+        degrees = Math.floorMod(degrees, 4);
+
+        Direction out = this;
+        for (int i = 0; i < degrees; i++) {
+            out = out.rotateCCW();
+        }
+        return out;
     }
 
     public int getIndex() {
