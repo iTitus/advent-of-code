@@ -27,7 +27,7 @@ public class Day11 implements AocSolution {
                 L.LLLLL.LL
                 """));
         System.out.println("Part 1 (expected 37): " + part1());
-        System.out.println("Part 1 (expected 26): " + part2());
+        System.out.println("Part 2 (expected 26): " + part2());
     }
 
     @Override

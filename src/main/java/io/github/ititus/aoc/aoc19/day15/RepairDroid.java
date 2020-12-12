@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day15;
 
-import io.github.ititus.aoc.aoc19.Direction;
 import io.github.ititus.aoc.aoc19.IntComputer;
+import io.github.ititus.aoc.common.Direction;
 import io.github.ititus.math.graph.Graph;
 import io.github.ititus.math.graph.Vertex;
 import io.github.ititus.math.graph.algorithm.Dijkstra;
