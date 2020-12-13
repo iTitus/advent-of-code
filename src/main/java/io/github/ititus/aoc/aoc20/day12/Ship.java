@@ -11,20 +11,6 @@ public class Ship {
     private Vec2i waypoint = new Vec2i(10, -1);
     private Direction facing = Direction.EAST;
 
-    private static Vec2i rotateVectorCCW(Vec2i vec, int degrees) {
-        if (degrees % 90 != 0) {
-            throw new RuntimeException();
-        }
-        degrees /= 90;
-        degrees = Math.floorMod(degrees, 4);
-
-        Vec2i out = vec;
-        for (int i = 0; i < degrees; i++) {
-            out = new Vec2i(out.getY(), -out.getX());
-        }
-        return out;
-    }
-
     public void execute(List<String> commands, boolean part2) {
         for (String command : commands) {
             char c = command.charAt(0);
@@ -35,8 +21,8 @@ public class Ship {
                 case 'E' -> move(Direction.EAST, amount, part2);
                 case 'W' -> move(Direction.WEST, amount, part2);
                 case 'F' -> move(part2 ? waypoint : facing.getDirectionVector(), amount, false);
-                case 'L' -> turnCCW(amount, part2);
-                case 'R' -> turnCCW(-amount, part2);
+                case 'L' -> turn(amount, part2, true);
+                case 'R' -> turn(amount, part2, false);
                 default -> throw new RuntimeException();
             }
         }
@@ -54,11 +40,11 @@ public class Ship {
         }
     }
 
-    private void turnCCW(int degrees, boolean useWaypoint) {
+    private void turn(int degrees, boolean useWaypoint, boolean left) {
         if (useWaypoint) {
-            waypoint = rotateVectorCCW(waypoint, degrees);
+            waypoint = left ? waypoint.rotateCW(degrees) : waypoint.rotateCCW(degrees);
         } else {
-            facing = facing.rotateCCW(degrees);
+            facing = left ? facing.rotateCCW(degrees) : facing.rotateCW(degrees);
         }
     }
 

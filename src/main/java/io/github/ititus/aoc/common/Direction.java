@@ -2,6 +2,9 @@ package io.github.ititus.aoc.common;
 
 import io.github.ititus.math.vector.Vec2i;
 
+/**
+ * Assumes a left-handed coordinate system (north & y are down).
+ */
 public enum Direction {
 
     NORTH(1, 0, -1),
@@ -63,15 +66,27 @@ public enum Direction {
         }
     }
 
+    public Direction rotateCW(int degrees) {
+        if (degrees % 90 != 0) {
+            throw new RuntimeException();
+        }
+        int steps = Math.floorMod(degrees / 90, 4);
+
+        Direction out = this;
+        for (int i = 0; i < steps; i++) {
+            out = out.rotateCW();
+        }
+        return out;
+    }
+
     public Direction rotateCCW(int degrees) {
         if (degrees % 90 != 0) {
             throw new RuntimeException();
         }
-        degrees /= 90;
-        degrees = Math.floorMod(degrees, 4);
+        int steps = Math.floorMod(degrees / 90, 4);
 
         Direction out = this;
-        for (int i = 0; i < degrees; i++) {
+        for (int i = 0; i < steps; i++) {
             out = out.rotateCCW();
         }
         return out;
