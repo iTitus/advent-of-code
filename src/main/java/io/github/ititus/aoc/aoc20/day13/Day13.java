@@ -4,50 +4,28 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.AocStringInput;
-import io.github.ititus.data.Pair;
+import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.math.number.ExtendedGdcBigIntegerResult;
+import io.github.ititus.math.number.ExtendedGdcLongResult;
+import io.github.ititus.math.number.JavaMath;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntIntPair;
 import it.unimi.dsi.fastutil.ints.IntIterator;
 import it.unimi.dsi.fastutil.ints.IntList;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static io.github.ititus.math.number.BigIntegerMath.of;
 import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.ZERO;
 
 @Aoc(year = 2020, day = 13)
 public class Day13 implements AocSolution {
 
     private int earliestDepartTime;
     private IntList busIds;
-
-    /**
-     * <a href="https://en.wikipedia.org/wiki/B%C3%A9zout's_identity">Bézout's identity</a>
-     */
-    private static Pair<BigInteger, BigInteger> bezoutCoefficients(BigInteger a, BigInteger b) {
-        BigInteger old_r = a, r = b;
-        BigInteger old_s = ONE, s = ZERO;
-        BigInteger old_t = ZERO, t = ONE;
-        while (r.signum() != 0) {
-            BigInteger quotient = old_r.divide(r);
-
-            BigInteger tmp = r;
-            r = old_r.subtract(quotient.multiply(r));
-            old_r = tmp;
-
-            tmp = s;
-            s = old_s.subtract(quotient.multiply(s));
-            old_s = tmp;
-
-            tmp = t;
-            t = old_t.subtract(quotient.multiply(t));
-            old_t = tmp;
-        }
-
-        return Pair.of(old_s, old_t);
-    }
 
     @Override
     public void executeTests() {
@@ -127,13 +105,17 @@ public class Day13 implements AocSolution {
 
     @Override
     public Object part2() {
+        return part2Long();
+    }
+
+    private BigInteger part2BigInt() {
+        // https://en.wikipedia.org/wiki/Chinese_remainder_theorem#Using_the_existence_construction
+
         int i = 0;
         int id;
         do {
             id = busIds.getInt(i++);
         } while (id <= 0);
-
-        // https://en.wikipedia.org/wiki/Chinese_remainder_theorem
 
         BigInteger mod1 = of(id);
         BigInteger val1 = of(i - 1).negate().mod(mod1);
@@ -147,18 +129,55 @@ public class Day13 implements AocSolution {
             BigInteger mod2 = of(id);
             BigInteger val2 = of(i).negate().mod(mod2);
 
-            if (!mod1.gcd(mod2).equals(ONE)) {
+            ExtendedGdcBigIntegerResult result = BigIntegerMath.extendedGcd(mod1, mod2);
+            if (!result.getGcd().equals(ONE)) {
                 throw new RuntimeException("coprimality required");
             }
 
-            Pair<BigInteger, BigInteger> coeffs = bezoutCoefficients(mod1, mod2);
-            BigInteger sol = val2.multiply(coeffs.getA().multiply(mod1))
-                    .add(val1.multiply(coeffs.getB().multiply(mod2)));
+            BigInteger sol = val2.multiply(result.getBezoutCoeffA().multiply(mod1))
+                    .add(val1.multiply(result.getBezoutCoeffB().multiply(mod2)));
 
             mod1 = mod1.multiply(mod2);
             val1 = sol.mod(mod1);
         }
 
         return val1;
+    }
+
+    private long part2Long() {
+        // https://en.wikipedia.org/wiki/Chinese_remainder_theorem#Existence_(direct_construction)
+
+        List<IntIntPair> entries = new ArrayList<>();
+        for (int i = 0; i < busIds.size(); i++) {
+            int id = busIds.getInt(i);
+            if (id > 0) {
+                entries.add(IntIntPair.of(Math.floorMod(-i, id), id));
+            }
+        }
+
+        long N = entries
+                .stream()
+                .mapToLong(IntIntPair::rightInt)
+                .reduce(1, (a, b) -> a * b);
+        long result = entries
+                .stream()
+                .mapToLong(e -> {
+                    int a_i = e.leftInt();
+                    int n_i = e.rightInt();
+
+                    long N_i = N / n_i;
+
+                    ExtendedGdcLongResult res = JavaMath.extendedGcd(N_i, n_i);
+                    if (res.getGcd() != 1) {
+                        throw new RuntimeException("coprimality required");
+                    }
+
+                    long M_i = res.getBezoutCoeffA();
+
+                    return a_i * M_i * N_i;
+                })
+                .sum();
+
+        return Math.floorMod(result, N);
     }
 }
