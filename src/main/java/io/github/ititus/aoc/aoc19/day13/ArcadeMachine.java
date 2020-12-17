@@ -49,7 +49,7 @@ public class ArcadeMachine {
     }
 
     private int getNextPaddleMovement() {
-        return JavaMath.signum(ballPos.get().subtract(paddlePos.get()).getX());
+        return JavaMath.sgn(ballPos.get().subtract(paddlePos.get()).getX());
     }
 
     private void update(int output) {

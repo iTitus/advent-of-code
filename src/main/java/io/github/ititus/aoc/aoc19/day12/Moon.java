@@ -39,11 +39,11 @@ public class Moon {
     }
 
     public int getPotentialEnergy() {
-        return pos.manhattenDistance();
+        return pos.manhattanDistance();
     }
 
     public int getKineticEnergy() {
-        return vel.manhattenDistance();
+        return vel.manhattanDistance();
     }
 
     public int getTotalEnergy() {
