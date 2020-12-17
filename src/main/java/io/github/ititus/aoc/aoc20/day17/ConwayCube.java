@@ -1,5 +1,7 @@
 package io.github.ititus.aoc.aoc20.day17;
 
+import io.github.ititus.math.vector.Vec4i;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
