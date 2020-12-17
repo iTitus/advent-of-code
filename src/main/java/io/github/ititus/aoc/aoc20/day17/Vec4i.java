@@ -5,6 +5,8 @@ import io.github.ititus.math.number.JavaMath;
 
 public final class Vec4i implements Comparable<Vec4i> {
 
+    // TODO: replace with ititus-commons Vec4i
+
     private final int x;
     private final int y;
     private final int z;
@@ -33,7 +35,7 @@ public final class Vec4i implements Comparable<Vec4i> {
         return new Vec4i(JavaMath.signum(x), JavaMath.signum(y), JavaMath.signum(z), JavaMath.signum(w));
     }
 
-    public int manhattenDistance() {
+    public int manhattanDistance() {
         return Math.abs(x) + Math.abs(y) + Math.abs(z) + Math.abs(w);
     }
 
