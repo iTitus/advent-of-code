@@ -41,6 +41,10 @@ public class ConwayCube {
         }
     }
 
+    private static void set(Set<Vec4i> map, Vec4i pos) {
+        map.add(pos);
+    }
+
     public int run(int steps) {
         for (int i = 0; i < steps; i++) {
             step();
@@ -115,10 +119,6 @@ public class ConwayCube {
         }
 
         return activeNeighbors == 3 || (get(pos) && activeNeighbors == 2);
-    }
-
-    private static void set(Set<Vec4i> map, Vec4i pos) {
-        map.add(pos);
     }
 
     private boolean get(Vec4i pos) {
