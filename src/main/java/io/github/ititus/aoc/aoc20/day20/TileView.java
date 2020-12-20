@@ -4,23 +4,9 @@ import io.github.ititus.aoc.common.Direction;
 
 public abstract class TileView {
 
-    protected final TileView parent;
+    public abstract int getId();
 
-    protected TileView(TileView parent) {
-        this.parent = parent;
-    }
-
-    public int getId() {
-        return getParent().getId();
-    }
-
-    public int getSize() {
-        return getParent().getSize();
-    }
-
-    public TileView getParent() {
-        return parent.getParent();
-    }
+    public abstract int getSize();
 
     public abstract char get(int x, int y);
 
@@ -44,35 +30,35 @@ public abstract class TileView {
     }
 
     protected TileView rotate_(int amount) {
-        return new Rotate(this, amount);
+        return new Rotate(amount);
     }
 
     /**
      * Flip along (0.5,0)-(0.5,1)
      */
     public TileView flipX() {
-        return new FlipPerpendicular(this, true);
+        return new FlipPerpendicular(true);
     }
 
     /**
      * Flip along (0,0.5)-(1,0.5)
      */
     public TileView flipY() {
-        return new FlipPerpendicular(this, false);
+        return new FlipPerpendicular(false);
     }
 
     /**
      * Flip along (0,0)-(1,1)
      */
     public TileView flipXY() {
-        return new FlipDiagonal(this, true);
+        return new FlipDiagonal(true);
     }
 
     /**
      * Flip along (1,0)-(0,1)
      */
     public TileView flipYX() {
-        return new FlipDiagonal(this, false);
+        return new FlipDiagonal(false);
     }
 
     public TileView[] getAllOrientations() {
@@ -80,26 +66,26 @@ public abstract class TileView {
     }
 
     public char[] getBorder(Direction d) {
-        int size = getSize();
-        char[] border = new char[size];
+        int s = getSize();
+        char[] border = new char[s];
         switch (d) {
             case NORTH -> {
-                for (int i = 0; i < size; i++) {
+                for (int i = 0; i < s; i++) {
                     border[i] = get(i, 0);
                 }
             }
             case EAST -> {
-                for (int i = 0; i < size; i++) {
-                    border[i] = get(size - 1, i);
+                for (int i = 0; i < s; i++) {
+                    border[i] = get(s - 1, i);
                 }
             }
             case SOUTH -> {
-                for (int i = 0; i < size; i++) {
-                    border[i] = get(i, size - 1);
+                for (int i = 0; i < s; i++) {
+                    border[i] = get(i, s - 1);
                 }
             }
             case WEST -> {
-                for (int i = 0; i < size; i++) {
+                for (int i = 0; i < s; i++) {
                     border[i] = get(0, i);
                 }
             }
@@ -110,10 +96,10 @@ public abstract class TileView {
 
     @Override
     public String toString() {
-        int size = getSize();
+        int s = getSize();
         StringBuilder b = new StringBuilder();
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
+        for (int y = 0; y < s; y++) {
+            for (int x = 0; x < s; x++) {
                 b.append(get(x, y));
             }
             b.append('\n');
@@ -123,12 +109,24 @@ public abstract class TileView {
         return b.toString();
     }
 
-    private static class Rotate extends TileView {
+    private abstract class Transformation extends TileView {
+
+        @Override
+        public int getId() {
+            return TileView.this.getId();
+        }
+
+        @Override
+        public int getSize() {
+            return TileView.this.getSize();
+        }
+    }
+
+    private class Rotate extends Transformation {
 
         private final int amount;
 
-        private Rotate(TileView parent, int amount) {
-            super(parent);
+        private Rotate(int amount) {
             if (amount < 1 || amount > 3) {
                 throw new RuntimeException();
             }
@@ -136,156 +134,166 @@ public abstract class TileView {
             this.amount = amount;
         }
 
-
         @Override
         @SuppressWarnings("SuspiciousNameCombination")
         public char get(int x, int y) {
-            int size = getSize();
+            TileView p = TileView.this;
+            int s = getSize() - 1;
             return switch (amount) {
-                case 1 -> parent.get(y, size - 1 - x);
-                case 2 -> parent.get(size - 1 - x, size - 1 - y);
-                case 3 -> parent.get(size - 1 - y, x);
+                case 1 -> p.get(y, s - x);
+                case 2 -> p.get(s - x, s - y);
+                case 3 -> p.get(s - y, x);
                 default -> throw new RuntimeException();
             };
         }
 
         @Override
         protected TileView rotate_(int amount) {
-            return parent.rotate(this.amount + amount);
+            return TileView.this.rotate(this.amount + amount);
         }
 
         @Override
         public TileView flipX() {
+            TileView p = TileView.this;
             return switch (amount) {
-                case 1 -> parent.flipXY();
-                case 2 -> parent.flipY();
-                case 3 -> parent.flipYX();
+                case 1 -> p.flipXY();
+                case 2 -> p.flipY();
+                case 3 -> p.flipYX();
                 default -> throw new RuntimeException();
             };
         }
 
         @Override
         public TileView flipY() {
+            TileView p = TileView.this;
             return switch (amount) {
-                case 1 -> parent.flipYX();
-                case 2 -> parent.flipX();
-                case 3 -> parent.flipXY();
+                case 1 -> p.flipYX();
+                case 2 -> p.flipX();
+                case 3 -> p.flipXY();
                 default -> throw new RuntimeException();
             };
         }
 
         @Override
         public TileView flipXY() {
+            TileView p = TileView.this;
             return switch (amount) {
-                case 1 -> parent.flipY();
-                case 2 -> parent.flipYX();
-                case 3 -> parent.flipX();
+                case 1 -> p.flipY();
+                case 2 -> p.flipYX();
+                case 3 -> p.flipX();
                 default -> throw new RuntimeException();
             };
         }
 
         @Override
         public TileView flipYX() {
+            TileView p = TileView.this;
             return switch (amount) {
-                case 1 -> parent.flipX();
-                case 2 -> parent.flipXY();
-                case 3 -> parent.flipY();
+                case 1 -> p.flipX();
+                case 2 -> p.flipXY();
+                case 3 -> p.flipY();
                 default -> throw new RuntimeException();
             };
         }
     }
 
-    private static class FlipPerpendicular extends TileView {
+    private class FlipPerpendicular extends Transformation {
 
         private final boolean flipX;
 
-        private FlipPerpendicular(TileView parent, boolean flipX) {
-            super(parent);
+        private FlipPerpendicular(boolean flipX) {
             this.flipX = flipX;
         }
 
         @Override
         public char get(int x, int y) {
-            int size = getSize();
-            return parent.get(flipX ? size - 1 - x : x, flipX ? y : size - 1 - y);
+            int s = getSize() - 1;
+            return TileView.this.get(flipX ? s - x : x, flipX ? y : s - y);
         }
 
         @Override
         protected TileView rotate_(int amount) {
+            TileView p = TileView.this;
             return switch (amount) {
-                case 0 -> this;
-                case 1 -> flipX ? parent.flipYX() : parent.flipXY();
-                case 2 -> flipX ? parent.flipY() : parent.flipX();
-                case 3 -> flipX ? parent.flipXY() : parent.flipYX();
+                case 1 -> flipX ? p.flipYX() : p.flipXY();
+                case 2 -> flipX ? p.flipY() : p.flipX();
+                case 3 -> flipX ? p.flipXY() : p.flipYX();
                 default -> throw new RuntimeException();
             };
         }
 
         @Override
         public TileView flipX() {
-            return flipX ? parent : parent.rotate(2);
+            TileView p = TileView.this;
+            return flipX ? p : p.rotate(2);
         }
 
         @Override
         public TileView flipY() {
-            return flipX ? parent.rotate(2) : parent;
+            TileView p = TileView.this;
+            return flipX ? p.rotate(2) : p;
         }
 
         @Override
         public TileView flipXY() {
-            return flipX ? parent.rotate(3) : parent.rotate(1);
+            TileView p = TileView.this;
+            return flipX ? p.rotate(3) : p.rotate(1);
         }
 
         @Override
         public TileView flipYX() {
-            return flipX ? parent.rotate(1) : parent.rotate(3);
+            TileView p = TileView.this;
+            return flipX ? p.rotate(1) : p.rotate(3);
         }
     }
 
-    private static class FlipDiagonal extends TileView {
+    private class FlipDiagonal extends Transformation {
 
         private final boolean flipX;
 
-        private FlipDiagonal(TileView parent, boolean flipX) {
-            super(parent);
+        private FlipDiagonal(boolean flipX) {
             this.flipX = flipX;
         }
 
         @Override
         public char get(int x, int y) {
-            int size = getSize();
-            return parent.get(flipX ? y : size - 1 - y, flipX ? x : size - 1 - x);
+            int s = getSize() - 1;
+            return TileView.this.get(flipX ? y : s - y, flipX ? x : s - x);
         }
 
         @Override
         protected TileView rotate_(int amount) {
+            TileView p = TileView.this;
             return switch (amount) {
-                case 0 -> this;
-                case 1 -> flipX ? parent.flipX() : parent.flipY();
-                case 2 -> flipX ? parent.flipYX() : parent.flipXY();
-                case 3 -> flipX ? parent.flipY() : parent.flipX();
+                case 1 -> flipX ? p.flipX() : p.flipY();
+                case 2 -> flipX ? p.flipYX() : p.flipXY();
+                case 3 -> flipX ? p.flipY() : p.flipX();
                 default -> throw new RuntimeException();
             };
         }
 
         @Override
         public TileView flipX() {
-            return flipX ? parent.rotate(1) : parent.rotate(3);
+            TileView p = TileView.this;
+            return flipX ? p.rotate(1) : p.rotate(3);
         }
 
         @Override
         public TileView flipY() {
-            return flipX ? parent.rotate(3) : parent.rotate(1);
+            TileView p = TileView.this;
+            return flipX ? p.rotate(3) : p.rotate(1);
         }
 
         @Override
         public TileView flipXY() {
-            return flipX ? parent : parent.rotate(2);
+            TileView p = TileView.this;
+            return flipX ? p : p.rotate(2);
         }
 
         @Override
         public TileView flipYX() {
-            return flipX ? parent.rotate(2) : parent;
+            TileView p = TileView.this;
+            return flipX ? p.rotate(2) : p;
         }
     }
 }

@@ -6,7 +6,6 @@ public class CompositeImage extends TileView {
     private final int size, tileSize;
 
     public CompositeImage(int size, int tileSize, TileView[] tiles) {
-        super(null);
         this.size = size;
         this.tileSize = tileSize;
         this.tiles = tiles;
@@ -20,11 +19,6 @@ public class CompositeImage extends TileView {
     @Override
     public int getSize() {
         return size * (tileSize - 2);
-    }
-
-    @Override
-    public TileView getParent() {
-        return this;
     }
 
     @Override
