@@ -60,7 +60,6 @@ public class Day19 implements AocSolution {
                 aaaabbaabbaaaaaaabbbabbbaaabbaabaaa
                 aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba
                 """));
-
         System.out.println("Part 1 (expected 3): " + part1());
         System.out.println("Part 2 (expected 12): " + part2());
     }
