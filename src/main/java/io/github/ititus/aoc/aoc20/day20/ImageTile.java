@@ -7,7 +7,6 @@ public class ImageTile extends TileView {
     private final char[] image;
 
     public ImageTile(int size, String[] lines) {
-        super(null);
         if (lines.length != size + 1) {
             throw new RuntimeException();
         }
@@ -37,11 +36,6 @@ public class ImageTile extends TileView {
     @Override
     public int getSize() {
         return size;
-    }
-
-    @Override
-    public TileView getParent() {
-        return this;
     }
 
     @Override
