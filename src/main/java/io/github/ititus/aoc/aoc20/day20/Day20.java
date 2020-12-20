@@ -15,8 +15,8 @@ public class Day20 implements AocSolution {
 
     private static final int TILE_SIZE = 10;
 
-    private List<ImageTile> tiles;
     private int size;
+    private TileView[] image;
 
     private static TileView[] buildImage(TileView[] image, List<ImageTile> remaining, int size, int index) {
         if (index >= size * size) {
@@ -186,7 +186,7 @@ public class Day20 implements AocSolution {
 
     @Override
     public void readInput(AocInput input) {
-        tiles = stream(input.readString().split("\n\n"))
+        List<ImageTile> tiles = stream(input.readString().split("\n\n"))
                 .map(s -> s.split("\n"))
                 .map(s -> new ImageTile(TILE_SIZE, s))
                 .collect(Collectors.toList());
@@ -195,12 +195,12 @@ public class Day20 implements AocSolution {
         if (size * size != tiles.size()) {
             throw new RuntimeException();
         }
+
+        image = buildImage(null, tiles, size, 0);
     }
 
     @Override
     public Object part1() {
-        TileView[] image = buildImage(null, tiles, size, 0);
-
         long l = get(image, size, 0, 0).getId();
         l *= get(image, size, size - 1, 0).getId();
         l *= get(image, size, 0, size - 1).getId();
@@ -219,7 +219,7 @@ public class Day20 implements AocSolution {
         int seaMonsterLength = seaMonsterPattern[0].length();
         long seaMonsterMass = stream(seaMonsterPattern).flatMapToInt(String::chars).filter(c -> c == '#').count();
 
-        TileView realImage = new CompositeImage(size, TILE_SIZE, buildImage(null, tiles, size, 0));
+        TileView realImage = new CompositeImage(size, TILE_SIZE, image);
 
         int seaMonsterCount = 0;
         for (TileView v : realImage.getAllOrientations()) {
