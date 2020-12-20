@@ -249,25 +249,25 @@ public abstract class TileView {
 
     private class FlipDiagonal extends Transformation {
 
-        private final boolean flipX;
+        private final boolean flipXY;
 
-        private FlipDiagonal(boolean flipX) {
-            this.flipX = flipX;
+        private FlipDiagonal(boolean flipXY) {
+            this.flipXY = flipXY;
         }
 
         @Override
         public char get(int x, int y) {
             int s = getSize() - 1;
-            return TileView.this.get(flipX ? y : s - y, flipX ? x : s - x);
+            return TileView.this.get(flipXY ? y : s - y, flipXY ? x : s - x);
         }
 
         @Override
         protected TileView rotate_(int amount) {
             TileView p = TileView.this;
             return switch (amount) {
-                case 1 -> flipX ? p.flipX() : p.flipY();
-                case 2 -> flipX ? p.flipYX() : p.flipXY();
-                case 3 -> flipX ? p.flipY() : p.flipX();
+                case 1 -> flipXY ? p.flipX() : p.flipY();
+                case 2 -> flipXY ? p.flipYX() : p.flipXY();
+                case 3 -> flipXY ? p.flipY() : p.flipX();
                 default -> throw new RuntimeException();
             };
         }
@@ -275,25 +275,25 @@ public abstract class TileView {
         @Override
         public TileView flipX() {
             TileView p = TileView.this;
-            return flipX ? p.rotate(1) : p.rotate(3);
+            return flipXY ? p.rotate(1) : p.rotate(3);
         }
 
         @Override
         public TileView flipY() {
             TileView p = TileView.this;
-            return flipX ? p.rotate(3) : p.rotate(1);
+            return flipXY ? p.rotate(3) : p.rotate(1);
         }
 
         @Override
         public TileView flipXY() {
             TileView p = TileView.this;
-            return flipX ? p : p.rotate(2);
+            return flipXY ? p : p.rotate(2);
         }
 
         @Override
         public TileView flipYX() {
             TileView p = TileView.this;
-            return flipX ? p.rotate(2) : p;
+            return flipXY ? p.rotate(2) : p;
         }
     }
 }
