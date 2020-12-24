@@ -14,7 +14,7 @@ public class Day23 implements AocSolution {
     public void executeTests() {
         readInput(new AocStringInput("389125467"));
         System.out.println("Part 1 (expected 67384529): " + part1());
-        System.out.println("Part 1 (expected 149245887792): " + part2());
+        System.out.println("Part 2 (expected 149245887792): " + part2());
     }
 
     @Override
