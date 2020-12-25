@@ -4,23 +4,19 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.AocStringInput;
-import io.github.ititus.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
 
+import static io.github.ititus.math.number.BigIntegerMath.of;
 import static java.math.BigInteger.ONE;
 
 @Aoc(year = 2020, day = 25)
 public class Day25 implements AocSolution {
 
-    private static final BigInteger MOD = BigIntegerMath.of(20201227);
-    private static final BigInteger BASE = BigIntegerMath.of(7);
+    private static final BigInteger MOD = of(20201227);
+    private static final BigInteger BASE = of(7);
 
     private BigInteger cardPublicKey, doorPublicKey;
-
-    private static BigInteger modPow(BigInteger base, BigInteger exponent) {
-        return base.modPow(exponent, MOD);
-    }
 
     private static int findLoopSize(BigInteger expectedPow) {
         BigInteger pow = ONE;
@@ -45,14 +41,14 @@ public class Day25 implements AocSolution {
     @Override
     public void readInput(AocInput input) {
         String[] split = input.readString().split("\n");
-        cardPublicKey = BigIntegerMath.of(split[0]);
-        doorPublicKey = BigIntegerMath.of(split[1]);
+        cardPublicKey = of(split[0]);
+        doorPublicKey = of(split[1]);
     }
 
     @Override
     public Object part1() {
         int loopSize = findLoopSize(cardPublicKey);
-        return modPow(doorPublicKey, BigIntegerMath.of(loopSize));
+        return doorPublicKey.modPow(of(loopSize), MOD);
     }
 
     @Override
