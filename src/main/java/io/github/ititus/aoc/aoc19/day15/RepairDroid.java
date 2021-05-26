@@ -59,10 +59,10 @@ public class RepairDroid {
     public void render() {
         Set<Vec2i> passable = map.getVertices().stream().map(Vertex::get).collect(Collectors.toSet());
 
-        int minX = passable.stream().mapToInt(Vec2i::getX).min().orElseThrow();
-        int minY = passable.stream().mapToInt(Vec2i::getY).min().orElseThrow();
-        int maxX = passable.stream().mapToInt(Vec2i::getX).max().orElseThrow();
-        int maxY = passable.stream().mapToInt(Vec2i::getY).max().orElseThrow();
+        int minX = passable.stream().mapToInt(Vec2i::x).min().orElseThrow();
+        int minY = passable.stream().mapToInt(Vec2i::y).min().orElseThrow();
+        int maxX = passable.stream().mapToInt(Vec2i::x).max().orElseThrow();
+        int maxY = passable.stream().mapToInt(Vec2i::y).max().orElseThrow();
 
         for (int y = minY - 1; y <= maxY + 1; y++) {
             for (int x = minX - 1; x <= maxX + 1; x++) {

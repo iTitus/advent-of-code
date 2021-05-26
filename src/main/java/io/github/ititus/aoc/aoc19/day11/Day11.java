@@ -36,10 +36,10 @@ public final class Day11 implements AocSolution {
 
         Map<Vec2i, HullColor> hull = robot.getHull();
 
-        int minX = hull.keySet().stream().mapToInt(Vec2i::getX).min().orElseThrow();
-        int minY = hull.keySet().stream().mapToInt(Vec2i::getY).min().orElseThrow();
-        int maxX = hull.keySet().stream().mapToInt(Vec2i::getX).max().orElseThrow();
-        int maxY = hull.keySet().stream().mapToInt(Vec2i::getY).max().orElseThrow();
+        int minX = hull.keySet().stream().mapToInt(Vec2i::x).min().orElseThrow();
+        int minY = hull.keySet().stream().mapToInt(Vec2i::y).min().orElseThrow();
+        int maxX = hull.keySet().stream().mapToInt(Vec2i::x).max().orElseThrow();
+        int maxY = hull.keySet().stream().mapToInt(Vec2i::y).max().orElseThrow();
 
         if (minX != 0 && minY != 0) {
             throw new RuntimeException();
