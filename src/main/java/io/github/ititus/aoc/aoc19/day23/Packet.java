@@ -27,11 +27,11 @@ public class Packet {
         return to;
     }
 
-    public BigInteger getX() {
+    public BigInteger x() {
         return x;
     }
 
-    public BigInteger getY() {
+    public BigInteger y() {
         return y;
     }
 

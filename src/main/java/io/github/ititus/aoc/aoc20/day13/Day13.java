@@ -113,7 +113,8 @@ public class Day13 implements AocSolution {
 
         int i = 0;
         int id;
-        do {
+        do
+        {
             id = busIds.getInt(i++);
         } while (id <= 0);
 

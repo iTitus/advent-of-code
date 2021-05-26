@@ -59,7 +59,7 @@ public final class Day03 implements AocSolution {
         List<Vec2i> path = new ArrayList<>();
         int amount = Integer.parseInt(command.substring(1));
         for (int i = 1; i <= amount; i++) {
-            path.add(new Vec2i(pos.getX() + i * dirX, pos.getY() + i * dirY));
+            path.add(new Vec2i(pos.x() + i * dirX, pos.y() + i * dirY));
         }
 
         return path;

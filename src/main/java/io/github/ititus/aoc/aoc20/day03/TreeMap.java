@@ -46,7 +46,7 @@ public class TreeMap {
     }
 
     public boolean hasTree(Vec2i pos) {
-        return hasTree(pos.getX(), pos.getY());
+        return hasTree(pos.x(), pos.y());
     }
 
     public boolean hasTree(int x, int y) {
@@ -59,7 +59,7 @@ public class TreeMap {
 
     public long countTreesEncountered(Vec2i slope) {
         return Stream
-                .iterate(new Vec2i(), pos -> pos.getY() < height, slope::add)
+                .iterate(new Vec2i(), pos -> pos.y() < height, slope::add)
                 .filter(this::hasTree)
                 .count();
     }

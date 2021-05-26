@@ -59,10 +59,10 @@ public class NetworkComputer {
         Packet p = input.peek();
         if (p != null) {
             if (inputState.compareAndSet(0, 1)) {
-                return p.getX();
+                return p.x();
             } else if (inputState.compareAndSet(1, 0)) {
                 input.poll();
-                return p.getY();
+                return p.y();
             } else {
                 throw new RuntimeException();
             }

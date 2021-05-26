@@ -44,7 +44,8 @@ public class SeatGrid {
 
     public int run(boolean part2) {
         //noinspection StatementWithEmptyBody
-        while (step(part2)) ;
+        while (step(part2))
+            ;
         return countOccupied();
     }
 

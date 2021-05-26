@@ -27,6 +27,6 @@ public final class Day19 implements AocSolution {
     @Override
     public Object part2() {
         Vec2i pos = scanner.getClosestPosForShip(100);
-        return pos.getX() * 10_000 + pos.getY();
+        return pos.x() * 10_000 + pos.y();
     }
 }
