@@ -34,7 +34,7 @@ public class Day20 implements AocSolution {
             for (TileView view : candidate.getAllOrientations()) {
                 for (Direction d : Direction.VALUES) {
                     Vec2i dir = d.getDirectionVector();
-                    TileView neighbor = get(image, size, x + dir.getX(), y + dir.getY());
+                    TileView neighbor = get(image, size, x + dir.x(), y + dir.y());
                     if (neighbor != null && !Arrays.equals(view.getBorder(d), neighbor.getBorder(d.getOpposite()))) {
                         continue views;
                     }

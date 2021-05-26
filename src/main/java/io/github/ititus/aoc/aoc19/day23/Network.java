@@ -43,8 +43,8 @@ public class Network {
         int to = p.getTo();
 
         if (p.getFrom() == 255) {
-            BigInteger y = p.getY();
-            if (!natYValues.add(p.getY())) {
+            BigInteger y = p.y();
+            if (!natYValues.add(p.y())) {
                 System.out.println(y);
             }
         }

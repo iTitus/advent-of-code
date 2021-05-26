@@ -81,7 +81,8 @@ public class Combat {
     }
 
     public int simulate(boolean recursive) {
-        while (round(recursive)) ;
+        while (round(recursive))
+            ;
         if (winner == 0) {
             throw new RuntimeException();
         }

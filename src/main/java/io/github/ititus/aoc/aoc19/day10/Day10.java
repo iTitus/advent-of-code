@@ -92,6 +92,6 @@ public final class Day10 implements AocSolution {
         }
 
         Vec2i p200 = vaporized.get(199);
-        return "200th vaporized asteroid is " + p200 + " with result " + p200.getX() * 100 + p200.getY();
+        return "200th vaporized asteroid is " + p200 + " with result " + p200.x() * 100 + p200.y();
     }
 }

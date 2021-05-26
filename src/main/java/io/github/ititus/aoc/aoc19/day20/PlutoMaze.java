@@ -52,12 +52,12 @@ public class PlutoMaze {
             }
 
             visited.add(labelPos);
-            StringBuilder b = new StringBuilder(2).append(map[labelPos.getX()][labelPos.getY()]);
+            StringBuilder b = new StringBuilder(2).append(map[labelPos.x()][labelPos.y()]);
 
             Vec2i o = labelPos.add(Direction.EAST.getDirectionVector());
             if (labels.contains(o)) {
                 visited.add(o);
-                b.append(map[o.getX()][o.getY()]);
+                b.append(map[o.x()][o.y()]);
 
                 String label = b.toString();
                 Vec2i portalPos = labeledPos.get(label);
@@ -66,8 +66,8 @@ public class PlutoMaze {
 
                     Vec2i pos1 = portalPos.add(mid.subtract(portalPos).sgn());
                     Vec2i pos2 = p.add(mid.subtract(p).sgn());
-                    char c1 = map[pos1.getX()][pos1.getY()];
-                    char c2 = map[pos2.getX()][pos2.getY()];
+                    char c1 = map[pos1.x()][pos1.y()];
+                    char c2 = map[pos2.x()][pos2.y()];
                     boolean outer1 = c1 == '#' || c1 == '.';
                     boolean outer2 = c2 == '#' || c2 == '.';
                     if (outer1 == outer2) {
@@ -86,7 +86,7 @@ public class PlutoMaze {
             o = labelPos.add(Direction.SOUTH.getDirectionVector());
             if (labels.contains(o)) {
                 visited.add(o);
-                b.append(map[o.getX()][o.getY()]);
+                b.append(map[o.x()][o.y()]);
 
                 String label = b.toString();
                 Vec2i portalPos = labeledPos.get(label);
@@ -95,8 +95,8 @@ public class PlutoMaze {
 
                     Vec2i pos1 = portalPos.add(mid.subtract(portalPos).sgn());
                     Vec2i pos2 = p.add(mid.subtract(p).sgn());
-                    char c1 = map[pos1.getX()][pos1.getY()];
-                    char c2 = map[pos2.getX()][pos2.getY()];
+                    char c1 = map[pos1.x()][pos1.y()];
+                    char c2 = map[pos2.x()][pos2.y()];
                     boolean outer1 = c1 == '#' || c1 == '.';
                     boolean outer2 = c2 == '#' || c2 == '.';
                     if (outer1 == outer2) {
@@ -115,19 +115,19 @@ public class PlutoMaze {
     }
 
     private boolean isInBounds(Vec2i pos) {
-        return pos.getX() >= 0 && pos.getY() >= 0 && pos.getX() < sizeX && pos.getY() < sizeY;
+        return pos.x() >= 0 && pos.y() >= 0 && pos.x() < sizeX && pos.y() < sizeY;
     }
 
     private Vec2i findPortalEntrance(Vec2i main, Vec2i other) {
-        boolean horizontal = other.getX() - main.getX() != 0;
+        boolean horizontal = other.x() - main.x() != 0;
 
         Direction first = horizontal ? Direction.WEST : Direction.NORTH;
         Direction second = horizontal ? Direction.EAST : Direction.SOUTH;
 
         Vec2i p = main.add(first.getDirectionVector());
-        if (!isInBounds(p) || map[p.getX()][p.getY()] != '.') {
+        if (!isInBounds(p) || map[p.x()][p.y()] != '.') {
             p = other.add(second.getDirectionVector());
-            if (!isInBounds(p) || map[p.getX()][p.getY()] != '.') {
+            if (!isInBounds(p) || map[p.x()][p.y()] != '.') {
                 throw new RuntimeException();
             }
         }
@@ -139,8 +139,8 @@ public class PlutoMaze {
         Vec2i startPos2 = Objects.requireNonNull(labeledPos.get(start));
         Vec2i endPos2 = Objects.requireNonNull(labeledPos.get(end));
 
-        Vec3i startPos = new Vec3i(startPos2.getX(), startPos2.getY(), 0);
-        Vec3i endPos = new Vec3i(endPos2.getX(), endPos2.getY(), 0);
+        Vec3i startPos = new Vec3i(startPos2.x(), startPos2.y(), 0);
+        Vec3i endPos = new Vec3i(endPos2.x(), endPos2.y(), 0);
 
         Queue<Vec3i> toVisit = new ArrayDeque<>();
         Set<Vec3i> visited = new HashSet<>();
@@ -162,15 +162,15 @@ public class PlutoMaze {
                 continue;
             }
 
-            int currentLevel = p.getZ();
-            Vec2i p2 = new Vec2i(p.getX(), p.getY());
+            int currentLevel = p.z();
+            Vec2i p2 = new Vec2i(p.x(), p.y());
 
             for (Direction d : Direction.VALUES) {
                 Vec2i o2 = p2.add(d.getDirectionVector());
-                Vec3i o = new Vec3i(o2.getX(), o2.getY(), currentLevel);
+                Vec3i o = new Vec3i(o2.x(), o2.y(), currentLevel);
 
                 if (!visited.contains(o)) {
-                    char c = map[o.getX()][o.getY()];
+                    char c = map[o.x()][o.y()];
 
                     if (endPos.equals(o)) {
                         return depth + 1;

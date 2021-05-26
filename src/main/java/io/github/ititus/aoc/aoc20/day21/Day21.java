@@ -44,7 +44,8 @@ public class Day21 implements AocSolution {
         }
 
         boolean work;
-        do {
+        do
+        {
             work = false;
             for (Map.Entry<String, Set<String>> entry : allergenToIngredients.entrySet()) {
                 String allergen = entry.getKey();

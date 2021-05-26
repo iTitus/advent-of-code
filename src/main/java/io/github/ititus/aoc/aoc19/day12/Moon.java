@@ -51,14 +51,14 @@ public class Moon {
     }
 
     public boolean isInitialX() {
-        return pos.getX() == initialPos.getX() && vel.getX() == initialVel.getX();
+        return pos.x() == initialPos.x() && vel.x() == initialVel.x();
     }
 
     public boolean isInitialY() {
-        return pos.getY() == initialPos.getY() && vel.getY() == initialVel.getY();
+        return pos.y() == initialPos.y() && vel.y() == initialVel.y();
     }
 
     public boolean isInitialZ() {
-        return pos.getZ() == initialPos.getZ() && vel.getZ() == initialVel.getZ();
+        return pos.z() == initialPos.z() && vel.z() == initialVel.z();
     }
 }

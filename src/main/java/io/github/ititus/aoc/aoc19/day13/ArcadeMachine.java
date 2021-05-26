@@ -1,7 +1,8 @@
 package io.github.ititus.aoc.aoc19.day13;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.data.Bag;
+import io.github.ititus.data.mutable.Mutable;
+import io.github.ititus.data.mutable.MutableInt;
 import io.github.ititus.math.number.JavaMath;
 import io.github.ititus.math.vector.Vec2i;
 
@@ -14,24 +15,26 @@ public class ArcadeMachine {
     private static final int SIZE_Y = 23;
 
     private final IntComputer computer;
-    private final Bag<Integer> bx = new Bag<>();
-    private final Bag<Integer> by = new Bag<>();
+    private final Mutable<Integer> bx;
+    private final Mutable<Integer> by;
     private final ArcadeTile[][] screen;
-    private final Bag<Vec2i> paddlePos;
-    private final Bag<Vec2i> ballPos;
-    private final Bag<Integer> score;
+    private final Mutable<Vec2i> paddlePos;
+    private final Mutable<Vec2i> ballPos;
+    private final MutableInt score;
 
     public ArcadeMachine(BigInteger[] memory, boolean hackMoney) {
         memory = Arrays.copyOf(memory, memory.length);
+        this.bx = Mutable.empty();
+        this.by = Mutable.empty();
         this.screen = new ArcadeTile[SIZE_X][SIZE_Y];
         for (int y = 0; y < SIZE_Y; y++) {
             for (int x = 0; x < SIZE_Y; x++) {
                 this.screen[x][y] = ArcadeTile.EMPTY;
             }
         }
-        this.paddlePos = new Bag<>(null);
-        this.ballPos = new Bag<>(null);
-        this.score = new Bag<>(0);
+        this.paddlePos = Mutable.empty();
+        this.ballPos = Mutable.empty();
+        this.score = MutableInt.ofZero();
 
         if (hackMoney) {
             memory[0] = BigInteger.TWO;
@@ -49,7 +52,7 @@ public class ArcadeMachine {
     }
 
     private int getNextPaddleMovement() {
-        return JavaMath.sgn(ballPos.get().subtract(paddlePos.get()).getX());
+        return JavaMath.sgn(ballPos.get().subtract(paddlePos.get()).x());
     }
 
     private void update(int output) {

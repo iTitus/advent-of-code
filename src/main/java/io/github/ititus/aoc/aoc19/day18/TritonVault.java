@@ -110,7 +110,7 @@ public class TritonVault {
                 for (Direction d : Direction.VALUES) {
                     Vec2i o = p.add(d.getDirectionVector());
                     if (!visited.contains(o)) {
-                        char c = map[o.getX()][o.getY()];
+                        char c = map[o.x()][o.y()];
                         if (c == '.' || c == '@') {
                             toVisit.offer(o);
                             visited.add(o);
@@ -162,8 +162,8 @@ public class TritonVault {
         if (changeMap) {
             Objects.requireNonNull(firstEntrance);
 
-            int x = firstEntrance.getX();
-            int y = firstEntrance.getY();
+            int x = firstEntrance.x();
+            int y = firstEntrance.y();
 
             map[x - 1][y - 1] = '@';
             map[x][y - 1] = '#';
@@ -195,14 +195,14 @@ public class TritonVault {
         allDoors = new Door[size];
 
         for (Vec2i keyPos : allKeyPos) {
-            char keyChar = map[keyPos.getX()][keyPos.getY()];
+            char keyChar = map[keyPos.x()][keyPos.y()];
 
             Key key = new Key(keyChar, keyPos);
 
             setKey(keyChar, key);
         }
         for (Vec2i doorPos : allDoorPos) {
-            char doorChar = map[doorPos.getX()][doorPos.getY()];
+            char doorChar = map[doorPos.x()][doorPos.y()];
 
             Key key = getKeyForDoor(doorChar);
             Door door = new Door(doorChar, doorPos);

@@ -65,8 +65,8 @@ public final class Day03 implements AocSolution {
 
         private int getNumberOfDoubleClaims() {
             int n = 0;
-            for (int y = 0; y < size.getY(); y++) {
-                for (int x = 0; x < size.getX(); x++) {
+            for (int y = 0; y < size.y(); y++) {
+                for (int x = 0; x < size.x(); x++) {
                     boolean claimedOnce = false;
                     for (Claim c : claims) {
                         if (c.isClaimed(new Vec2i(x, y))) {
@@ -121,7 +121,7 @@ public final class Day03 implements AocSolution {
         private final Vec2i size;
 
         private Claim(int id, Vec2i pos, Vec2i size) {
-            if (pos.getX() < 0 || pos.getY() < 0 || size.getX() <= 0 || size.getY() <= 0) {
+            if (pos.x() < 0 || pos.y() < 0 || size.x() <= 0 || size.y() <= 0) {
                 throw new IllegalArgumentException();
             }
 
@@ -156,19 +156,19 @@ public final class Day03 implements AocSolution {
         }
 
         public boolean isClaimed(Vec2i pos) {
-            return this.pos.getX() <= pos.getX() && pos.getX() < this.pos.getX() + this.size.getX()
-                    && this.pos.getY() <= pos.getY() && pos.getY() < this.pos.getY() + this.size.getY();
+            return this.pos.x() <= pos.x() && pos.x() < this.pos.x() + this.size.x()
+                    && this.pos.y() <= pos.y() && pos.y() < this.pos.y() + this.size.y();
         }
 
         public boolean intersects(Claim c) {
-            int tx = this.pos.getX();
-            int ty = this.pos.getY();
-            int ox = c.pos.getX();
-            int oy = c.pos.getY();
-            int tw = tx + this.size.getX();
-            int th = ty + this.size.getY();
-            int ow = ox + c.size.getX();
-            int oh = oy + c.size.getY();
+            int tx = this.pos.x();
+            int ty = this.pos.y();
+            int ox = c.pos.x();
+            int oy = c.pos.y();
+            int tw = tx + this.size.x();
+            int th = ty + this.size.y();
+            int ow = ox + c.size.x();
+            int oh = oy + c.size.y();
 
             return !(ox >= tw || tx >= ow || oy >= th || ty >= oh);
         }

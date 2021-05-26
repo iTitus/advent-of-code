@@ -34,8 +34,8 @@ public class TractorBeamScanner {
 
     public boolean isTractorBeamAffected(Vec2i pos) {
         BlockingQueue<Integer> input = new ArrayBlockingQueue<>(2);
-        input.offer(pos.getX());
-        input.offer(pos.getY());
+        input.offer(pos.x());
+        input.offer(pos.y());
 
         BlockingQueue<Integer> output = new ArrayBlockingQueue<>(1);
 

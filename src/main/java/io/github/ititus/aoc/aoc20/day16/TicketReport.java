@@ -79,7 +79,8 @@ public class TicketReport {
 
         // remove unique properties from all other candidate sets
         boolean work;
-        do {
+        do
+        {
             work = false;
             for (Set<String> candidates : validProperties) {
                 if (candidates.size() == 1) {

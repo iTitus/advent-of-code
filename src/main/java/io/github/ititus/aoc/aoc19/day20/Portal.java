@@ -14,11 +14,11 @@ public class Portal {
     }
 
     public Vec3i getOtherEnd(boolean recursive, Vec3i p) {
-        int currentLevel = p.getZ();
-        Vec2i p2 = new Vec2i(p.getX(), p.getY());
+        int currentLevel = p.z();
+        Vec2i p2 = new Vec2i(p.x(), p.y());
         return in.equals(p2) ?
-                new Vec3i(out.getX(), out.getY(), recursive ? currentLevel - 1 : 0) :
-                recursive && currentLevel == 0 ? null : new Vec3i(in.getX(), in.getY(), recursive ? currentLevel + 1
+                new Vec3i(out.x(), out.y(), recursive ? currentLevel - 1 : 0) :
+                recursive && currentLevel == 0 ? null : new Vec3i(in.x(), in.y(), recursive ? currentLevel + 1
                         : 0);
     }
 }

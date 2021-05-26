@@ -97,10 +97,10 @@ public class ConwayCube {
 
     private boolean nextState(Vec4i pos) {
         int activeNeighbors = 0;
-        for (int w = useW ? pos.getW() - 1 : pos.getW(); w <= (useW ? pos.getW() + 1 : pos.getW()); w++) {
-            for (int z = pos.getZ() - 1; z <= pos.getZ() + 1; z++) {
-                for (int y = pos.getY() - 1; y <= pos.getY() + 1; y++) {
-                    for (int x = pos.getX() - 1; x <= pos.getX() + 1; x++) {
+        for (int w = useW ? pos.w() - 1 : pos.w(); w <= (useW ? pos.w() + 1 : pos.w()); w++) {
+            for (int z = pos.z() - 1; z <= pos.z() + 1; z++) {
+                for (int y = pos.y() - 1; y <= pos.y() + 1; y++) {
+                    for (int x = pos.x() - 1; x <= pos.x() + 1; x++) {
                         Vec4i neighbor = new Vec4i(x, y, z, w);
                         if (neighbor.equals(pos)) {
                             continue;

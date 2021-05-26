@@ -136,8 +136,8 @@ public class AsciiRobot {
     }
 
     private ExteriorType get(Vec2i pos) {
-        int y = pos.getY();
-        int x = pos.getX();
+        int y = pos.y();
+        int x = pos.x();
         if (y >= 0 && x >= 0 && y < sizeY && x < sizeX) {
             return map[x][y];
         }
@@ -216,8 +216,8 @@ public class AsciiRobot {
                     int neighbors = 0;
                     for (Direction d : Direction.values()) {
                         Vec2i v = d.getDirectionVector();
-                        int dy = y + v.getY();
-                        int dx = x + v.getX();
+                        int dy = y + v.y();
+                        int dx = x + v.x();
 
                         if (dy >= 0 && dx >= 0 && dy < sizeY && dx < sizeX && map[dx][dy] == ExteriorType.SCAFFOLDING) {
                             neighbors++;
