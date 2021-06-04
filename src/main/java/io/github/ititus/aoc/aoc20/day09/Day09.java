@@ -81,7 +81,7 @@ public class Day09 implements AocSolution {
     @Override
     public void readInput(AocInput input) {
         numbers = input.readAllLinesAsLong();
-        if (numbers.stream().anyMatch(n -> n <= 0)) {
+        if (numbers.longStream().anyMatch(n -> n <= 0)) {
             throw new RuntimeException("expected positive numbers");
         }
     }

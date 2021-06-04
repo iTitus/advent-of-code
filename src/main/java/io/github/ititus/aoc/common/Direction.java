@@ -3,7 +3,7 @@ package io.github.ititus.aoc.common;
 import io.github.ititus.math.vector.Vec2i;
 
 /**
- * Assumes a left-handed coordinate system (north & y are down).
+ * Assumes a left-handed coordinate system (north &amp; y are down).
  */
 public enum Direction {
 
