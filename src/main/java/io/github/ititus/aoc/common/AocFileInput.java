@@ -1,16 +1,15 @@
 package io.github.ititus.aoc.common;
 
-import io.github.ititus.io.IO;
+import io.github.ititus.io.HttpStatus;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -72,7 +71,7 @@ public final class AocFileInput implements AocInput {
                 return p;
             }
 
-            System.out.println("Downloading input...");
+            System.out.println("Downloading input for " + day.getDay() + "/" + day.getYear() + "...");
             return downloadInput();
         }
 
@@ -84,13 +83,7 @@ public final class AocFileInput implements AocInput {
     }
 
     private Path downloadInput() {
-        URL url;
-        try {
-            url = new URL(String.format(Locale.ROOT, "https://adventofcode.com/%d/day/%d/input", day.getYear(),
-                    day.getDay()));
-        } catch (MalformedURLException e) {
-            throw new UncheckedIOException(e);
-        }
+        URI uri = URI.create(String.format(Locale.ROOT, "https://adventofcode.com/%d/day/%d/input", day.getYear(), day.getDay()));
 
         Path p = Path
                 .of(String.format(Locale.ROOT, "src/main/resources/%d/%02d/input.txt", day.getYear(), day.getDay()))
@@ -99,21 +92,30 @@ public final class AocFileInput implements AocInput {
 
         try {
             Files.createDirectories(p.getParent());
-
-            URLConnection c = url.openConnection();
-            c.setRequestProperty("Cookie", "session=" + getToken());
-            c.connect();
-
-            try (
-                    ReadableByteChannel in = Channels.newChannel(c.getInputStream());
-                    FileChannel out = IO.openCreateNewFileChannel(p)
-            ) {
-                IO.copy(in, out);
-            }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        return p;
+        try {
+            HttpClient hc = HttpClient.newBuilder().build();
+            HttpRequest req = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(uri)
+                    .header("Cookie", "session=" + getToken())
+                    .build();
+            HttpResponse<Path> resp = hc.send(req, HttpResponse.BodyHandlers.ofFile(p));
+
+            HttpStatus status = HttpStatus.of(resp.statusCode());
+            if (!status.isOk()) {
+                Files.deleteIfExists(p);
+                throw new RuntimeException(status.toString());
+            }
+
+            return resp.body();
+        } catch (IOException e1) {
+            throw new UncheckedIOException(e1);
+        } catch (InterruptedException e2) {
+            throw new RuntimeException(e2);
+        }
     }
 }
