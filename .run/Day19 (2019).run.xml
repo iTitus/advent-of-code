@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Day19 (2019)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="io.github.ititus.aoc.AocMain" />
+    <module name="advent-of-code.main" />
+    <option name="PROGRAM_PARAMETERS" value="-y 2019 -d 19" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
