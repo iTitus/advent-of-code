@@ -11,6 +11,15 @@ public class Day02 implements AocSolution {
 
     private List<ObjectIntPair<Direction>> input;
 
+    private static Direction toDir(String s) {
+        return switch (s) {
+            case "forward" -> Direction.EAST;
+            case "down" -> Direction.SOUTH;
+            case "up" -> Direction.NORTH;
+            default -> throw new IllegalArgumentException();
+        };
+    }
+
     @Override
     public void executeTests() {
         AocInput in = new AocStringInput("""
@@ -31,15 +40,6 @@ public class Day02 implements AocSolution {
                 .map(s -> s.split(" "))
                 .map(arr -> ObjectIntPair.of(toDir(arr[0]), Integer.parseInt(arr[1])))
                 .toList();
-    }
-
-    private static Direction toDir(String s) {
-        return switch (s) {
-            case "forward" -> Direction.EAST;
-            case "down" -> Direction.SOUTH;
-            case "up" -> Direction.NORTH;
-            default -> throw new IllegalArgumentException();
-        };
     }
 
     @Override
