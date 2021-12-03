@@ -44,8 +44,9 @@ public final class MaterialStackSet {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
+        }
         if (!(o instanceof MaterialStackSet)) {
             return false;
         }

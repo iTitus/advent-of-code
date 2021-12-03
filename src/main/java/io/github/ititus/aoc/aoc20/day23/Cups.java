@@ -67,7 +67,8 @@ public class Cups {
         }
 
         int destination = current;
-        do {
+        do
+        {
             destination = Math.floorMod(destination - 1, cups.length);
         } while (cups[destination] <= 0 || packet.contains(destination));
         int afterDestination = cups[destination];
