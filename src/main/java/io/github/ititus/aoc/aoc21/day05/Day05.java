@@ -3,6 +3,7 @@ package io.github.ititus.aoc.aoc21.day05;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.aoc.common.AocStringInput;
 import io.github.ititus.math.vector.Vec2i;
 
 import java.util.List;
@@ -18,6 +19,20 @@ public class Day05 implements AocSolution {
 
     @Override
     public void executeTests() {
+        AocInput input = new AocStringInput("""
+                0,9 -> 5,9
+                8,0 -> 0,8
+                9,4 -> 3,4
+                2,2 -> 2,1
+                7,0 -> 7,4
+                6,4 -> 2,0
+                0,9 -> 2,9
+                3,4 -> 1,4
+                0,0 -> 8,8
+                5,5 -> 8,2""");
+        readInput(input);
+        System.out.println(part1());
+        System.out.println(part2());
     }
 
     @Override
