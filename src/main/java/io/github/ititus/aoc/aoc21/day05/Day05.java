@@ -104,6 +104,24 @@ public class Day05 implements AocSolution {
             }
         }
 
+        static Vent parse(String s) {
+            String[] points = s.split(" -> ", 2);
+            Vec2i start = parseVec2i(points[0]);
+            Vec2i end = parseVec2i(points[1]);
+            if (end.x() < start.x() || end.y() < start.y()) {
+                Vec2i tmp = start;
+                start = end;
+                end = tmp;
+            }
+
+            return new Vent(start, end);
+        }
+
+        static Vec2i parseVec2i(String s) {
+            String[] components = s.split(",", 2);
+            return new Vec2i(Integer.parseInt(components[0]), Integer.parseInt(components[1]));
+        }
+
         boolean isVertical() {
             return start.x() == end.x();
         }
@@ -130,24 +148,6 @@ public class Day05 implements AocSolution {
                 Vec2i diff2 = end.subtract(pos).reduce();
                 return diff1.equals(diff2);
             }
-        }
-
-        static Vent parse(String s) {
-            String[] points = s.split(" -> ", 2);
-            Vec2i start = parseVec2i(points[0]);
-            Vec2i end = parseVec2i(points[1]);
-            if (end.x() < start.x() || end.y() < start.y()) {
-                Vec2i tmp = start;
-                start = end;
-                end = tmp;
-            }
-
-            return new Vent(start, end);
-        }
-
-        static Vec2i parseVec2i(String s) {
-            String[] components = s.split(",", 2);
-            return new Vec2i(Integer.parseInt(components[0]), Integer.parseInt(components[1]));
         }
     }
 }
