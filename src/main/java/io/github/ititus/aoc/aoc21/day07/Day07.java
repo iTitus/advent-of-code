@@ -15,8 +15,6 @@ import java.util.stream.IntStream;
 public class Day07 implements AocSolution {
 
     IntList positions;
-    int min;
-    int max;
 
     private static int distance(int a, int b) {
         return Math.abs(b - a);
@@ -48,8 +46,6 @@ public class Day07 implements AocSolution {
                 .mapToInt(Integer::parseInt)
                 .sorted()
                 .collect(IntArrayList::new, IntList::add, IntList::addAll);
-        min = positions.getInt(0);
-        max = positions.getInt(positions.size() - 1);
     }
 
     @Override
