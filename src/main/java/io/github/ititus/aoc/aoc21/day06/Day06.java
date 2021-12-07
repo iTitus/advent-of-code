@@ -14,6 +14,16 @@ public class Day06 implements AocSolution {
 
     IntList initial;
 
+    private static long[] step(long[] fishes) {
+        long[] newFishes = new long[9];
+        System.arraycopy(fishes, 1, newFishes, 0, fishes.length - 1);
+
+        newFishes[8] = fishes[0];
+        newFishes[6] += fishes[0];
+
+        return newFishes;
+    }
+
     @Override
     public void executeTests() {
     }
@@ -28,19 +38,10 @@ public class Day06 implements AocSolution {
 
     @Override
     public Object part1() {
-        int[] fishes = new int[9];
-        for (IntIterator it = initial.intIterator(); it.hasNext(); ) {
-            fishes[it.nextInt()]++;
-        }
+        long[] fishes = init(initial);
 
         for (int i = 0; i < 80; i++) {
-            int[] newFishes = new int[9];
-            System.arraycopy(fishes, 1, newFishes, 0, fishes.length - 1);
-
-            newFishes[8] = fishes[0];
-            newFishes[6] += fishes[0];
-
-            fishes = newFishes;
+            fishes = step(fishes);
         }
 
         return Arrays.stream(fishes)
@@ -49,22 +50,21 @@ public class Day06 implements AocSolution {
 
     @Override
     public Object part2() {
+        long[] fishes = init(initial);
+        for (int i = 0; i < 256; i++) {
+            fishes = step(fishes);
+        }
+
+        return Arrays.stream(fishes)
+                .sum();
+    }
+
+    private long[] init(IntList initial) {
         long[] fishes = new long[9];
         for (IntIterator it = initial.intIterator(); it.hasNext(); ) {
             fishes[it.nextInt()]++;
         }
 
-        for (int i = 0; i < 256; i++) {
-            long[] newFishes = new long[9];
-            System.arraycopy(fishes, 1, newFishes, 0, fishes.length - 1);
-
-            newFishes[8] = fishes[0];
-            newFishes[6] += fishes[0];
-
-            fishes = newFishes;
-        }
-
-        return Arrays.stream(fishes)
-                .sum();
+        return fishes;
     }
 }
