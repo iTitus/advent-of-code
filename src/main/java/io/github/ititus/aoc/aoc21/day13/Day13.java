@@ -92,9 +92,10 @@ public class Day13 implements AocSolution {
         for (int y = min.y(); y <= max.y(); y++) {
             for (int x = min.x(); x <= max.x(); x++) {
                 if (dots.contains(new Vec2i(x, y))) {
-                    b.append('#');
+                    b.append('█');
                 } else {
-                    b.append('.');
+                    // b.append('░');
+                    b.append(' ');
                 }
             }
 
