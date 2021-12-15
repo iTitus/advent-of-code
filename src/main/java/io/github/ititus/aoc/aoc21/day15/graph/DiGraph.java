@@ -34,6 +34,10 @@ public class DiGraph<T> {
         return addEdge(getVertex(start).orElseThrow(), getVertex(end).orElseThrow());
     }
 
+    public Edge<T> addEdgeAndVertices(T start, T end) {
+        return addEdge(getVertex(start).orElseGet(() -> addVertex(start)), getVertex(end).orElseGet(() -> addVertex(end)));
+    }
+
     public Edge<T> addEdge(T start, T end, BigRational weight) {
         return addEdge(getVertex(start).orElseThrow(), getVertex(end).orElseThrow(), weight);
     }

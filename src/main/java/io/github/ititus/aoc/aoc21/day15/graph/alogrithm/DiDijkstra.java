@@ -3,6 +3,7 @@ package io.github.ititus.aoc.aoc21.day15.graph.alogrithm;
 import io.github.ititus.aoc.aoc21.day15.graph.DiGraph;
 import io.github.ititus.aoc.aoc21.day15.graph.Edge;
 import io.github.ititus.aoc.aoc21.day15.graph.Vertex;
+import io.github.ititus.data.pair.Pair;
 import io.github.ititus.math.number.BigRational;
 import io.github.ititus.math.number.BigRationalConstants;
 
@@ -22,41 +23,27 @@ public class DiDijkstra<T> {
     private final DiGraph<T> graph;
     private final Vertex<T> start;
     private final Result r;
-    private final Comparator<Vertex<T>> distanceComparator;
 
     public DiDijkstra(DiGraph<T> graph, Vertex<T> start) {
         this.graph = graph;
         this.start = start;
         this.r = new Result();
-        this.distanceComparator = (v1, v2) -> {
-            Optional<BigRational> r1 = r.getDist(v1);
-            Optional<BigRational> r2 = r.getDist(v2);
-
-            if (r1.isPresent()) {
-                return r2.map(r2_ -> r1.get().compareTo(r2_)).orElse(-1);
-            } else if (r2.isPresent()) {
-                return 1;
-            }
-
-            return 0;
-        };
     }
 
     public Result findShortestPaths() {
         if (!r.done) {
-            PriorityQueue<Vertex<T>> q = new PriorityQueue<>(distanceComparator);
+            PriorityQueue<Pair<BigRational, Vertex<T>>> q = new PriorityQueue<>(Comparator.comparing(Pair::a));
             r.setDist(start, BigRationalConstants.ZERO);
-            q.add(start);
+            q.add(Pair.of(BigRationalConstants.ZERO, start));
 
             while (!q.isEmpty()) {
-                Vertex<T> u = q.remove();
-
-                Optional<BigRational> distOpt = r.getDist(u);
-                if (distOpt.isEmpty()) {
+                Pair<BigRational, Vertex<T>> pair = q.remove();
+                BigRational dist = pair.a();
+                Vertex<T> u = pair.b();
+                if (!dist.equals(r.getDist(u).orElseThrow())) {
                     continue;
                 }
 
-                BigRational dist = distOpt.get();
                 for (Edge<T> e : graph.getOutgoingEdges(u)) {
                     Vertex<T> v = e.getEnd();
                     BigRational newDist = dist.add(e.getWeight());
@@ -65,9 +52,7 @@ public class DiDijkstra<T> {
                         r.setDist(v, newDist);
                         r.setPrev(v, u);
 
-                        // re-insert at correct position
-                        q.remove(v);
-                        q.add(v);
+                        q.add(Pair.of(newDist, v));
                     }
                 }
 
@@ -99,7 +84,7 @@ public class DiDijkstra<T> {
                 b.append(dist.get());
                 r.getPrev(v).ifPresent(p -> b.append(", ").append(p));
             } else {
-                b.append("∞");
+                b.append('\u221e');
             }
 
             b.append(" | ");
