@@ -1,6 +1,9 @@
 package io.github.ititus.aoc.aoc20.day09;
 
-import io.github.ititus.aoc.common.*;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.aoc.common.AocStringInput;
 import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -39,8 +42,8 @@ public class Day09 implements AocSolution {
                 required -= sNext;
                 if (required == 0) {
                     LongList validRange = numbers.subList(i, j + 1);
-                    return FastUtilStreams.stream(validRange).min().orElseThrow()
-                            + FastUtilStreams.stream(validRange).max().orElseThrow();
+                    return validRange.longStream().min().orElseThrow()
+                            + validRange.longStream().max().orElseThrow();
                 } else if (required < 0) {
                     continue outer;
                 }

@@ -25,7 +25,7 @@ public final class Day01 implements AocSolution {
 
     @Override
     public Object part1() {
-        return FastUtilStreams.stream(freqChanges).sum();
+        return freqChanges.intStream().sum();
     }
 
     @Override

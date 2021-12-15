@@ -60,7 +60,7 @@ public class Day07 implements AocSolution {
     @Override
     public Object part2() {
         Object2IntMap<String> children = rules.getChildren(GOLD);
-        return FastUtilStreams.stream(children.values())
+        return children.values().intStream()
                 .sum();
     }
 }

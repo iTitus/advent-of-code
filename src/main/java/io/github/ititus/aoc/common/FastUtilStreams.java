@@ -8,51 +8,16 @@ import it.unimi.dsi.fastutil.ints.IntCollection;
 import it.unimi.dsi.fastutil.longs.LongCollection;
 
 import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
-import java.util.stream.*;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public final class FastUtilStreams {
 
     private FastUtilStreams() {
-    }
-
-    public static IntStream stream(IntCollection c) {
-        Spliterator.OfInt s = Spliterators.spliterator(c.iterator(), c.size(),
-                Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.intStream(s, false);
-    }
-
-    public static IntStream parallelStream(IntCollection c) {
-        Spliterator.OfInt s = Spliterators.spliterator(c.iterator(), c.size(),
-                Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.intStream(s, true);
-    }
-
-    public static LongStream stream(LongCollection c) {
-        Spliterator.OfLong s = Spliterators.spliterator(c.iterator(), c.size(),
-                Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.longStream(s, false);
-    }
-
-    public static LongStream parallelStream(LongCollection c) {
-        Spliterator.OfLong s = Spliterators.spliterator(c.iterator(), c.size(),
-                Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.longStream(s, true);
-    }
-
-    public static DoubleStream stream(DoubleCollection c) {
-        Spliterator.OfDouble s = Spliterators.spliterator(c.iterator(), c.size(),
-                Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.doubleStream(s, false);
-    }
-
-    public static DoubleStream parallelStream(DoubleCollection c) {
-        Spliterator.OfDouble s = Spliterators.spliterator(c.iterator(), c.size(),
-                Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL);
-        return StreamSupport.doubleStream(s, true);
     }
 
     public static <T, V> Collector<T, ?, Int2ObjectMap<V>> toMap(ToIntFunction<? super T> keyMapper,
@@ -83,11 +48,5 @@ public final class FastUtilStreams {
                     return m1;
                 }
         );
-    }
-
-    public static <V> void forEach(Int2ObjectMap<V> map, BiIntObjConsumer<? super V> action) {
-        Objects.requireNonNull(map);
-        Objects.requireNonNull(action);
-        map.int2ObjectEntrySet().forEach(e -> action.accept(e.getIntKey(), e.getValue()));
     }
 }
