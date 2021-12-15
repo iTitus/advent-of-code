@@ -22,7 +22,7 @@ public final class Day01 implements AocSolution {
 
     @Override
     public Object part1() {
-        return FastUtilStreams.stream(moduleMasses)
+        return moduleMasses.intStream()
                 .map(m -> m / 3)
                 .map(m -> m - 2)
                 .sum();
@@ -30,7 +30,7 @@ public final class Day01 implements AocSolution {
 
     @Override
     public Object part2() {
-        return FastUtilStreams.stream(moduleMasses)
+        return moduleMasses.intStream()
                 .map(m -> {
                     int fuel = 0;
                     int massToBeFueled = m;

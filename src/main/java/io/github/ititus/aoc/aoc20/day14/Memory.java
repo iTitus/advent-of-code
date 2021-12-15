@@ -7,7 +7,6 @@ import it.unimi.dsi.fastutil.longs.LongListIterator;
 
 import java.util.List;
 
-import static io.github.ititus.aoc.common.FastUtilStreams.stream;
 import static io.github.ititus.math.base.BaseConverters.BINARY;
 import static java.lang.Long.parseLong;
 
@@ -86,6 +85,6 @@ public class Memory {
             }
         }
 
-        return stream(memory.values()).sum();
+        return memory.values().longStream().sum();
     }
 }
