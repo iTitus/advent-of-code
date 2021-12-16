@@ -16,7 +16,7 @@ public class BitReader {
         this.bitPos = 0;
     }
 
-    int readBits(int n) {
+    public int readBits(int n) {
         if (n <= 0 || n >= 32) {
             throw new IllegalArgumentException();
         }
