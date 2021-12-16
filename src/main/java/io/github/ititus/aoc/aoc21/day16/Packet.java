@@ -130,10 +130,6 @@ public abstract class Packet {
 
         @Override
         public BigInteger value() {
-            if (subPackets.isEmpty()) {
-                throw new RuntimeException();
-            }
-
             return switch (typeId()) {
                 case 0 -> subPackets.stream().map(Packet::value).reduce(BigInteger::add).orElseThrow();
                 case 1 -> subPackets.stream().map(Packet::value).reduce(BigInteger::multiply).orElseThrow();
