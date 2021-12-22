@@ -213,7 +213,7 @@ public class Day19 implements AocSolution {
         List<Set<Vec3i>> scannersLeft = new ArrayList<>(scanners.subList(1, scanners.size()));
         for (int i = 0; i < matchedScanners.size(); i++) {
             Pair<Vec3i, Set<Vec3i>> existing = matchedScanners.get(i);
-            for (ListIterator<Set<Vec3i>> it = scannersLeft.listIterator(); it.hasNext(); ) {
+            for (Iterator<Set<Vec3i>> it = scannersLeft.iterator(); it.hasNext(); ) {
                 Set<Vec3i> toMatch = it.next();
                 Pair<Vec3i, Set<Vec3i>> fitBeacons = fit(existing.b(), toMatch);
                 if (fitBeacons != null) {
