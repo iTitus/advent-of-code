@@ -107,12 +107,5 @@ public class Day21 implements AocSolution {
         long p1Wins;
         long p2Wins;
 
-        @Override
-        public String toString() {
-            return "WinTracker{" +
-                    "p1Wins=" + p1Wins +
-                    ", p2Wins=" + p2Wins +
-                    '}';
-        }
     }
 }

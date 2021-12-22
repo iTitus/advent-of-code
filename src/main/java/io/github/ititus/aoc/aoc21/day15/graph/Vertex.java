@@ -1,6 +1,9 @@
 package io.github.ititus.aoc.aoc21.day15.graph;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Vertex
