@@ -3,7 +3,6 @@ package io.github.ititus.aoc.aoc19.day01;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.aoc.common.FastUtilStreams;
 import it.unimi.dsi.fastutil.ints.IntList;
 
 @Aoc(year = 2019, day = 1)

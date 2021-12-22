@@ -1,6 +1,9 @@
 package io.github.ititus.aoc.aoc20.day07;
 
-import io.github.ititus.aoc.common.*;
+import io.github.ititus.aoc.common.Aoc;
+import io.github.ititus.aoc.common.AocInput;
+import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.aoc.common.AocStringInput;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 import java.util.Set;
