@@ -3,24 +3,23 @@ package io.github.ititus.aoc.aoc21.day22;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class CuboidCollection implements Iterable<Cuboid> {
 
     private final List<Cuboid> cuboids = new ArrayList<>();
 
-    public boolean add(Cuboid newCuboid) {
-        List<Cuboid> cuboidsToAdd = List.of(newCuboid);
+    public boolean add(Cuboid toAdd) {
+        List<Cuboid> toAddList = List.of(toAdd);
         for (Cuboid existing : cuboids) {
-            cuboidsToAdd = cuboidsToAdd.stream()
-                    .flatMap(toAdd -> toAdd.difference(existing))
+            toAddList = toAddList.stream()
+                    .flatMap(c -> c.difference(existing))
                     .toList();
-            if (cuboidsToAdd.isEmpty()) {
+            if (toAddList.isEmpty()) {
                 return false;
             }
         }
 
-        cuboids.addAll(cuboidsToAdd);
+        cuboids.addAll(toAddList);
         return true;
     }
 
@@ -36,7 +35,7 @@ public class CuboidCollection implements Iterable<Cuboid> {
     public boolean remove(Cuboid toRemove) {
         boolean didSomething = false;
         List<Cuboid> leftover = new ArrayList<>();
-        for (ListIterator<Cuboid> it = cuboids.listIterator(); it.hasNext(); ) {
+        for (Iterator<Cuboid> it = cuboids.iterator(); it.hasNext(); ) {
             Cuboid existing = it.next();
             if (existing.contains(toRemove)) {
                 it.remove();
