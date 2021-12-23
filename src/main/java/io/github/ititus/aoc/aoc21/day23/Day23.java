@@ -13,10 +13,6 @@ public class Day23 implements AocSolution {
     Burrow startConfiguration;
 
     static int cost(char c, int n) {
-        if (n <= 0) {
-            throw new IllegalArgumentException();
-        }
-
         return n * switch (c) {
             case 'A' -> 1;
             case 'B' -> 10;
@@ -27,26 +23,23 @@ public class Day23 implements AocSolution {
     }
 
     private static int dfs(Burrow startConfiguration) {
-        int minCost = -1;
+        if (startConfiguration.isDone()) {
+            return startConfiguration.cost;
+        }
 
         Deque<Burrow> stack = new ArrayDeque<>();
         stack.push(startConfiguration);
 
+        int minCost = -1;
         while (!stack.isEmpty()) {
             Burrow b = stack.pop();
-            if (minCost >= 0 && b.cost > minCost) {
-                continue;
-            } else if (b.isDone()) {
-                if (minCost < 0 || b.cost < minCost) {
-                    minCost = b.cost;
-                }
-
-                continue;
-            }
-
             for (Burrow move : b.allMoves()) {
-                if (minCost < 0 || move.cost <= minCost) {
-                    stack.push(move);
+                if (minCost < 0 || move.cost < minCost) {
+                    if (move.isDone()) {
+                        minCost = move.cost;
+                    } else {
+                        stack.push(move);
+                    }
                 }
             }
         }
@@ -69,22 +62,21 @@ public class Day23 implements AocSolution {
 
     @Override
     public void readInput(AocInput input) {
-        int roomCount = 4;
-        int space = 2;
-        startConfiguration = new Burrow();
         List<String> lines = input.lines()
+                .filter(s -> !s.isBlank())
                 .skip(2)
-                .limit(space)
                 .toList();
 
+        final int space = lines.size() - 1;
+        startConfiguration = new Burrow();
         Arrays.fill(startConfiguration.hallway, '.');
-        for (int i = 0; i < roomCount; i++) {
-            Room r = new Room((char) ('A' + i), space);
-            for (int j = 0; j < 2; j++) {
-                r.contents[j] = lines.get(j).charAt(3 + i * 2);
+        for (int roomIndex = 0; roomIndex < startConfiguration.rooms.length; roomIndex++) {
+            Room r = new Room((char) ('A' + roomIndex), space);
+            for (int pos = 0; pos < space; pos++) {
+                r.contents[pos] = lines.get(pos).charAt(3 + roomIndex * 2);
             }
 
-            startConfiguration.rooms[i] = r;
+            startConfiguration.rooms[roomIndex] = r;
         }
     }
 
@@ -101,14 +93,14 @@ public class Day23 implements AocSolution {
     static class Burrow {
 
         final Room[] rooms = new Room[4];
-        final char[] hallway = new char[7];
+        final char[] hallway = new char[2 + (rooms.length - 1) + 2];
         int cost;
 
         List<Burrow> allMoves() {
             // hallway -> room
             outer:
-            for (int i = 0; i < hallway.length; i++) {
-                char c = hallway[i];
+            for (int hallwayPos = 0; hallwayPos < hallway.length; hallwayPos++) {
+                char c = hallway[hallwayPos];
                 if (c == '.') {
                     continue;
                 }
@@ -119,42 +111,41 @@ public class Day23 implements AocSolution {
                     continue;
                 }
 
+                int hallwayTargetPos = targetIndex + 1;
+                int distToRoom;
+                if (hallwayPos <= hallwayTargetPos) {
+                    for (int otherHallwayPos = hallwayPos + 1; otherHallwayPos <= hallwayTargetPos; otherHallwayPos++) {
+                        if (hallway[otherHallwayPos] != '.') {
+                            continue outer;
+                        }
+                    }
+
+                    distToRoom = 2 * (hallwayTargetPos - hallwayPos + 1);
+                    if (hallwayPos == 0) {
+                        distToRoom--;
+                    }
+                } else {
+                    for (int otherHallwayPos = hallwayPos - 1; otherHallwayPos >= hallwayTargetPos + 1; otherHallwayPos--) {
+                        if (hallway[otherHallwayPos] != '.') {
+                            continue outer;
+                        }
+                    }
+
+                    distToRoom = 2 * (hallwayPos - hallwayTargetPos);
+                    if (hallwayPos == hallway.length - 1) {
+                        distToRoom--;
+                    }
+                }
+
                 int targetPos = target.contents.length - 1;
                 while (target.contents[targetPos] != '.') {
                     targetPos--;
                 }
 
-                int hallwayTargetPos = targetIndex + 1;
-                int dist;
-                if (i <= hallwayTargetPos) {
-                    for (int j = i + 1; j <= hallwayTargetPos; j++) {
-                        if (hallway[j] != '.') {
-                            continue outer;
-                        }
-                    }
-
-                    dist = 2 * (hallwayTargetPos - i + 1);
-                    if (i == 0) {
-                        dist--;
-                    }
-                } else {
-                    for (int j = i - 1; j >= hallwayTargetPos + 1; j--) {
-                        if (hallway[j] != '.') {
-                            continue outer;
-                        }
-                    }
-
-                    dist = 2 * (i - hallwayTargetPos);
-                    if (i == hallway.length - 1) {
-                        dist--;
-                    }
-                }
-
-                dist += targetPos;
                 Burrow copy = copy();
-                copy.cost += cost(c, dist);
+                copy.cost += cost(c, distToRoom + targetPos);
                 copy.rooms[targetIndex].contents[targetPos] = c;
-                copy.hallway[i] = '.';
+                copy.hallway[hallwayPos] = '.';
 
                 // putting an amphipod back into its room is always optimal - the order doesn't matter
                 return List.of(copy);
@@ -162,48 +153,49 @@ public class Day23 implements AocSolution {
 
             // room -> hallway
             List<Burrow> moves = new ArrayList<>();
-            for (int i = 0; i < rooms.length; i++) {
-                Room r = rooms[i];
+            for (int roomIndex = 0; roomIndex < rooms.length; roomIndex++) {
+                Room r = rooms[roomIndex];
                 if (r.noMovesNecessary()) {
                     continue;
                 }
 
-                for (int j = 0; j < r.contents.length; j++) {
-                    char c = r.contents[j];
+                for (int roomPos = 0; roomPos < r.contents.length; roomPos++) {
+                    char c = r.contents[roomPos];
                     if (c == '.') {
                         continue;
                     }
 
-                    for (int k = i + 1; k >= 0; k--) {
-                        if (hallway[k] != '.') {
+                    for (int hallwayPos = roomIndex + 1; hallwayPos >= 0; hallwayPos--) {
+                        if (hallway[hallwayPos] != '.') {
                             break;
                         }
 
-                        int dist = 2 * (i + 2 - k) + j;
-                        if (k == 0) {
+                        int dist = 2 * (roomIndex + 2 - hallwayPos) + roomPos;
+                        if (hallwayPos == 0) {
                             dist--;
                         }
 
                         Burrow copy = copy();
                         copy.cost += cost(c, dist);
-                        copy.hallway[k] = c;
-                        copy.rooms[i].contents[j] = '.';
+                        copy.hallway[hallwayPos] = c;
+                        copy.rooms[roomIndex].contents[roomPos] = '.';
                         moves.add(copy);
                     }
-                    for (int k = i + 2; k < hallway.length; k++) {
-                        if (hallway[k] != '.') {
+
+                    for (int hallwayPos = roomIndex + 2; hallwayPos < hallway.length; hallwayPos++) {
+                        if (hallway[hallwayPos] != '.') {
                             break;
                         }
 
-                        int dist = 2 * (k - i - 1) + j;
-                        if (k == hallway.length - 1) {
+                        int dist = 2 * (hallwayPos - roomIndex - 1) + roomPos;
+                        if (hallwayPos == hallway.length - 1) {
                             dist--;
                         }
 
                         Burrow copy = copy();
                         copy.cost += cost(c, dist);
-                        copy.hallway[k] = c;
-                        copy.rooms[i].contents[j] = '.';
+                        copy.hallway[hallwayPos] = c;
+                        copy.rooms[roomIndex].contents[roomPos] = '.';
                         moves.add(copy);
                     }
 
@@ -222,7 +214,7 @@ public class Day23 implements AocSolution {
             }
 
             for (Room r : rooms) {
-                if (!r.noMovesNecessary()) {
+                if (!r.isDone()) {
                     return false;
                 }
             }
@@ -296,6 +288,16 @@ public class Day23 implements AocSolution {
         boolean noMovesNecessary() {
             for (char c : contents) {
                 if (c != '.' && c != owner) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        boolean isDone() {
+            for (char c : contents) {
+                if (c != owner) {
                     return false;
                 }
             }
