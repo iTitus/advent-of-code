@@ -3,6 +3,7 @@ package io.github.ititus.aoc.aoc21.day23;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
+import io.github.ititus.aoc.common.AocStringInput;
 
 import java.util.*;
 
@@ -55,6 +56,15 @@ public class Day23 implements AocSolution {
 
     @Override
     public void executeTests() {
+        AocInput input = new AocStringInput("""
+                #############
+                #...........#
+                ###B#C#B#D###
+                  #A#D#C#A#
+                  #########""");
+        readInput(input);
+        System.out.println(part1());
+        System.out.println(part2());
     }
 
     @Override
@@ -67,6 +77,7 @@ public class Day23 implements AocSolution {
                 .limit(space)
                 .toList();
 
+        Arrays.fill(startConfiguration.hallway, '.');
         for (int i = 0; i < roomCount; i++) {
             Room r = new Room((char) ('A' + i), space);
             for (int j = 0; j < 2; j++) {
@@ -89,63 +100,11 @@ public class Day23 implements AocSolution {
 
     static class Burrow {
 
+        final Room[] rooms = new Room[4];
+        final char[] hallway = new char[7];
         int cost;
-        Room[] rooms = { null, null, null, null };
-        char[] hallway = { '.', '.', '.', '.', '.', '.', '.' };
 
         List<Burrow> allMoves() {
-            List<Burrow> moves = new ArrayList<>();
-
-            // room -> hallway
-            for (int i = 0; i < rooms.length; i++) {
-                Room r = rooms[i];
-                if (r.noMovesNecessary()) {
-                    continue;
-                }
-
-                for (int j = 0; j < r.contents.length; j++) {
-                    char c = r.contents[j];
-                    if (c == '.') {
-                        continue;
-                    }
-
-                    for (int k = i + 1; k >= 0; k--) {
-                        if (hallway[k] != '.') {
-                            break;
-                        }
-
-                        int dist = 2 * (i + 2 - k) + j;
-                        if (k == 0) {
-                            dist--;
-                        }
-
-                        Burrow copy = copy();
-                        copy.cost += cost(c, dist);
-                        copy.hallway[k] = c;
-                        copy.rooms[i].contents[j] = '.';
-                        moves.add(copy);
-                    }
-                    for (int k = i + 2; k < hallway.length; k++) {
-                        if (hallway[k] != '.') {
-                            break;
-                        }
-
-                        int dist = 2 * (k - i - 1) + j;
-                        if (k == hallway.length - 1) {
-                            dist--;
-                        }
-
-                        Burrow copy = copy();
-                        copy.cost += cost(c, dist);
-                        copy.hallway[k] = c;
-                        copy.rooms[i].contents[j] = '.';
-                        moves.add(copy);
-                    }
-
-                    break;
-                }
-            }
-
             // hallway -> room
             outer:
             for (int i = 0; i < hallway.length; i++) {
@@ -196,7 +155,60 @@ public class Day23 implements AocSolution {
                 copy.cost += cost(c, dist);
                 copy.rooms[targetIndex].contents[targetPos] = c;
                 copy.hallway[i] = '.';
-                moves.add(copy);
+
+                // putting an amphipod back into its room is always optimal - the order doesn't matter
+                return List.of(copy);
+            }
+
+            // room -> hallway
+            List<Burrow> moves = new ArrayList<>();
+            for (int i = 0; i < rooms.length; i++) {
+                Room r = rooms[i];
+                if (r.noMovesNecessary()) {
+                    continue;
+                }
+
+                for (int j = 0; j < r.contents.length; j++) {
+                    char c = r.contents[j];
+                    if (c == '.') {
+                        continue;
+                    }
+
+                    for (int k = i + 1; k >= 0; k--) {
+                        if (hallway[k] != '.') {
+                            break;
+                        }
+
+                        int dist = 2 * (i + 2 - k) + j;
+                        if (k == 0) {
+                            dist--;
+                        }
+
+                        Burrow copy = copy();
+                        copy.cost += cost(c, dist);
+                        copy.hallway[k] = c;
+                        copy.rooms[i].contents[j] = '.';
+                        moves.add(copy);
+                    }
+                    for (int k = i + 2; k < hallway.length; k++) {
+                        if (hallway[k] != '.') {
+                            break;
+                        }
+
+                        int dist = 2 * (k - i - 1) + j;
+                        if (k == hallway.length - 1) {
+                            dist--;
+                        }
+
+                        Burrow copy = copy();
+                        copy.cost += cost(c, dist);
+                        copy.hallway[k] = c;
+                        copy.rooms[i].contents[j] = '.';
+                        moves.add(copy);
+                    }
+
+                    break;
+                }
             }
 
             return moves;
