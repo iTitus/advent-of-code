@@ -3,7 +3,7 @@ package io.github.ititus.aoc.aoc21.day24;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract sealed class Insn permits Insn.ImmediateBinaryInsn, Insn.Inp, Insn.VarBinaryInsn {
+public abstract sealed class Insn permits Insn.ImmBinInsn, Insn.Inp, Insn.RegBinInsn {
 
     private final String name;
     private final char target;
@@ -42,13 +42,13 @@ public abstract sealed class Insn permits Insn.ImmediateBinaryInsn, Insn.Inp, In
                 if (rightString.length() == 1) {
                     char left = rightString.charAt(0);
                     if (left == 'x' || left == 'y' || left == 'z' || left == 'w') {
-                        insns.add(new VarBinaryInsn(op, target, left));
+                        insns.add(new RegBinInsn(op, target, left));
                         continue;
                     }
                 }
 
                 int right = Integer.parseInt(rightString);
-                insns.add(new ImmediateBinaryInsn(op, target, right));
+                insns.add(new ImmBinInsn(op, target, right));
             }
         }
 
@@ -75,11 +75,11 @@ public abstract sealed class Insn permits Insn.ImmediateBinaryInsn, Insn.Inp, In
         }
     }
 
-    public static final class ImmediateBinaryInsn extends Insn {
+    public static final class ImmBinInsn extends Insn {
 
         private final long right;
 
-        public ImmediateBinaryInsn(String name, char target, long right) {
+        public ImmBinInsn(String name, char target, long right) {
             super(name, target);
             this.right = right;
         }
@@ -94,11 +94,11 @@ public abstract sealed class Insn permits Insn.ImmediateBinaryInsn, Insn.Inp, In
         }
     }
 
-    public static final class VarBinaryInsn extends Insn {
+    public static final class RegBinInsn extends Insn {
 
         private final char right;
 
-        public VarBinaryInsn(String name, char target, char right) {
+        public RegBinInsn(String name, char target, char right) {
             super(name, target);
             this.right = right;
         }
