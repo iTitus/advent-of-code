@@ -9,9 +9,9 @@ public class ALU {
     }
 
     private long getValueRight(Insn insn) {
-        if (insn instanceof Insn.ImmediateBinaryInsn ibi) {
+        if (insn instanceof Insn.ImmBinInsn ibi) {
             return ibi.right();
-        } else if (insn instanceof Insn.VarBinaryInsn vbi) {
+        } else if (insn instanceof Insn.RegBinInsn vbi) {
             return getValue(vbi.right());
         }
 
