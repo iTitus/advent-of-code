@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day25;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.math.permutation.Permutations;
+import io.github.ititus.commons.math.permutation.Permutations;
 
 import java.math.BigInteger;
 import java.util.*;

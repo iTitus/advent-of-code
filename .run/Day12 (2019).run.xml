@@ -5,7 +5,6 @@
     <option name="PROGRAM_PARAMETERS" value="-y 2019 -d 12" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="io.github.ititus.math.vector.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

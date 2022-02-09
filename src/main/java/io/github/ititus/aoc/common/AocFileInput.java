@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.common;
 
-import io.github.ititus.io.HttpStatus;
+import io.github.ititus.commons.io.HttpStatus;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

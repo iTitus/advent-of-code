@@ -5,8 +5,8 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.AocStringInput;
-import io.github.ititus.data.pair.Pair;
-import io.github.ititus.math.vector.Vec3i;
+import io.github.ititus.commons.data.pair.Pair;
+import io.github.ititus.commons.math.vector.Vec3i;
 
 import java.util.*;
 import java.util.stream.Collectors;

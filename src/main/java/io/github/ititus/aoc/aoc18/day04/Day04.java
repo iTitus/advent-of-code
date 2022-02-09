@@ -3,7 +3,7 @@ package io.github.ititus.aoc.aoc18.day04;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.data.ArrayUtil;
+import io.github.ititus.commons.data.ArrayUtil;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 

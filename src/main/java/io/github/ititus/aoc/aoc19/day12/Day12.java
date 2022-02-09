@@ -3,7 +3,7 @@ package io.github.ititus.aoc.aoc19.day12;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.vector.Vec3i;
+import io.github.ititus.commons.math.vector.Vec3i;
 
 import java.util.List;
 import java.util.regex.Pattern;

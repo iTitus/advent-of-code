@@ -4,8 +4,8 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.AocStringInput;
-import io.github.ititus.math.graph.Graph;
-import io.github.ititus.math.graph.Vertex;
+import io.github.ititus.commons.math.graph.Graph;
+import io.github.ititus.commons.math.graph.Vertex;
 
 import java.util.*;
 import java.util.function.Function;

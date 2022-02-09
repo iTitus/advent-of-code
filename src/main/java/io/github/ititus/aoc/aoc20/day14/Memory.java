@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.longs.LongListIterator;
 
 import java.util.List;
 
-import static io.github.ititus.math.base.BaseConverters.BINARY;
+import static io.github.ititus.commons.math.base.BaseConverters.BINARY;
 import static java.lang.Long.parseLong;
 
 public class Memory {

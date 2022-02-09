@@ -3,9 +3,9 @@ package io.github.ititus.aoc.aoc21.day15.graph.alogrithm;
 import io.github.ititus.aoc.aoc21.day15.graph.DiGraph;
 import io.github.ititus.aoc.aoc21.day15.graph.Edge;
 import io.github.ititus.aoc.aoc21.day15.graph.Vertex;
-import io.github.ititus.data.pair.Pair;
-import io.github.ititus.math.number.BigRational;
-import io.github.ititus.math.number.BigRationalConstants;
+import io.github.ititus.commons.data.pair.Pair;
+import io.github.ititus.commons.math.number.BigRational;
+import io.github.ititus.commons.math.number.BigRationalConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;

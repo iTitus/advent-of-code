@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc20.day22;
 
-import io.github.ititus.data.pair.Pair;
+import io.github.ititus.commons.data.pair.Pair;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 

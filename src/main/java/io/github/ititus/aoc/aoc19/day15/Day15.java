@@ -3,9 +3,9 @@ package io.github.ititus.aoc.aoc19.day15;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.graph.algorithm.Dijkstra;
-import io.github.ititus.math.number.BigRational;
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.math.graph.algorithm.Dijkstra;
+import io.github.ititus.commons.math.number.BigRational;
+import io.github.ititus.commons.math.vector.Vec2i;
 
 @Aoc(year = 2019, day = 15, skip = true)
 public final class Day15 implements AocSolution {

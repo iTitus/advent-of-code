@@ -1,10 +1,10 @@
 package io.github.ititus.aoc.aoc19.day13;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.data.mutable.Mutable;
-import io.github.ititus.data.mutable.MutableInt;
-import io.github.ititus.math.number.JavaMath;
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.data.mutable.Mutable;
+import io.github.ititus.commons.data.mutable.MutableInt;
+import io.github.ititus.commons.math.number.JavaMath;
+import io.github.ititus.commons.math.vector.Vec2i;
 
 import java.math.BigInteger;
 import java.util.Arrays;

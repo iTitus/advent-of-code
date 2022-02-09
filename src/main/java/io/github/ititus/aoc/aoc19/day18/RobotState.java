@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day18;
 
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.math.vector.Vec2i;
 
 import java.util.Arrays;
 import java.util.Set;

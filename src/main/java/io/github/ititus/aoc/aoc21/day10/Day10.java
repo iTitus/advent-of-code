@@ -4,7 +4,7 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.AocStringInput;
-import io.github.ititus.text.TextUtil;
+import io.github.ititus.commons.text.TextUtil;
 import it.unimi.dsi.fastutil.chars.AbstractCharList;
 import it.unimi.dsi.fastutil.chars.CharArrayList;
 import it.unimi.dsi.fastutil.chars.CharImmutableList;

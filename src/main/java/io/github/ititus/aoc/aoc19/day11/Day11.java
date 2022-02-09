@@ -3,7 +3,7 @@ package io.github.ititus.aoc.aoc19.day11;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.math.vector.Vec2i;
 
 import java.math.BigInteger;
 import java.util.Map;

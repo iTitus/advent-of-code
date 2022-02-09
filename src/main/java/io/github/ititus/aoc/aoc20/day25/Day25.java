@@ -7,7 +7,7 @@ import io.github.ititus.aoc.common.AocStringInput;
 
 import java.math.BigInteger;
 
-import static io.github.ititus.math.number.BigIntegerMath.of;
+import static io.github.ititus.commons.math.number.BigIntegerMath.of;
 import static java.math.BigInteger.ONE;
 
 @Aoc(year = 2020, day = 25)

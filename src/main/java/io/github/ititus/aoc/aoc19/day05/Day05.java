@@ -4,7 +4,7 @@ import io.github.ititus.aoc.aoc19.IntComputer;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
 

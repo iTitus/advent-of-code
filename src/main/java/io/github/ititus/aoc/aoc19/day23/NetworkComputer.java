@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day23;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
 import java.util.Queue;

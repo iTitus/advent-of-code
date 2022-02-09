@@ -2,9 +2,9 @@ package io.github.ititus.aoc.aoc19.day11;
 
 import io.github.ititus.aoc.aoc19.IntComputer;
 import io.github.ititus.aoc.common.Direction;
-import io.github.ititus.data.mutable.Mutable;
-import io.github.ititus.data.mutable.MutableBoolean;
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.data.mutable.Mutable;
+import io.github.ititus.commons.data.mutable.MutableBoolean;
+import io.github.ititus.commons.math.vector.Vec2i;
 
 import java.math.BigInteger;
 import java.util.*;

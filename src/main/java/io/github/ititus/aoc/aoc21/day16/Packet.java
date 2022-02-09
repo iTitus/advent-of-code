@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc21.day16;
 
-import io.github.ititus.math.number.BigIntegerConstants;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.number.BigIntegerConstants;
+import io.github.ititus.commons.math.number.BigIntegerMath;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

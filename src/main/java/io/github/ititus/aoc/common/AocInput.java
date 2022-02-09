@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.common;
 
-import io.github.ititus.math.number.BigIntegerMath;
-import io.github.ititus.math.number.BigRational;
+import io.github.ititus.commons.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.number.BigRational;
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;

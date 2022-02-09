@@ -3,8 +3,8 @@ package io.github.ititus.aoc.aoc19.day22;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.time.DurationFormatter;
-import io.github.ititus.math.time.StopWatch;
+import io.github.ititus.commons.math.time.DurationFormatter;
+import io.github.ititus.commons.math.time.StopWatch;
 
 import java.time.Duration;
 import java.util.Arrays;

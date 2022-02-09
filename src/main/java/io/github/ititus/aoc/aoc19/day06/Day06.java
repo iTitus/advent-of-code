@@ -3,10 +3,10 @@ package io.github.ititus.aoc.aoc19.day06;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.graph.Edge;
-import io.github.ititus.math.graph.Graph;
-import io.github.ititus.math.graph.Vertex;
-import io.github.ititus.math.graph.algorithm.Dijkstra;
+import io.github.ititus.commons.math.graph.Edge;
+import io.github.ititus.commons.math.graph.Graph;
+import io.github.ititus.commons.math.graph.Vertex;
+import io.github.ititus.commons.math.graph.algorithm.Dijkstra;
 
 import java.util.HashMap;
 import java.util.Map;

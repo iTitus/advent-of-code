@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day18;
 
-import io.github.ititus.math.time.DurationFormatter;
-import io.github.ititus.math.time.StopWatch;
+import io.github.ititus.commons.math.time.DurationFormatter;
+import io.github.ititus.commons.math.time.StopWatch;
 
 import java.time.Duration;
 import java.util.Arrays;
