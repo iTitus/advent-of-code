@@ -4,7 +4,7 @@ import io.github.ititus.aoc.aoc19.IntComputer;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.permutation.Permutations;
+import io.github.ititus.commons.math.permutation.Permutations;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

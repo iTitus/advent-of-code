@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc21.day15.graph;
 
-import io.github.ititus.math.number.BigRational;
+import io.github.ititus.commons.math.number.BigRational;
 
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc19.day22;
 
-import io.github.ititus.math.modulus.LinearModFunction;
-import io.github.ititus.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.modulus.LinearModFunction;
+import io.github.ititus.commons.math.number.BigIntegerMath;
 
 import java.util.Arrays;
 import java.util.List;

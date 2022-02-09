@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc21.day22;
 
-import io.github.ititus.math.vector.Vec3i;
+import io.github.ititus.commons.math.vector.Vec3i;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

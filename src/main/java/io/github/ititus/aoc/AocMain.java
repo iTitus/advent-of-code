@@ -2,8 +2,8 @@ package io.github.ititus.aoc;
 
 import com.google.common.reflect.ClassPath;
 import io.github.ititus.aoc.common.*;
-import io.github.ititus.math.time.DurationFormatter;
-import io.github.ititus.math.time.StopWatch;
+import io.github.ititus.commons.math.time.DurationFormatter;
+import io.github.ititus.commons.math.time.StopWatch;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;

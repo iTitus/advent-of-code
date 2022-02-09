@@ -1,8 +1,8 @@
 package io.github.ititus.aoc.aoc19;
 
-import io.github.ititus.math.number.BigIntegerMath;
-import io.github.ititus.math.time.DurationFormatter;
-import io.github.ititus.math.time.StopWatch;
+import io.github.ititus.commons.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.time.DurationFormatter;
+import io.github.ititus.commons.math.time.StopWatch;
 
 import java.math.BigInteger;
 import java.time.Duration;

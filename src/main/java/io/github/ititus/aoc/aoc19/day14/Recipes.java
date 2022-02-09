@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.aoc19.day14;
 
-import io.github.ititus.math.number.BigRational;
+import io.github.ititus.commons.math.number.BigRational;
 
 import java.math.BigInteger;
 import java.math.RoundingMode;

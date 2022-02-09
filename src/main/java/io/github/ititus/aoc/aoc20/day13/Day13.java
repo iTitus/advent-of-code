@@ -4,10 +4,10 @@ import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
 import io.github.ititus.aoc.common.AocStringInput;
-import io.github.ititus.math.number.BigIntegerMath;
-import io.github.ititus.math.number.ExtendedGdcBigIntegerResult;
-import io.github.ititus.math.number.ExtendedGdcLongResult;
-import io.github.ititus.math.number.JavaMath;
+import io.github.ititus.commons.math.number.BigIntegerMath;
+import io.github.ititus.commons.math.number.ExtendedGdcBigIntegerResult;
+import io.github.ititus.commons.math.number.ExtendedGdcLongResult;
+import io.github.ititus.commons.math.number.JavaMath;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 import it.unimi.dsi.fastutil.ints.IntIterator;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.github.ititus.math.number.BigIntegerMath.of;
+import static io.github.ititus.commons.math.number.BigIntegerMath.of;
 import static java.math.BigInteger.ONE;
 
 @Aoc(year = 2020, day = 13)

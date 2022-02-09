@@ -3,7 +3,7 @@ package io.github.ititus.aoc.aoc18.day03;
 import io.github.ititus.aoc.common.Aoc;
 import io.github.ititus.aoc.common.AocInput;
 import io.github.ititus.aoc.common.AocSolution;
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.math.vector.Vec2i;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 import java.util.HashSet;

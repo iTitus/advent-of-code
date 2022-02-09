@@ -1,6 +1,6 @@
 package io.github.ititus.aoc.common;
 
-import io.github.ititus.data.ArrayUtil;
+import io.github.ititus.commons.data.ArrayUtil;
 
 public final class AocDay implements Comparable<AocDay> {
 

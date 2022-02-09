@@ -1,7 +1,7 @@
 package io.github.ititus.aoc.aoc20.day20;
 
 import io.github.ititus.aoc.common.*;
-import io.github.ititus.math.vector.Vec2i;
+import io.github.ititus.commons.math.vector.Vec2i;
 
 import java.util.ArrayList;
 import java.util.Arrays;
