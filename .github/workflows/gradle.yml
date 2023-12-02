@@ -13,8 +13,8 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        java-version: [ 17 ]
-        distribution: [ adopt ]
+        java-version: [ 21 ]
+        distribution: [ temurin ]
 
     runs-on: ${{ matrix.os }}
 
@@ -33,19 +33,10 @@ jobs:
         with:
           java-version: ${{ matrix.java-version }}
           distribution: ${{ matrix.distribution }}
-
-      - name: Load Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          cache: gradle
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
 
       - name: Save Test Reports
         uses: actions/upload-artifact@v3

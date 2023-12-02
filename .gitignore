@@ -1,6 +1,4 @@
-.idea
-out
-.gradle
-build
-
-token.txt
+.idea/
+out/
+.gradle/
+build/

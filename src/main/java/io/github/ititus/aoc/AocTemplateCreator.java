@@ -13,7 +13,7 @@ public class AocTemplateCreator {
         Path sources = Path.of("src/main/java/io/github/ititus/aoc");
         Path runs = Path.of(".run");
 
-        for (int year = 2021; year <= 2021; year++) {
+        for (int year = 2015; year <= 2023; year++) {
             for (int day = 1; day <= 25; day++) {
                 createSourceFile(sources, year, day);
                 createRunConfigFile(runs, year, day);
