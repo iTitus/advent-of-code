@@ -96,8 +96,7 @@ public final class AocFileInput implements AocInput {
             throw new UncheckedIOException(e);
         }
 
-        try {
-            HttpClient hc = HttpClient.newBuilder().build();
+        try (HttpClient hc = HttpClient.newBuilder().build()) {
             HttpRequest req = HttpRequest.newBuilder()
                     .GET()
                     .uri(uri)
