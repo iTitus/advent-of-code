@@ -28,7 +28,7 @@ dependencies {
     implementation 'io.github.ititus:ititus-commons:2.3.3'
     implementation 'it.unimi.dsi:fastutil:8.5.14'
     implementation 'com.google.guava:guava:33.2.1-jre'
-    implementation 'commons-cli:commons-cli:1.8.0'
+    implementation 'commons-cli:commons-cli:1.9.0'
 
     testImplementation platform('org.junit:junit-bom:5.10.3')
     testImplementation 'org.junit.jupiter:junit-jupiter'
