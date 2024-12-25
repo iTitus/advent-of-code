@@ -9,7 +9,7 @@ public final class Downloader {
     }
 
     public static void main(String[] args) {
-        for (int year = 2015; year <= 2023; year++) {
+        for (int year = 2015; year <= 2024; year++) {
             for (int day = 1; day <= 25; day++) {
                 AocDay aocDay = new AocDay(year, day);
                 try {

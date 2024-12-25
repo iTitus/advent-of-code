@@ -7,7 +7,7 @@ group = 'io.github.ititus'
 version = '1.0.0'
 
 wrapper {
-    gradleVersion '8.5'
+    gradleVersion = '8.12'
 }
 
 java {
@@ -31,7 +31,15 @@ dependencies {
     implementation 'commons-cli:commons-cli:1.9.0'
 
     testImplementation platform('org.junit:junit-bom:5.11.4')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.assertj:assertj-core:3.27.0'
     testImplementation 'org.mockito:mockito-core:5.14.2'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
